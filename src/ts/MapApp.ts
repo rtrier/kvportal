@@ -125,9 +125,9 @@ class MapApp {
                 this.map.addLayer(l);
             }
         });
-        this.menuCtrl.baseLayerCtrl.setBaseLayers(mapDescr.baseLayers);
+        // this.menuCtrl.baseLayerCtrl.setBaseLayers(mapDescr.baseLayers);
 
-        this.menuCtrl.categorieLayerCtrl.setOverlays(mapDescr.themes);
+        // this.menuCtrl.categorieLayerCtrl.setOverlays(mapDescr.themes);
 
         mapDescr.themes.forEach((theme) => {
             theme.layers.forEach((layerDescr) => {
