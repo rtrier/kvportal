@@ -1,0 +1,122 @@
+@import '../../node_modules/leaflet/dist/leaflet.css';
+@import './fontawesome.css';
+@import './mapctrl.css';
+
+html, body {
+    height: 100%;
+	width:100%;
+    margin: 0px !important;
+    padding: 0px;
+    font-family: sans-serif;
+    font-size: 12px;
+   
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+.themen {
+    display: block;
+	padding-left:0px;
+    padding-right:0px;
+    
+}
+
+.layerdescr {
+    background-color: white;
+    padding-left:50px;
+	padding-right:50px; 
+}
+
+.layeratts {
+    padding-left: 80px;
+}
+
+.layeratts > label {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.layeratts > textarea {
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    margin-bottom: 12px;
+}
+
+.themen h2 {
+    margin-left: 10px;
+	padding: 10px;
+    padding-top: 10px;
+	padding-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid #ccc;	
+    
+}
+.themen > h2 {
+    background-color: #d9fadd;
+}
+
+textarea {
+    white-space: pre-wrap;
+}
+
+textarea.input_error {
+    border: 1px red solid;
+}
+
+.bttn_fixed {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.bttn_fixed > button:first-child {
+    margin-bottom: 20px;
+}
+
+.bttn_fixed > button {
+	box-shadow: 0px 0px 0px 2px #9fb4f2;
+	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+	background-color:#7892c2;
+	border-radius:10px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:19px;
+	padding:12px 37px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #283966;
+}
+.bttn_fixed > button:hover {
+	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+	background-color:#476e9e;
+}
+.bttn_fixed > button:active {
+	position:relative;
+	top:1px;
+}
+
+
+.msg {
+	font-size: 24px; font-weight:700; color:gray;
+}
+
+.themen.collapse>div, .layerdescr.collapse>div {
+    display: none;
+}
+
+.themen:first-child, .themen.collapse:first-child {    
+    display: block !important;
+}
+
+.layeratts textarea, .layeratts label {
+    width: 100%;
+    display: block;
+}

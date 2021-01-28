@@ -1,0 +1,45 @@
+{
+
+  /*
+    // "compilerOptions": {
+    //   "target": "es5",
+    //   "module": "commonjs",
+    //   "declaration": true,
+    //   "outDir": "./lib",
+    //   "strict": false
+    // },
+    // "include": ["src"],
+    // 
+  */
+
+  "compilerOptions": {
+      "strict": false,
+      "removeComments": false,
+      "module": "amd",
+      "moduleResolution": "node",
+      "inlineSourceMap": false,
+      "sourceMap": true
+      // "target": "es5"
+      // "esModuleInterop": true
+    }
+  
+/*
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "module": "es2020",
+    "target": "es2020",
+    "allowJs": false,
+    // "outDir": "./dist/ts/",
+    "strict": false,
+    "rootDir": "./src",
+    "moduleResolution": "Node",
+    "lib": ["es2020", "dom", "dom.iterable"],
+    "experimentalDecorators":true
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+  */
+}

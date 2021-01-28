@@ -1,0 +1,121 @@
+.mapctrl {
+    width: calc(100% - 0px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: beige;
+}
+
+.mapctrl-top {
+    display: flex;
+}
+
+.menu-button {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    transition: all 80ms;
+    background-color: #65b32c;
+    padding: 4px;
+    margin: auto;
+    border: 2px solid rgb(175, 175, 175);
+    width: calc(2.7rem + 4px);
+    height: calc(2.7rem + 4px);
+}
+
+.menu-button:hover {
+    background-color: #5ba128;
+}
+
+.closed>.menu-button>div {
+    height: 3px;
+    top: calc(50% - 3px);
+    width: 100%;
+    position: relative;
+    left: 0px;
+    background-color: white;
+}
+
+.closed>.menu-button>div:before, .closed>.menu-button>div:after {
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background-color: white;
+}
+
+.closed>.menu-button>div:before {
+    top: -8px;
+}
+
+.closed>.menu-button>div:after {
+    top: 8px;
+}
+
+.opened>.menu-button>div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.opened>.menu-button>div::before {
+    content: '';
+    position: absolute;
+    display: block;
+    left: 41%;
+    top: 45%;
+    width: 40%;
+    height: 10%;
+    background-color: white;
+    transform: translateX(0px) translateY(0px) rotate(40deg);
+}
+
+.opened>.menu-button>div::after {
+    content: '';
+    position: absolute;
+    /* bottom: 0; */
+    display: block;
+    left: 19%;
+    top: 45%;
+    width: 40%;
+    height: 10%;
+    background-color: white;
+    transform: translateX(0) translateY(0px) rotate(-40deg);
+}
+
+.mapctrl-top>.search-wrapper {
+    vertical-align: middle;
+    margin-left: 5px;
+    height: calc(2.7rem + 4px);
+    border: 2px solid #afafaf;
+    flex-grow: 1;
+}
+
+.search-wrapper {
+    font-size: 2em;
+    border: 2px solid #afafaf;
+    background-color: #fff;
+    line-height: 2.7rem;
+}
+
+.search-wrapper>input {
+    border: 2px none #afafaf;
+    width: calc(100% - 1em - 11px);
+    padding-left: 4px;
+    outline: none;
+}
+
+.search-input-clear::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-style: normal;
+    line-height: 1;
+    content: "\f00d";
+    color: #afafaf;
+}
+
+.search-wrapper * {
+    vertical-align: middle;
+}
