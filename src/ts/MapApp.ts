@@ -117,15 +117,18 @@ class MapApp {
     }
     initLayer(mapDescr: MapDescription.MapDescription):void {
         console.info(mapDescr);        
-        mapDescr.baseLayers.forEach((layer) => {
-            const l = L.tileLayer(layer.url, layer.options);
-            this.baseLayers[layer.label] = l;
+        mapDescr.baseLayers.forEach((layerDescr) => {
+            const layer = L.tileLayer(layerDescr.url, layerDescr.options);
+            layerDescr['layer'] = layer;
+            this.baseLayers[layerDescr.label] = layer;
             if (!this.baseLayer) {
-                this.baseLayer = l;
-                this.map.addLayer(l);
+                this.baseLayer = layer;
+                this.map.addLayer(layer);
             }
         });
-        // this.menuCtrl.baseLayerCtrl.setBaseLayers(mapDescr.baseLayers);
+        this.menuCtrl.baseLayerCtrl.setBaseLayers(mapDescr.baseLayers, 
+            {labelAttribute:'label'}
+        );
 
         // this.menuCtrl.categorieLayerCtrl.setOverlays(mapDescr.themes);
 
