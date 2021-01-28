@@ -43,7 +43,7 @@ export class LayerConfigurationEditor {
 	constructor(url: string, dom: HTMLElement) {
 		this.dom = dom;
 		this.url = url;
-		const urlMC = url+"mapconfiguration/list"; 
+		const urlMC = url; 
 		// const urlMC = url+"layer/list";
 		getConf(urlMC).then(value => {
 			this.layerConfig = <MapDescription>value;

@@ -10,6 +10,6 @@ function start() {
 
     const content = document.getElementById("content");
     // const lce = new LayerConfigurationEditor("http://localhost:8989/", content);
-    const lce = new LayerConfigurationEditor("layerdef.json", content);
+    const lce = new LayerConfigurationEditor("layerdef_neu.json", content);
 
 }

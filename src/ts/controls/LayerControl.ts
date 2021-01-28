@@ -5,10 +5,15 @@ import { LayerDescription, Theme } from '../conf/MapDescription';
 import { CategorieLayer, Category, CategoryMarker, Path } from './CategorieLayer';
 
 export class BaseLayerDefinition {
-    id?:string;
-    name:string;
-    layer:L.Layer;
+    id?:string|number;
+    // name?:string;
+    layer?:L.Layer;
     bounds?:L.LatLngBounds;
+}
+
+export class LayerDefinitionOptions {
+    labelAttribute?:string;
+    createLayer?:(layerDefintion:BaseLayerDefinition)=>Promise<L.Layer>;
 }
 
 export class LayerControlOptions implements L.ControlOptions {
@@ -45,6 +50,7 @@ export class LayerControl extends L.Control {
     categorieLayerNodes: { [id: string] : TreeNode } = {};
 
     overlays: { [id: string] : BaseLayerDefinition[] } = {};
+    baseLayerDefOptions: LayerDefinitionOptions;
 
     constructor(options?:LayerControlOptions) {
         super(options);
@@ -66,10 +72,8 @@ export class LayerControl extends L.Control {
         console.info(`nodeChanged ${group} ${node.data.name}, ${SelectionStatus[sel]}`);
     }
 
-    baseLayerChanged(node:TreeNode, sel:SelectionStatus) {
-        console.info(`baseLayerChanged ${node.data.name}, ${SelectionStatus[sel]}`);
-        console.info('baseLayerChanged old', this.baseLayer);
-        const nBaseLayer = node.data.layer;        
+    _baseLayerChanged(layer:L.Layer) {
+        const nBaseLayer = layer;        
         if (this.baseLayer) { 
             if (this.baseLayer===nBaseLayer) {
                 return;
@@ -83,43 +87,69 @@ export class LayerControl extends L.Control {
         }
     }
 
-    addOverlays(theme:string, baseLayers: BaseLayerDefinition[]) {
-        this.overlays[theme] = baseLayers;
+    baseLayerChanged(node:TreeNode, sel:SelectionStatus) {
+        console.info(`baseLayerChanged ${node.data.name}, ${SelectionStatus[sel]}`);
+        console.info('baseLayerChanged old', this.baseLayer);
+        if (!node.data.layer) {
+            node.data.layer = this.baseLayerDefOptions.createLayer(node.data)
+            .then(layer=>this._baseLayerChanged(layer));
+        }
+        else {
+            this._baseLayerChanged(node.data.layer);
+        }
     }
-    setBaseLayers(baseLayers: BaseLayerDefinition[]) {
+
+    // addOverlays(theme:string, baseLayers: BaseLayerDefinition[], options?:LayerDefinitionOptions) {
+    //     this.overlays[theme] = baseLayers;
+    // }
+    setBaseLayers(baseLayers: BaseLayerDefinition[], options?:LayerDefinitionOptions) {
         this.baseLayerDefinitions = baseLayers;
+        this.baseLayerDefOptions = options;
+        if (this.tree) {
+            this._addBaseLayersToTree();
+        }
     }    
 
     private _createTree() {
         console.info("_createTree");
         this.tree = new Tree(null, {selectMode:SelectionMode.MULTI});
-        const count = this.baseLayerDefinitions? this.baseLayerDefinitions.length : 0;
-        if (count>0) {
-            const baseLayerNodes:TreeNode[] = [];
-            for (let i=0; i<count; i++) {
-                const baseLayerNode = new TreeNode(this.baseLayerDefinitions[i], null, null);
-                // baseLayerNode.onSelectionChange.subscribe((node, sel) =>this.baseLayerChanged(node,sel));
-                baseLayerNodes.push(baseLayerNode);
-                if (this.baseLayer && this.baseLayerDefinitions[i].layer===this.baseLayer) {
-                    this.baseLayerDefinition = this.baseLayerDefinitions[i];
-                }
-            }
-            console.info(baseLayerNodes);
-            const baseLNode = new RadioGroupTreeNode({name:"Grundkarte"}, baseLayerNodes);
-            baseLNode.onSelectionChange.subscribe((node, sel) =>this.baseLayerChanged(node,sel));
-            this.tree.addNode(baseLNode);
-            
-        }
-        console.info("before setSeled")
-        this.tree.selectNode(this.baseLayerDefinition);
-        this.tree.onSelectionChange.subscribe((node, sel) =>this.nodeChanged('tree', node,sel));
-
+        this._addBaseLayersToTree();
         for (const title in this.overlays) {
             this._addOverlayToTree(title, this.overlays[title]);
         }
 
         for (const title in this.categorieLayers) {
             this._addCategorieLayerToTree(title, this.categorieLayers[title]);
+        }
+    }
+
+    _addBaseLayersToTree() {
+        console.info(`_addBaseLayersToTree ${this.tree}`);
+        if (this.tree) {
+            const count = this.baseLayerDefinitions? this.baseLayerDefinitions.length : 0;
+            if (count>0) {
+                const baseLayerNodes:TreeNode[] = [];
+                let nodeParam:TreeNodeParam;
+                if (this.baseLayerDefOptions.labelAttribute) {
+                    nodeParam = {attName2Render:this.baseLayerDefOptions.labelAttribute};
+                }
+                for (let i=0; i<count; i++) {
+                    const baseLayerNode = new TreeNode(this.baseLayerDefinitions[i], null, nodeParam);
+                    // baseLayerNode.onSelectionChange.subscribe((node, sel) =>this.baseLayerChanged(node,sel));
+                    baseLayerNodes.push(baseLayerNode);
+                    if (this.baseLayer && this.baseLayerDefinitions[i].layer===this.baseLayer) {
+                        this.baseLayerDefinition = this.baseLayerDefinitions[i];
+                    }
+                }
+                console.info(baseLayerNodes);
+                const baseLNode = new RadioGroupTreeNode({name:"Grundkarte"}, baseLayerNodes);
+                baseLNode.onSelectionChange.subscribe((node, sel) =>this.baseLayerChanged(node,sel));
+                this.tree.addNode(baseLNode);
+                
+            }
+            console.info("before setSeled")
+            this.tree.selectNode(this.baseLayerDefinition);
+            this.tree.onSelectionChange.subscribe((node, sel) =>this.nodeChanged('tree', node,sel));            
         }
     }
 
@@ -181,7 +211,10 @@ export class LayerControl extends L.Control {
 
     _findBaseLayerDefinition(baseLayerId:string):BaseLayerDefinition {
         for (let i=0; i<this.baseLayerDefinitions.length; i++) {
-            if (this.baseLayerDefinitions[i].id.toLowerCase()===baseLayerId.toLowerCase()) {
+            if (this.baseLayerDefinitions[i].id===baseLayerId) {
+                return this.baseLayerDefinitions[i];
+            }
+            if (this.baseLayerDefinitions[i].id.toString().toLowerCase()===baseLayerId.toLowerCase()) {
                 return this.baseLayerDefinitions[i];
             }
         }

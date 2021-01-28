@@ -35,7 +35,7 @@ export type Theme = {
 }
 
 export type LayerDescription = {
-	id: number,
+	id: number|string,
 	thema?: string,
     label?: string,
     infoAttribute?: string,
