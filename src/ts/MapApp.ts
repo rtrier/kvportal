@@ -83,7 +83,7 @@ class MapApp {
 
         map.addControl(new L.Control.Zoom({position:'topright'}));
 
-        MapDescription.getConf('layerdef_neu.json').then((mapDescr)=>this.initLayer(mapDescr));
+        MapDescription.getConf('layerdef.json').then((mapDescr)=>this.initLayer(mapDescr));
 
         const urlParams = new URLSearchParams(window.location.search);
         // ?layers=Windenergieanlagen%20Onshore,Biogasanlagen,Freiflächenanlagen,Freiflächenanlagen%20ATKIS,Strassennetz,Freileitungen%20ab%20110kV,Umspannwerke
