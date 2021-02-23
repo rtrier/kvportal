@@ -3,6 +3,7 @@ import { Tree } from '../../../../treecomponent/src/ts/Tree';
 import { RadioGroupTreeNode, SelectionMode, SelectionStatus, TreeNode, TreeNodeParam } from '../../../../treecomponent/src/ts/TreeNode';
 import { LayerDescription, Theme } from '../conf/MapDescription';
 import { CategorieLayer, Category, CategoryMarker, Path } from './CategorieLayer';
+import { MapDispatcher } from './MapControl';
 
 export class BaseLayerDefinition {
     id?:string|number;
@@ -33,6 +34,7 @@ export type ListEntry<T> = {
 export class LayerControl extends L.Control {
 
 
+
     static catNodeParam:TreeNodeParam = {
         attName2Render:'bezeichnung',
         selectMode: SelectionMode.MULTI
@@ -43,7 +45,7 @@ export class LayerControl extends L.Control {
 
     map: L.Map;
     tree:Tree;
-    baseLayer: L.Layer;
+    // baseLayer: L.Layer;
     className: string;
 
     categorieLayers: { [id: string] : CategorieLayer<any, any>; } = {};
@@ -51,6 +53,8 @@ export class LayerControl extends L.Control {
 
     overlays: { [id: string] : BaseLayerDefinition[] } = {};
     baseLayerDefOptions: LayerDefinitionOptions;
+    themes: Theme[];
+    themesLayerDefinitionOptions: LayerDefinitionOptions;
 
     constructor(options?:LayerControlOptions) {
         super(options);
@@ -60,39 +64,51 @@ export class LayerControl extends L.Control {
         if (options.baseLayers) {
             this.baseLayerDefinitions = options.baseLayers;
         }
-        if (options.baseLayer) {
-            this.baseLayer = options.baseLayer;
-        }
+        // if (options.baseLayer) {
+        //     this.baseLayer = options.baseLayer;
+        // }
         this._createTree();
     }
-
-
 
     nodeChanged(group:string, node:TreeNode, sel:SelectionStatus) {
         console.info(`nodeChanged ${group} ${node.data.name}, ${SelectionStatus[sel]}`);
     }
 
     _baseLayerChanged(layer:L.Layer) {
-        const nBaseLayer = layer;        
-        if (this.baseLayer) { 
-            if (this.baseLayer===nBaseLayer) {
-                return;
-            }          
-            this.baseLayer.remove();
+        MapDispatcher.onBaseLayerSelection.dispatch(this, layer);
+    }
+
+    
+
+    themeLayerChanged(node:TreeNode, sel:SelectionStatus) {
+        console.info(`themeLayerChanged ${SelectionStatus[sel]}`, node);
+        const isSelected = sel === SelectionStatus.SELECTED;
+        if (!node.data.layer) {
+            this.themesLayerDefinitionOptions.createLayer(node.data)
+            .then(
+                layer=>{
+                    node.data.layer = layer;
+                    MapDispatcher.onThemeLayerSelection.dispatch(this, {layer:layer, layerDescription:node.data, isSelected:isSelected});                    
+            })
+            .catch(
+                reason=>{
+                    console.error(`layer konnte nicht geladen werden ${reason}`, node.data);
+                }
+            );
         }
-        if (this.map) {
-            console.info('baseLayerChanged new', nBaseLayer);
-            this.map.addLayer(nBaseLayer);
-            this.baseLayer = nBaseLayer;
+        else {
+            MapDispatcher.onThemeLayerSelection.dispatch(this, {layer:node.data.layer, layerDescription:node.data, isSelected:isSelected});
         }
     }
 
     baseLayerChanged(node:TreeNode, sel:SelectionStatus) {
-        console.info(`baseLayerChanged ${node.data.name}, ${SelectionStatus[sel]}`);
-        console.info('baseLayerChanged old', this.baseLayer);
+        console.info(`baseLayerChanged ${SelectionStatus[sel]}`, node);
         if (!node.data.layer) {
-            node.data.layer = this.baseLayerDefOptions.createLayer(node.data)
-            .then(layer=>this._baseLayerChanged(layer));
+            this.baseLayerDefOptions.createLayer(node.data)
+            .then(layer=>{
+                    node.data.layer = layer;
+                    this._baseLayerChanged(layer);
+                });
         }
         else {
             this._baseLayerChanged(node.data.layer);
@@ -107,8 +123,30 @@ export class LayerControl extends L.Control {
         this.baseLayerDefOptions = options;
         if (this.tree) {
             this._addBaseLayersToTree();
-        }
+        }        
+        this.selectBaseLayer(this.baseLayerDefinitions[0]);  
     }    
+
+    selectBaseLayer(baseLayer:BaseLayerDefinition) {
+        console.info("this.setBaseLayer", baseLayer);
+        this.baseLayerDefinition = baseLayer;
+        this.tree.selectNode(baseLayer);
+    }
+
+    selectThemeLayer(layerDescr: LayerDescription) {
+        console.info("selectThemeLayer");
+        this.tree.selectNode(layerDescr);
+    }    
+
+
+    addThemes(themes: Theme[], options:LayerDefinitionOptions) {
+        this.themes = themes;
+        this.themesLayerDefinitionOptions = options;
+        if (this.tree) {
+            this._addThemesToTree();
+        }
+    }
+
 
     private _createTree() {
         console.info("_createTree");
@@ -123,7 +161,27 @@ export class LayerControl extends L.Control {
         }
     }
 
-    _addBaseLayersToTree() {
+    private _addThemesToTree() {
+        console.info(`_addThemesToTree ${this.tree}`);
+        if (this.tree) {
+            if (this.themes) {
+                this.themes.forEach(theme=>{
+                    const themeNode = new TreeNode(theme.thema);
+                    if (theme.layers) {
+                        theme.layers.forEach(layer=>{
+                            const layerNode = new TreeNode(layer, null, {attName2Render:'label'});
+                            layerNode.onSelectionChange.subscribe((node, sel) =>this.themeLayerChanged(node,sel));
+                            themeNode.addNode(layerNode);
+                        });
+                    }
+                    if (themeNode.childs && themeNode.childs.length>0) {
+                        this.tree.addNode(themeNode);
+                    }
+                });
+            }
+        }
+    }
+    private _addBaseLayersToTree() {
         console.info(`_addBaseLayersToTree ${this.tree}`);
         if (this.tree) {
             const count = this.baseLayerDefinitions? this.baseLayerDefinitions.length : 0;
@@ -137,9 +195,9 @@ export class LayerControl extends L.Control {
                     const baseLayerNode = new TreeNode(this.baseLayerDefinitions[i], null, nodeParam);
                     // baseLayerNode.onSelectionChange.subscribe((node, sel) =>this.baseLayerChanged(node,sel));
                     baseLayerNodes.push(baseLayerNode);
-                    if (this.baseLayer && this.baseLayerDefinitions[i].layer===this.baseLayer) {
-                        this.baseLayerDefinition = this.baseLayerDefinitions[i];
-                    }
+                    // if (this.baseLayer && this.baseLayerDefinitions[i].layer===this.baseLayer) {
+                    //     this.baseLayerDefinition = this.baseLayerDefinitions[i];
+                    // }
                 }
                 console.info(baseLayerNodes);
                 const baseLNode = new RadioGroupTreeNode({name:"Grundkarte"}, baseLayerNodes);
@@ -185,7 +243,7 @@ export class LayerControl extends L.Control {
             this._createTree();
         }
         
-        console.info("addbaseLayer", this.baseLayer);
+        // console.info("addbaseLayer", this.baseLayer);
        
         this.map = map;
         this.map.addEventListener("movestart", (ev)=>{});

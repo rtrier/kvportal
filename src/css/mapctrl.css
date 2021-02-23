@@ -1,3 +1,11 @@
+.leaflet-top.leaflet-left {
+    max-height: calc(100% - 10px);
+    width: 533px;
+    display: flex;
+    flex-direction: column;
+}
+
+
 .mapctrl {
     width: calc(100% - 0px);
     display: flex;
@@ -16,7 +24,7 @@
     vertical-align: middle;
     overflow: hidden;
     transition: all 80ms;
-    background-color: #65b32c;
+    background-color: #287da8;
     padding: 4px;
     margin: auto;
     border: 2px solid rgb(175, 175, 175);
@@ -25,7 +33,7 @@
 }
 
 .menu-button:hover {
-    background-color: #5ba128;
+    background-color: #055177;
 }
 
 .closed>.menu-button>div {
@@ -119,3 +127,105 @@
 .search-wrapper * {
     vertical-align: middle;
 }
+
+
+.viewctrl {
+    min-width: calc(100% - 0px);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100% - 20px);        
+    overflow: auto;
+    background-color: white;
+}
+
+
+.viewctrl-nav {   
+    display: flex;
+    flex-direction: row-reverse;
+    border-bottom: none;
+    flex-shrink: 0;
+    border-left: 2px solid #afafaf;
+    border-right: 2px solid #afafaf;
+    border-top: 2px solid #afafaf;
+}
+.viewctrl-nav-back {    
+    position: absolute;
+    transform: translate(10px, 10px);
+}
+
+.viewctrl-content {
+    border-left: 2px solid #afafaf;
+    border-right: 2px solid #afafaf;
+    border-bottom: 2px solid #afafaf;
+    overflow: hidden;
+    display: flex;
+}
+.viewctrl-content>* {
+    overflow: auto;
+}
+.viewctrl-content:empty {
+    border: none;
+}
+
+
+/* LegendControl */
+.legendctrl {
+    background-color: white;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem; 
+    border: 2px solid #afafaf;
+    font-size: 2rem;
+    padding-top: 0.2rem;
+    padding-right: 0.2rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.4rem;
+
+    cursor: pointer;
+}
+
+.legendctrl:hover {
+    background-color: #f4f4f4;
+}
+
+.legendctrl-legend {
+    font-size: 1.2rem;
+    border: 2px solid #afafaf;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    z-index: 9999;
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+} 
+
+.legendctrl-legend-head {
+    font-size: 1.8rem;
+    display: flex;
+}
+.legendctrl-legend-head>span {
+    padding: 0.4rem;
+    flex-grow: 1;
+}
+.legendctrl-legend-head>a {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.legendctrl-legend svg {
+    min-width: 22px;
+}
+
+.marker-cluster {
+    color: black;
+}
+/*
+.marker-cluster-small {
+    background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: #b8b8bf;
+}
+*/

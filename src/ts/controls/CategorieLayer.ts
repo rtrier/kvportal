@@ -47,8 +47,8 @@ export interface CategorieSelector<T, N> {
 }
 
 export interface PopupCreator<T extends L.LatLngExpression> {
-    renderDataView(categories:Category[], marker:CategoryMarker<T>):HTMLElement;
-    renderListItem(categories:Category[], marker:CategoryMarker<T>):HTMLElement;
+    renderDataView(layer:InteractiveLayer, marker:CategoryMarker<T>):HTMLElement;
+    renderListItem(layer:InteractiveLayer, marker:CategoryMarker<T>):HTMLElement;
 }
 
 export interface CategoryMarkerOptions extends L.MarkerOptions {
@@ -73,14 +73,14 @@ export class CategoryMarker<T extends L.LatLngExpression> extends L.Marker {
     static icon = createIcon(0xf024);
     static selectedIcon = createSelectedIcon(0xf024);
 
-    parentLayer: CategorieLayer<T, any>;
+    parentLayer: CategorieLayer<T, any>|InteractiveLayer;
     data: T;
     private _clickClosure: (ev: any) => void;
     selected = false;
     // icon:L.Icon;
 
-    constructor(parentLayer:CategorieLayer<T, any>, data:T, options?:CategoryMarkerOptions) {
-        super(data);
+    constructor(parentLayer:CategorieLayer<T, any>|InteractiveLayer, data:T, options?:CategoryMarkerOptions) {
+        super(data, options);        
         this.data = data;
         this.parentLayer = parentLayer;
 
@@ -157,12 +157,45 @@ export class CategoryMarker<T extends L.LatLngExpression> extends L.Marker {
 
 }
 
+export interface InteractiveLayer {
+    
+    map?:L.Map;
+    popupFactory?:PopupCreator<any>;
 
-// export class CategorieLayer<T extends L.LatLngExpression> extends L.LayerGroup {
-export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClusterGroup {
+    highlightMarker: (marker:CategoryMarker<any>, highlight:boolean)=>void;
+    mapItemClicked:(marker: CategoryMarker<any>, ev: L.LeafletEvent)=>void;
+}
 
+export class GeojsonLayer extends L.MarkerClusterGroup implements InteractiveLayer {
+
+    selectedMarker: CategoryMarker<any>;
+
+    constructor(options?:L.MarkerClusterGroupOptions) {
+        super(options);
+    }
+
+    highlightMarker(marker: CategoryMarker<any>, highlight: boolean) {
+        console.error("notImm", marker);
+    }
    
 
+    mapItemClicked(marker: CategoryMarker<any>, ev: L.LeafletEvent): void {
+        console.info("mapItemClicked", marker.data['id'], ev); 
+        if (marker.selected) {
+            MapDispatcher.onItemOnMapUnselection.dispatch(this, marker);
+        } else {
+            MapDispatcher.onItemOnMapSelection.dispatch(this, marker);
+            this.selectedMarker = marker;
+        }        
+    }
+
+    renderData(marker:CategoryMarker<any>):View {
+        return new MarkerView(this, marker);
+    }
+}
+
+// export class CategorieLayer<T extends L.LatLngExpression> extends L.LayerGroup {
+export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClusterGroup implements InteractiveLayer {
 
     categorieUrl:string;
     url:string;

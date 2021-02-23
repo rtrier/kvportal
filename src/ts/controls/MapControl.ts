@@ -5,10 +5,12 @@ import * as L from 'leaflet';
 import { EventDispatcher } from 'strongly-typed-events';
 import autocomplete from '../util/Autocompleter';
 import { createHtmlElement } from '../Util';
-import { CategorieLayer, CategoryMarker } from './CategorieLayer';
+import { CategorieLayer, CategoryMarker, GeojsonLayer } from './CategorieLayer';
 import { LayerControl } from './LayerControl';
 import { View, ViewControl } from './ViewControl';
 import { MarkerListView } from './MarkerListView';
+import { Feature } from 'geojson';
+import { LayerDescription } from '../conf/MapDescription';
 
 
 
@@ -19,10 +21,19 @@ export class MenuControlOptions implements L.ControlOptions {
     searchFct?: (s: string, cb: (results: any[]) => any)=>void;
 }
 
+export type LayerSelectionEvent = {
+    layer:L.Layer;
+    layerDescription:LayerDescription;
+    isSelected: boolean;
+}
+
 class Dispatcher {    
     onListViewItemSelection = new EventDispatcher<MarkerListView, CategoryMarker<any>>();
-    onItemOnMapSelection = new EventDispatcher<CategorieLayer<any, any>, CategoryMarker<any>>();
-    onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>, CategoryMarker<any>>();
+    onItemOnMapSelection = new EventDispatcher<CategorieLayer<any, any>| GeojsonLayer, CategoryMarker<any>>();
+    onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>|GeojsonLayer, CategoryMarker<any>>();
+
+    onBaseLayerSelection = new EventDispatcher<LayerControl, L.Layer>();
+    onThemeLayerSelection = new EventDispatcher<LayerControl, LayerSelectionEvent>();
 }
 
 export const MapDispatcher = new Dispatcher();
@@ -34,6 +45,7 @@ export class MenuControl extends L.Control {
     dom: HTMLElement;
     baseLayerCtrl:LayerControl;
     categorieLayerCtrl:LayerControl;
+
     searchFct: (s: string, cb: (results: any[]) => any)=>void;
 
     closed:boolean = true;
@@ -49,6 +61,8 @@ export class MenuControl extends L.Control {
     foundArea: L.GeoJSON<any>;
     selectedMarker: any;
 
+    baseLayer: L.Layer;
+
     constructor(options:MenuControlOptions) {
         super(options);
         this.baseLayerCtrl=options.baseLayerCtrl;
@@ -58,8 +72,11 @@ export class MenuControl extends L.Control {
     }
     private _subscribe() {
         console.info("subs onListViewItemSelection");
-        MapDispatcher.onItemOnMapSelection.subscribe((sender, item)=>this.onItemOnMapSelection(sender, item))
-        MapDispatcher.onItemOnMapUnselection.subscribe((sender, item)=>this.onItemOnMapUnselection(sender, item))
+        MapDispatcher.onItemOnMapSelection.subscribe((sender, item)=>this.onItemOnMapSelection(sender, item));
+        MapDispatcher.onItemOnMapUnselection.subscribe((sender, item)=>this.onItemOnMapUnselection(sender, item));
+
+        MapDispatcher.onBaseLayerSelection.subscribe((sender, layer)=>this.onBaseLayerSelection(sender, layer));
+        MapDispatcher.onThemeLayerSelection.subscribe((sender, layerSelectEvt)=>this.onThemeLayerSelection(sender, layerSelectEvt));
     }
 
     addCategorieLayer(categorieLayer:CategorieLayer<any, any>, showAll:boolean) {
@@ -89,8 +106,9 @@ export class MenuControl extends L.Control {
     }
     
 
-    onItemOnMapSelection(sender: CategorieLayer<any, any>, item: CategoryMarker<any>): void {
-        console.info('onItemOnMapSelection', sender, item);
+    onItemOnMapSelection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMarker<any>): void {
+        console.info('onItemOnMapSelection', sender, item, typeof item);
+
         if (this.selectedMarker) {
             this.onItemOnMapUnselection(sender, this.selectedMarker)
         }
@@ -102,14 +120,47 @@ export class MenuControl extends L.Control {
         }
     }  
 
-    onItemOnMapUnselection(sender: CategorieLayer<any, any>, item: CategoryMarker<any>): void {
+    onItemOnMapUnselection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMarker<any>): void {
         console.info('onItemOnMapUnSelection', sender, item);
         this.viewCtrl.goBack();
         this.selectedMarker = undefined;
     }
 
+    onBaseLayerSelection(sender:LayerControl, nBaseLayer: L.Layer): void {
+        console.info('onBaseLayerSelection', sender, nBaseLayer);
+        if (this.baseLayer) { 
+            if (this.baseLayer===nBaseLayer) {
+                return;
+            }          
+            this.baseLayer.remove();
+        }
+        if (this.map) {
+            console.info('baseLayerChanged new', nBaseLayer);
+            console.info("before addLayer", nBaseLayer);
+            this.map.addLayer(nBaseLayer);
+            console.info("layer added", nBaseLayer);
+            this.baseLayer = nBaseLayer;
+        } else {
+            console.info('baseLayerChanged map==null');
+        }
+    }
 
-    showData(layer: CategorieLayer<any, any>, marker: CategoryMarker<any>) {
+    onThemeLayerSelection(sender:LayerControl, evt: LayerSelectionEvent):void {
+        console.info("", evt);
+        if (this.map) {
+            if (evt.isSelected) {
+                try {
+                    this.map.addLayer(evt.layer);
+                } catch (ex) {
+                    console.info(`error adding layer "${evt.layerDescription.label}"`, ex);
+                }
+            } else {
+                this.map.removeLayer(evt.layer);
+            }
+        }
+    }
+
+    showData(layer: CategorieLayer<any, any>|GeojsonLayer, marker: CategoryMarker<any>) {
         this.closeMenu();
         this.viewCtrl.setContentView(layer.renderData(marker));
     }
@@ -207,7 +258,9 @@ export class MenuControl extends L.Control {
     clearResults() {
         console.info("clearResults");
         this.viewCtrl.clear();
-        this.categorieLayerCtrl.categorieLayers["Kategories"].removeSearchResults();
+        if (this.categorieLayerCtrl.categorieLayers["Kategories"]) {
+            this.categorieLayerCtrl.categorieLayers["Kategories"].removeSearchResults();
+        }
         if (this.foundArea) {
             this.foundArea.remove();
             this.foundArea = undefined;

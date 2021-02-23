@@ -1,7 +1,14 @@
 @import '../../node_modules/leaflet/dist/leaflet.css';
+
+@import '../../node_modules/@glartek/leaflet.markercluster/dist/MarkerCluster.css';
+@import '../../node_modules/@glartek/leaflet.markercluster/dist/MarkerCluster.Default.css';
+
 @import './fontawesome.css';
 @import './mapctrl.css';
 @import './layerctrl.scss';
+
+
+
 
 html, body {
     height: 100%;
@@ -12,11 +19,26 @@ html, body {
     font-size: 12px;
    
 	box-sizing: border-box;
+
+    /*color: #287da8;*/
 }
+
+/*
+.leaflet-bar a, .leaflet-bar a:hover {
+    color: #287da8;
+}
+*/
+
+
 
 *, *:before, *:after {
 	box-sizing: inherit;
 }
+
+.flex-no-shrink {
+    flex-shrink: 0;
+}
+
 
 .themen {
     display: block;
@@ -120,4 +142,35 @@ textarea.input_error {
 .layeratts textarea, .layeratts label {
     width: 100%;
     display: block;
+}
+
+
+/* Close Button */
+.back, .close {
+    background-color: #287da8;
+    text-align: center;
+    vertical-align: middle;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    line-height: 1;
+    opacity: 1.0;
+    color: white !important;
+    padding: 2px;
+    display: inline-block;
+    margin: 2px;
+    width: 1em;
+    height: 1em;
+    font-size: 1em;
+    border: 2px solid #afafaf;
+	box-sizing: content-box;
+}
+.close:hover, .back:hover {
+  opacity: 1;
+  background-color: #205570;
+}
+.back:after {
+	content: "\f100";
+}
+.close::after {
+	content: "\f00d";
 }

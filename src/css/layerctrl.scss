@@ -1,1 +1,12 @@
 @import '../../../treecomponent/src/css/tree.scss'; 
+
+
+.treecontainer {
+    font-size: 1.2rem;
+    width: calc(100% - 10px);
+}
+
+.row-wrapper {
+    background-color: #8dbbd2;
+    color:black;
+}

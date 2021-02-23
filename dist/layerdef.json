@@ -6,6 +6,17 @@
       "options": {
         "attribution": "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"
       }
+    },
+    {
+      "label": "webatlas",     
+      "url": "https://sgx.geodatenzentrum.de/wmts_webatlasde.light/tile/1.0.0/webatlasde.light/default/DE_EPSG_3857_LIGHT/{z}/{y}/{x}.png",
+      "options": {          
+        "id": "webatlasde.light",
+        "minZoom": 5,
+		    "maxZoom": 15,		      
+		    "zoomOffset": -5,
+        "attribution": "&copy; <a href=\"http://www.bkg.bund.de/\" target=\"_blank\">Bundesamt für Kartographie und Geodäsie</a> 2020, <a href=\"http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf\" target=\"_blank\">Datenquellen</a>"
+      }
     }
   ],
   "overlays": [
@@ -20,7 +31,7 @@
       "params": {
         "gast": 2,
         "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 43,
+        "selected_layer_id": 126,
         "export_format": "GeoJSON",
         "browserwidth": 800,
         "browserheight": 600,
@@ -34,7 +45,7 @@
           15
         ],
         "iconAnchor": [
-          0,
+          7,
           0
         ],
         "popupAnchor": [
@@ -51,6 +62,81 @@
       "actualityCircle": "bei Bedarf",
       "type": "GeoJSON",
       "geomType": "Point",
+      "options": {
+        "attribution": "Umweltkarten LUNG"
+      }
+    },
+    {
+      "thema": "Windenergie",
+      "label": "Windenergieanlagen Offshore",
+      "infoAttribute": "info",
+      "img": "wind_power.svg",
+      "backgroundColor": "#c1d8ff",
+      "url": "https://energieatlas-mv.de/fis/index.php",
+      "params": {
+        "gast": 2,
+        "go": "Daten_Export_Exportieren",
+        "selected_layer_id": 127,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "icon": {
+        "iconUrl": "img/wind_power_turbine.svg",
+        "iconSize": [
+          15,
+          15
+        ],
+        "iconAnchor": [
+          7,
+          0
+        ],
+        "popupAnchor": [
+          0,
+          0
+        ]
+      },
+      "contactOrganisation": "Landesamt für Umwelt, Naturschutz und Geologie M-V (LUNG M-V)",
+      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
+      "contactPersonName": "Herr Neumann",
+      "contactEMail": "herr.neumann@lung-mv.de",
+      "contactPhon": "0381456789",
+      "actuality": "20.11.2020",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "options": {
+        "attribution": "Umweltkarten LUNG"
+      }
+    },
+    {
+      "thema": "Windenergie",
+      "label": "Windparks Offshore",
+      "infoAttribute": "info",
+      "img": "wind_power.svg",
+      "backgroundColor": "#c1d8ff",
+      "url": "https://energieatlas-mv.de/fis/index.php",
+      "params": {
+        "gast": 2,
+        "go": "Daten_Export_Exportieren",
+        "selected_layer_id": 55,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "contactOrganisation": "LUNG",
+      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
+      "contactPersonName": "Herr Neumann",
+      "contactEMail": "herr.neumann@lung-mv.de",
+      "contactPhon": "0381456789",
+      "actuality": "20.11.2020",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
       "options": {
         "transparent": true,
         "attribution": "Umweltkarten LUNG"
@@ -202,134 +288,11 @@
     },
     {
       "thema": "Windenergie",
-      "label": "Windenergieanlagen Onshore<BR>Erträge pro WEA pro Jahr",
-      "infoAttribute": "info",
-      "img": "dummy.png",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 43,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "icon": {
-        "iconUrl": "",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "LUNG",
-      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
-      "actuality": "20.11.2020",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Windenergieanlagen Onshore<BR>WEA-Dichte",
-      "infoAttribute": "info",
-      "img": "dummy.png",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 43,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "icon": {
-        "iconUrl": "",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "LUNG",
-      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
-      "actuality": "20.11.2020",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Windenergieanlagen Offshore",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 55,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "contactOrganisation": "LUNG",
-      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
-      "actuality": "20.11.2020",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
       "label": "Windenergie Potentiale",
       "infoAttribute": "info",
       "img": "dummy.png",
       "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https://maps.dwd.de/geoserver/dwd/wms",
       "params": {
         "gast": 2,
         "go": "Daten_Export_Exportieren",
@@ -340,21 +303,7 @@
         "epsg": 4326,
         "all": 1
       },
-      "icon": {
-        "iconUrl": "img/wind_power_turbine.svg",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
+      
       "contactOrganisation": "LUNG",
       "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
       "contactPersonName": "Herr Neumann",
@@ -362,11 +311,15 @@
       "contactPhon": "0381456789",
       "actuality": "20.11.2020",
       "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
+      "type": "WMS",
       "geomType": "Point",
       "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.0",
+        "layers": "BRD_1km_winddaten_80m",
+        "format": "image/png",
         "transparent": true,
-        "attribution": "Umweltkarten LUNG"
+        "attribution": "DWD"
       }
     },
     {

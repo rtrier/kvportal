@@ -1,7 +1,8 @@
-import { CategorieLayer, CategoryMarker } from "./CategorieLayer";
+import { CategorieLayer, CategoryMarker, InteractiveLayer } from "./CategorieLayer";
 import { MapDispatcher } from "./MapControl";
 import { View, ViewControl } from "./ViewControl";
-import { createHtmlElement } from '../Util';
+import { createHtmlElement, createRow } from '../Util';
+import { createLayer } from "../MapApp";
 
 export type ListEntry<T> = {
     item:T;
@@ -9,21 +10,27 @@ export type ListEntry<T> = {
 }
 
 
+
 export class MarkerView implements View {
 
-    layer: CategorieLayer<any, any>;
+    layer: InteractiveLayer;
     marker: CategoryMarker<any>;
 
     dom:HTMLElement;
 
-    constructor(layer:CategorieLayer<any, any>, marker:CategoryMarker<any>) {
+    constructor(layer:InteractiveLayer, marker:CategoryMarker<any>) {
         this.layer = layer;
         this.marker = marker;
     }
 
     getDom() {
         if (!this.dom) {
-            this.dom = this.layer.popupFactory.renderDataView(this.layer.categories, this.marker);
+            if (this.layer.popupFactory) {
+                this.dom = this.layer.popupFactory.renderDataView(this.layer, this.marker);
+            }
+            else {
+                this.dom = this.renderDataView();
+            }
         }
         return this.dom;
     }
@@ -39,6 +46,16 @@ export class MarkerView implements View {
         console.info('MarkerView.remove');
         this.layer.highlightMarker(this.marker, false);
     }
+
+    renderDataView() {
+        const dom = createHtmlElement('div', undefined, "data-view");
+        const table = createHtmlElement('table', dom);
+        for (let k in this.marker.data) {
+            createRow(k, this.marker.data[k], table);
+        }
+        return dom;
+    }
+
 }
 
 export class MarkerListView implements View {
@@ -63,7 +80,7 @@ export class MarkerListView implements View {
             
             if (markers && markers.length>0) {            
                 markers.forEach(marker=>{
-                    const itemDom = pop.renderListItem(this.layer.categories, marker)
+                    const itemDom = pop.renderListItem(this.layer, marker)
                     divList.appendChild(itemDom);
                     itemDom.className =  'list-item';
                     itemDom.addEventListener('click', (ev)=>this.listEntryClicked({dom:<HTMLElement>ev.target, item:marker}));

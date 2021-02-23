@@ -4,6 +4,7 @@ import {IconOptions, CRS} from "leaflet";
 let mapDescr: MapDescription;
 
 export async function getConf(url: string) {
+	console.info("RGFDG");
 	if (!mapDescr) {
         const json = await Util.loadJson(url);
         mapDescr = {baseLayers:json.baseLayers, themes:[]};
@@ -12,11 +13,11 @@ export async function getConf(url: string) {
             const overlay:LayerDescription = json.overlays[i];
             let theme = themes[overlay.thema];
             if (!theme) {
-                theme = {thema:overlay.thema, layers:[]};
+                theme = themes[overlay.thema] = {thema:overlay.thema, layers:[]};
                 mapDescr.themes.push(theme);
             }
             if (overlay.type === "WMS") {
-                overlay.options.crs = CRS[overlay.options.crs];
+                overlay.options.crs = CRS[<string>overlay.options.crs];
             }
             theme.layers.push(overlay);
         }
@@ -32,6 +33,15 @@ export type MapDescription = {
 export type Theme = {
 	thema: string,
 	layers: LayerDescription[]
+}
+
+export type LayerOptions = {
+	pane: string;
+	attribution: string;
+	/** transparent if WMS */
+	transparent: boolean;
+	/** CRS if WMS */
+	crs:string|L.CRS;
 }
 
 export type LayerDescription = {
@@ -53,7 +63,7 @@ export type LayerDescription = {
 	actualityCircle?: string,
 	type?: string,
 	geomType?: string,
-	options?: any,
+	options?: LayerOptions,
     style?: any,    
     icon?:IconOptions
 }

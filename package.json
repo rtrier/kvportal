@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@glartek/leaflet.markercluster": "^1.4.4",
+    "@types/geojson": "^7946.0.7",
     "leaflet": "^1.7.1",
     "strongly-typed-events": "^1.7.3"
   }
