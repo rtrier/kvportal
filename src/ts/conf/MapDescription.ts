@@ -43,7 +43,11 @@ export type LayerOptions = {
 	/** CRS if WMS */
 	crs:string|L.CRS;
 }
-
+export type LayerClass = {
+	def: string;
+	name: string;
+    style: any;
+}
 export type LayerDescription = {
 	id: number|string,
 	thema?: string,
@@ -65,5 +69,6 @@ export type LayerDescription = {
 	geomType?: string,
 	options?: LayerOptions,
     style?: any,    
+	classes?: LayerClass[],
     icon?:IconOptions
 }

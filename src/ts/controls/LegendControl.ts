@@ -82,19 +82,25 @@ export class LegendControl extends L.Control {
             const td01 = createHtmlElement('td', row);
             td01.innerHTML = layer.label;
             const td02 = createHtmlElement('td', row);
+            // if (layer.type === 'GeoJSON') {
+            //     if (layer.geomType === 'Point') {
+            //         if (layer.icon && layer.icon.iconUrl) {                    
+            //             const img = createHtmlElement('img', td02);
+            //             img.src = layer.icon.iconUrl;
+            //             img.width = layer.icon.iconSize[0];
+            //             img.height = layer.icon.iconSize[1];
+            //         }
+            //     } else if (layer.geomType === 'Polygon') {
+            //         const svg = this.createLegendArea(layer.style);
+            //         td02.appendChild(svg);
+            //     }
+            // }
             if (layer.type === 'GeoJSON') {
-                if (layer.geomType === 'Point') {
-                    if (layer.icon && layer.icon.iconUrl) {                    
-                        const img = createHtmlElement('img', td02);
-                        img.src = layer.icon.iconUrl;
-                        img.width = layer.icon.iconSize[0];
-                        img.height = layer.icon.iconSize[1];
-                    }
-                } else if (layer.geomType === 'Polygon') {
-                    const svg = this.createLegendArea(layer.style);
-                    td02.appendChild(svg);
+                const legendItem = createLegendItem(layer);
+                if (legendItem) {
+                    td02.appendChild(legendItem);
                 }
-            }    
+            }
 
         });
         this.domLegend = dom;
@@ -106,21 +112,7 @@ color: "#FF3333"
 stroke: true
 weight: 3
 */
-    private createLegendArea(style:any):Element {
-        const svgEl = new svg.SVG({x:0, y:0, width:20, height:20});
-        const st = {
-            stroke: style && style.color ? style.color : "#3388ff", 
-            strokeOpacity: "1", 
-            strokeWidth: style && style.weight ? style.weight : "3",
-            strokeLinecap: "round", 
-            strokeLinejoin: "round", 
-            fill: style && style.color ? style.color : "#3388ff",
-            fillOpacity: "0.2",
-            fillRule: "evenodd" 
-        }
-        svgEl.addPolygGon("1,1 19,1 19,19 1,19", st);
-        return svgEl.svg;
-    }
+
 
     private _closeBttnClicked(): any {
         console.info("closeLegend");
@@ -134,4 +126,35 @@ weight: 3
         console.info("MenuControl.onRemove");
         this.map = null;
     }
+}
+function createLegendArea(style:any):Element {
+    const svgEl = new svg.SVG({x:0, y:0, width:20, height:20});
+    const st = {
+        stroke: style && style.color ? style.color : "#3388ff", 
+        strokeOpacity: "1", 
+        strokeWidth: style && style.weight ? style.weight : "3",
+        strokeLinecap: "round", 
+        strokeLinejoin: "round", 
+        fill: style && style.color ? style.color : "#3388ff",
+        fillOpacity: "0.2",
+        fillRule: "evenodd" 
+    }
+    svgEl.addPolygGon("1,1 19,1 19,19 1,19", st);
+    return svgEl.svg;
+}
+
+export function createLegendItem(layer:LayerDescription):Element|undefined {
+    let legendItem:Element = undefined;
+    if (layer.geomType === 'Point') {
+        if (layer.icon && layer.icon.iconUrl) {                    
+            const img = document.createElement('img');
+            img.src = layer.icon.iconUrl;
+            img.width = layer.icon.iconSize[0];
+            img.height = layer.icon.iconSize[1];
+            legendItem = img;
+        }
+    } else if (layer.geomType === 'Polygon') {
+        legendItem = createLegendArea(layer.style);
+    }
+    return legendItem;
 }

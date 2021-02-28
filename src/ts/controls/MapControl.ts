@@ -18,7 +18,8 @@ export class MenuControlOptions implements L.ControlOptions {
     position?: L.ControlPosition;    
     baseLayerCtrl:LayerControl;
     categorieLayerCtrl:LayerControl;
-    searchFct?: (s: string, cb: (results: any[]) => any)=>void;
+    // searchFct?: (s: string, cb: (results: any[]) => any)=>void;
+    searchFct?: (s: string)=>Promise<any[]>;
 }
 
 export type LayerSelectionEvent = {
@@ -46,7 +47,8 @@ export class MenuControl extends L.Control {
     baseLayerCtrl:LayerControl;
     categorieLayerCtrl:LayerControl;
 
-    searchFct: (s: string, cb: (results: any[]) => any)=>void;
+    // searchFct: (s: string, cb: (results: any[]) => any)=>void;
+    searchFct: (s: string)=>Promise<any[]>;
 
     closed:boolean = true;
     categorieLayers: { [id: string] : CategorieLayer<any, any>; } = {};
@@ -244,8 +246,9 @@ export class MenuControl extends L.Control {
                 onSelect: (item: any, input: HTMLInputElement) => this._found(item, input),
                 onSearchStart: (input: HTMLInputElement)=>this._searchStart(input),
                 fetch : this.searchFct,
+                minLength : 3,
                 showOnFocus: true,
-                labelAttr : 'bezeichnung'
+                labelAttr : 'name'
             });
             
         }
@@ -270,42 +273,42 @@ export class MenuControl extends L.Control {
     /* TODO */
     private _found(item: any, input: HTMLInputElement): void {                
         this.closeMenu();
-        if (item.group==='Kategorie') {            
-        } else if (item.group==='Ort') {            
-        } else if (item.group==='Einrichtung') {
-            console.info('_foundEinrichtung', item); 
-            const layer = this.categorieLayerCtrl.categorieLayers["Kategories"];
-            if (layer) {
-                const marker = layer.findMarker(item.id, "id");
-                if (marker) {
-                    this.showData(layer, marker);
-                }
-            }
-        } else {
-            const geoJ = this.showOrtschaft(item);
-            console.info('found', item);
-            const catL = this.categorieLayerCtrl.categorieLayers["Kategories"];
-            catL.findMarkers(item.table, item.id).then(
-                markers=>{
-                    const view = new MarkerListView(geoJ, catL, markers);
-                    this.setContentView(view);
-                }
-            );
-        } 
+        const geoJ = this.showGeojson(item);
+        console.info("found", item);
+
+        // if (item.group==='Kategorie') {            
+        // } else if (item.group==='Ort') {            
+        // } else if (item.group==='Einrichtung') {
+        //     console.info('_foundEinrichtung', item); 
+        //     const layer = this.categorieLayerCtrl.categorieLayers["Kategories"];
+        //     if (layer) {
+        //         const marker = layer.findMarker(item.id, "id");
+        //         if (marker) {
+        //             this.showData(layer, marker);
+        //         }
+        //     }
+        // } else {
+        //     const geoJ = this.showOrtschaft(item);
+        //     console.info('found', item);
+        //     const catL = this.categorieLayerCtrl.categorieLayers["Kategories"];
+        //     catL.findMarkers(item.table, item.id).then(
+        //         markers=>{
+        //             const view = new MarkerListView(geoJ, catL, markers);
+        //             this.setContentView(view);
+        //         }
+        //     );
+        // } 
     }
     
 
 
 
-    showOrtschaft(item: any):L.GeoJSON {
-        console.info("showOrtschaft", item);
-        const geoJ = this.foundArea = L.geoJSON(item.geom, {
+    showGeojson(item: any):L.GeoJSON {        
+        const geoJ = this.foundArea = L.geoJSON(item.feature.geometry, {
             style: function (feature) {
                 return {color: '#888888', dashArray: '10 8', fillColor:'#555555'};
             }});
         this.map.addLayer(geoJ);
-        console.info(geoJ.getBounds());
-        console.info(this.map.getBounds());
         this.map.fitBounds(geoJ.getBounds());
         return geoJ;
     }

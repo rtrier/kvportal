@@ -6,9 +6,58 @@ import { LayerControl, LayerControlOptions } from './controls/LayerControl';
 import * as geoJson from 'geojson';
 import { CategorieLayer, CategoryMarker, GeojsonLayer } from './controls/CategorieLayer';
 import { LegendControl } from './controls/LegendControl';
+import { Geocoder } from './util/L.GeocoderMV';
+import { Expression, parseExpression } from './MapClassParser';
+
+
+function createGeoCoder(objclass:'parcel'|'address'|'address,parcel', limit:number):Geocoder {
+    return new Geocoder('esDtb7H5Kh8zl5YXJ3iIP6xPnKEIb5Ch', {
+        serviceUrl: 'https://geo.sv.rostock.de/geocodr/query',
+        geocodingQueryParams: {
+            'class': objclass,
+            'out_epsg': '4326',
+            'shape': 'geometry',
+            'limit': limit
+        },
+        reverseQueryParams: {
+            'class': objclass,
+            'in_epsg': '4326',
+            'limit': limit,
+            'shape': 'centroid',
+            'out_epsg': '4326'
+        }
+    }); 
+}
+
 
 export function initMap() {
     (new MapApp()).init();
+}
+
+function _createClassifiers(claszes:MapDescription.LayerClass[]):{exp:Expression; style:any;}[] {
+    const classifiers:{exp:Expression; style:any;}[] = [];
+    claszes.forEach(clasz=>{
+        const r = <Expression>parseExpression(clasz.def);
+        classifiers.push({exp:r, style:clasz.style});
+    });
+    return classifiers;
+}
+
+function _createStyleFct(layerDescr:MapDescription.LayerDescription):(feature:any)=>any {
+    if (layerDescr.classes) {
+        const classifiers = _createClassifiers(layerDescr.classes);
+        return (feature:any) => {
+            for (let i=0, count=classifiers.length; i<count; i++) {
+                if (classifiers[i].exp.eval(feature.properties)) {
+                    return classifiers[i].style;
+                }
+            }
+            return layerDescr.style;
+        }
+
+    } else {
+        return (feature:any) => layerDescr.style
+    }
 }
 
 export async function createGeoJSONLayer(layerDescr: MapDescription.LayerDescription): Promise<L.Layer> {
@@ -18,7 +67,7 @@ export async function createGeoJSONLayer(layerDescr: MapDescription.LayerDescrip
         MapDispatcher.onItemOnMapSelection.dispatch(undefined, evt.target.feature);
     }
 
-    const json = await Util.loadJson(layerDescr.url, layerDescr.params);
+    const json:any = await Util.loadJson(layerDescr.url, layerDescr.params);
     console.info(json);
     const myIcon = L.icon(layerDescr.icon);
     if (layerDescr.geomType == 'Point') {
@@ -65,11 +114,11 @@ export async function createGeoJSONLayer(layerDescr: MapDescription.LayerDescrip
         );
         return layer;
     } else {
+        const styleFct = _createStyleFct(layerDescr);
+        
         return new L.GeoJSON(
             json, {
-            style: function (feature) {
-                return layerDescr.style
-            },
+            style: styleFct,
             onEachFeature: function (feature, _geojsonLayer) {
                 var p = feature.properties;
                 if (feature.properties && p[layerDescr.infoAttribute]) {
@@ -105,6 +154,8 @@ class MapApp {
     selectedLayerIds: string[];
     currentLayers: L.Layer[] = [];
     menuCtrl: MenuControl;
+    geocoderAdress: Geocoder;
+    geocoderParcel: Geocoder;
 
     init() {
         const map = this.map = new L.Map('map', {
@@ -164,7 +215,7 @@ class MapApp {
             position: 'topleft',
             baseLayerCtrl: baseLayerCtrl,
             categorieLayerCtrl: categorieLayerCtrl,
-            searchFct: (s, cb) => this._search(s, cb)
+            searchFct: (s) => this._search(s)
         });
         map.addControl(this.menuCtrl);
 
@@ -172,8 +223,36 @@ class MapApp {
         map.addControl(new L.Control.Zoom({ position: 'topright' }));
 
     }
-    private _search(s: string, cb: (results: any[]) => any): void {
-        console.error('Method "search" not implemented.');
+    private async _search(s: string): Promise<any[]> {
+        if (!this.geocoderAdress) {
+            this.geocoderAdress = createGeoCoder('address,parcel',30);
+        }
+        // if (!this.geocoderParcel) {
+        //     this.geocoderParcel = createGeoCoder('parcel');
+        // }
+        return new Promise<any[]>((resolve, reject) => {
+            this.geocoderAdress.geocode(s).then(
+                (result:any) => resolve(result)
+            ).catch(
+                (reason:any) => reject(reason)
+            );
+        });
+        // const promise02 = new Promise<any[]>((resolve, reject) => {
+        //     this.geocoderParcel.geocode(s).then(
+        //         (result:any) => resolve(result)
+        //     ).catch(
+        //         (reason:any) => reject(reason)
+        //     );
+        // });
+
+        // return new Promise<any>((resolve, reject) => {
+        //     Promise.all([promise01, promise02]).then( (results:any[][]) =>
+        //         resolve( [].concat(...results) )
+        //     ).catch(
+        //         (reason:any) => reject(reason)
+        //     );
+        // });
+        // console.error('Method "search" not implemented.');
     }
     initLayer(mapDescr: MapDescription.MapDescription): void {
         console.info('mapDescr', mapDescr);

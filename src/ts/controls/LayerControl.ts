@@ -1,9 +1,47 @@
 import * as L from 'leaflet'
 import { Tree } from '../../../../treecomponent/src/ts/Tree';
-import { RadioGroupTreeNode, SelectionMode, SelectionStatus, TreeNode, TreeNodeParam } from '../../../../treecomponent/src/ts/TreeNode';
+import { NodeRenderer, RadioGroupTreeNode, SelectionMode, SelectionStatus, TreeNode, TreeNodeParam } from '../../../../treecomponent/src/ts/TreeNode';
 import { LayerDescription, Theme } from '../conf/MapDescription';
+
 import { CategorieLayer, Category, CategoryMarker, Path } from './CategorieLayer';
+import { createLegendItem } from './LegendControl';
 import { MapDispatcher } from './MapControl';
+
+
+const layerRenderer: NodeRenderer = {    
+    render: (node: TreeNode) => {
+        console.info(`nodeRenderer`, node.data);
+        const layerDescr = <LayerDescription>node.data;
+        const div = document.createElement("div");
+        if (typeof node.data === 'string') {
+            div.innerHTML = node.data;
+            div.dataset.tooltip = node.data;
+            div.setAttribute("data-tooltip", node.data);
+            div.title = node.data;
+        }
+        else {
+            const txt = node.data['label'];
+            if (!txt) {
+                debugger
+            }
+            div.innerHTML = txt;
+            div.dataset.tooltip = txt;
+            div.setAttribute("data-tooltip", txt);
+            div.title = txt;
+        }
+        div.className = 'tooltip';
+
+        if (layerDescr.type ===  'GeoJSON') {
+            const legendItem = createLegendItem(layerDescr);            
+            if (legendItem) {
+                div.appendChild(legendItem);
+                legendItem.classList.add('legend-item');
+            }
+        };
+
+        return div
+    }
+}
 
 export class BaseLayerDefinition {
     id?:string|number;
@@ -169,7 +207,8 @@ export class LayerControl extends L.Control {
                     const themeNode = new TreeNode(theme.thema);
                     if (theme.layers) {
                         theme.layers.forEach(layer=>{
-                            const layerNode = new TreeNode(layer, null, {attName2Render:'label'});
+                            // const layerNode = new TreeNode(layer, null, {attName2Render:'label'});
+                            const layerNode = new TreeNode(layer, null, {nodeRenderer:layerRenderer});
                             layerNode.onSelectionChange.subscribe((node, sel) =>this.themeLayerChanged(node,sel));
                             themeNode.addNode(layerNode);
                         });
@@ -230,7 +269,8 @@ export class LayerControl extends L.Control {
             const treeNode = new TreeNode(title, undefined, {selectMode:SelectionMode.MULTI});
             this.tree.addNode(treeNode);
             overlays.forEach(baseLayerDef=>{
-                const treeNode = new TreeNode(baseLayerDef, null, {selectMode:SelectionMode.MULTI, attName2Render:'label'});
+                // const treeNode = new TreeNode(baseLayerDef, null, {selectMode:SelectionMode.MULTI, attName2Render:'label'});
+                const treeNode = new TreeNode(baseLayerDef, null, {selectMode:SelectionMode.MULTI, nodeRenderer:layerRenderer});
                 treeNode.addNode(treeNode);
             });
             treeNode.onSelectionChange.subscribe((node, status)=>this._themeSelected(title, treeNode, status));

@@ -18,55 +18,62 @@ type booleanExpr = () => boolean;
 
 
 function andOperator(...args: booleanExpr[]): boolean {
-    args.forEach(f => {
-        if (!f()) {
+    // console.info('andOp', args);
+    for (let i=0; i<args.length; i++) {
+        if (!args[i]) {
             return false;
         }
-    })
+    }
     return true;
 }
 
 function orOperator(...args: booleanExpr[]): boolean {
-    args.forEach(f => {
-        if (f()) {
+    for (let i=0; i<args.length; i++) {
+        if (args[i]) {
             return true;
         }
-    })
-    return true;
+    }
+    return false;
 }
 
 function eqOperator(arg01: any, arg02: any): boolean {
+    // console.info(`eqOperator ${arg01} ${arg02}`);
     return arg01 == arg02;
 }
 
 function ltOperator(arg01: any, arg02: any): boolean {
+    // console.info(`ltOperator ${arg01} ${arg02}`);
     return arg01 < arg02;
 }
 
 function gtOperator(arg01: any, arg02: any): boolean {
+    // console.info(`gtOperator ${arg01} ${arg02}`);
     return arg01 > arg02;
 }
 
 function leOperator(arg01: any, arg02: any): boolean {
+    // console.info(`leOperator ${arg01} ${arg02}`);
     return arg01 <= arg02;
 }
 
 function geOperator(arg01: any, arg02: any): boolean {
+    // console.info(`geOperator ${arg01} ${arg02}`);
     return arg01 >= arg02;
 }
 
 function neOperator(arg01: any, arg02: any): boolean {
+    // console.info(`neOperator ${arg01} ${arg02}`);
     return arg01 != arg02;
 }
 
 const Operators = [
     { symbols: ["and", "&&"], fct: andOperator, precedence: 1, associativity: 'left'},
-    { symbols: ["or", "||"], fct: andOperator, precedence: 2, associativity: 'left'},
+    { symbols: ["or", "||"], fct: orOperator, precedence: 2, associativity: 'left'},
     { symbols: ["eq", "="], fct: eqOperator, precedence: 3, associativity: 'left'},
     { symbols: ["lt", "<"], fct: ltOperator, precedence: 3, associativity: 'left'},
     { symbols: ["gt", ">"], fct: gtOperator, precedence: 3, associativity: 'left'},
     { symbols: ["le", "<="], fct: leOperator, precedence: 3, associativity: 'left'},
-    { symbols: ["ge", ">="], fct: leOperator, precedence: 3, associativity: 'left'},
+    { symbols: ["ge", ">="], fct: geOperator, precedence: 3, associativity: 'left'},
     { symbols: ["ne", "!="], fct: neOperator, precedence: 3, associativity: 'left'}
 ];
 
@@ -175,6 +182,63 @@ const binaries = createBinaries(Operators);
 // }
 
 
+class Value {
+    var:string|number
+}
+
+export class Expression {
+    key: string;
+    params: (Expression|Value)[];
+    fct: (...params:any[])=>any;
+
+    constructor(key:string, fct:(...params:any[])=>any, param: (Expression|Value)[]) {
+        this.key = key;
+        this.params = param;
+        this.fct = fct;
+    }
+
+    private _evalExpression(expression:Expression, values:any):any {
+        return expression.eval(values)
+    }
+
+    private _evalValue(val:any, values:any):any {
+        // console.info("_evalValue", val, values);
+        let result:any;
+        if (typeof val === 'string') {
+            if (val.startsWith("[")) {
+                const key = val.substring(1, val.length-1);
+                // console.info("_evalValue"+key);
+                result = values[val.substring(1, val.length-1)];
+            } else {
+                result = val;
+            }
+        } else {
+            result = val;
+        } 
+        return result;
+    }
+
+    eval(values:any):any {
+        const params = [];
+        // console.info(`eval`, this);
+        this.params.forEach( element => {
+            if (element instanceof Expression) {
+                params.push(this._evalExpression(element, values));
+            } else {
+                params.push(this._evalValue(element.var, values));
+            }
+        });  
+        
+        return this.fct(...params);
+    }
+}
+
+type ParseResult = {
+    remainder:string;
+    formula:Value|Expression;
+}
+
+
 const MIN_PRECEDENCE = 0;
 
 
@@ -254,7 +318,7 @@ export class FormulaParserX {
      * @param {Object}        leftOperandJSON   - AST node for already-parsed left operand
      * @returns {?Object}
      */
-    private _parseBinarySubformula(currentString:string, currentPrecedence:number, leftOperandJSON) {
+    private _parseBinarySubformula(currentString:string, currentPrecedence:number, leftOperandJSON:Expression|Value):ParseResult {
         const binary = matchOperator(currentString, this.binaries);
         if (!binary || binary.precedence < currentPrecedence) {
             return null;
@@ -264,7 +328,7 @@ export class FormulaParserX {
 
         return {
             // json: { [binary.key]: [leftOperandJSON, parsedRightOperand.json] },
-            json: { key:binary.key, fct:binary.fct, param:[leftOperandJSON, parsedRightOperand.json] },
+            formula: new Expression( binary.key, binary.fct, [leftOperandJSON, parsedRightOperand.formula]) ,
             remainder: parsedRightOperand.remainder
         };
     }
@@ -278,7 +342,7 @@ export class FormulaParserX {
      * @param {string}        currentString - remainder of input string left to parse
      * @returns {?Object}
      */
-    private _parseUnarySubformula(currentString:string) {
+    private _parseUnarySubformula(currentString:string):ParseResult {
         const unary = matchOperator(currentString, this.unaries);
         if (!unary) {
             return null;
@@ -287,7 +351,8 @@ export class FormulaParserX {
         const parsedSubformula = this._parseFormula(sliceSymbol(currentString, unary.symbol), unary.precedence);
 
         return {
-            json: { [unary.key]: parsedSubformula.json },
+            // TODO UNARY
+            formula: new Expression(unary.key, undefined, [parsedSubformula.formula]),
             remainder: parsedSubformula.remainder
         };
     }
@@ -302,8 +367,8 @@ export class FormulaParserX {
      * @param {Object}        [currentJSON]     - AST node retained from previous parse stage
      * @returns {Object}
      */
-    _parseFormula(currentString: string, currentPrecedence: number, currentJSON?: any) {
-        console.info(`parse ${currentString}`, currentJSON);
+    _parseFormula(currentString: string, currentPrecedence: number, currentJSON?: any):ParseResult {
+        // console.info(`parse ${currentString}`, currentJSON);
         if (!currentString.length && !currentJSON) {
             throw new SyntaxError('Invalid formula! Unexpected end of input.');
         }
@@ -311,7 +376,7 @@ export class FormulaParserX {
         // First, we need an initial subformula.
         // A valid formula can't start with a binary operator, but anything else is possible.
         const parsedHead =
-            currentJSON ? { json: currentJSON, remainder: currentString } :
+            currentJSON ? { formula: currentJSON, remainder: currentString } :
                 this._parseUnarySubformula(currentString) ||
                 this._parseParenthesizedSubformula(currentString) ||
                 this._parseVariable(currentString);
@@ -321,14 +386,14 @@ export class FormulaParserX {
         }
 
         // Having found an initial subformula, let's see if it's the left operand to a binary operator...
-        const parsedBinary = this._parseBinarySubformula(parsedHead.remainder, currentPrecedence, parsedHead.json);
+        const parsedBinary = this._parseBinarySubformula(parsedHead.remainder, currentPrecedence, parsedHead.formula);
         if (!parsedBinary) {
             // ...if it isn't, we're done!
             return parsedHead;
         }
 
         // ...if it is, we parse onward, with our new binary subformula as the next initial subformula.
-        return this._parseFormula(parsedBinary.remainder, currentPrecedence, parsedBinary.json);
+        return this._parseFormula(parsedBinary.remainder, currentPrecedence, parsedBinary.formula);
     }
 
     /**
@@ -339,14 +404,14 @@ export class FormulaParserX {
      * @param {string}        currentString - remainder of input string left to parse
      * @returns {?Object}
      */
-    private _parseVariable(currentString: string) {
+    private _parseVariable(currentString: string):ParseResult {
         const variable = (currentString.match(/^[\[\]\w]+/) || [])[0];
         if (!variable) {
             return null;
         }
 
         return {
-            json: { [this.variableKey]: variable },
+            formula: { var: variable },
             remainder: sliceSymbol(currentString, variable)
         };
     }
@@ -358,7 +423,7 @@ export class FormulaParserX {
      * @param {string}        currentString - remainder of input string left to parse
      * @returns {?Object}
      */
-    private _parseParenthesizedSubformula(currentString: string) {
+    private _parseParenthesizedSubformula(currentString: string):ParseResult {
         if (currentString.charAt(0) !== '(') {
             return null;
         }
@@ -369,7 +434,7 @@ export class FormulaParserX {
         }
 
         return {
-            json: parsedSubformula.json,
+            formula: parsedSubformula.formula,
             remainder: sliceSymbol(parsedSubformula.remainder, ')')
         };
     }
@@ -380,7 +445,7 @@ export class FormulaParserX {
      * @param {string} input - a formula to parse
      * @returns {Object}
      */
-    parse(input: string) {
+    parse(input: string):Expression|Value {
 
         if (typeof input !== 'string') {
             throw new SyntaxError('Invalid formula! Found non-string input.');
@@ -391,12 +456,12 @@ export class FormulaParserX {
             throw new SyntaxError('Invalid formula! Unexpected continuation of input.');
         }
 
-        return parsedFormula.json;
+        return parsedFormula.formula;
     }
 }
 
 const FormularParser = new FormulaParserX('var', [], binaries);
 
-export function parseExpression(s:string):any {
+export function parseExpression(s:string):Expression|Value {
     return FormularParser.parse(s);
 }

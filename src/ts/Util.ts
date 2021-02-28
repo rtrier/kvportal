@@ -3,7 +3,7 @@
 // 	return JSON.parse(value);
 // }
 
-export async function loadJson(url: string, params?:string[]):Promise<any> {
+export async function loadJson(url: string, params?:any):Promise<any> {
 	return new Promise<any>(function (resolve, reject) {
 		const sUrl = url + getParamString(params);
 		makeRequest(sUrl).then(
@@ -17,7 +17,7 @@ export async function loadJson(url: string, params?:string[]):Promise<any> {
 			}
 		).catch((reason)=>{
 			reject(reason);
-		})
+		});
 	});
 	// let value = await makeRequest(url + getParamString(params));
 	// return JSON.parse(value);

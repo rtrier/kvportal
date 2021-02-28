@@ -30,7 +30,8 @@ export interface AutocompleteSettings<T extends AutocompleteItem> {
      * Show autocomplete on focus event. Focus event will ignore the `minLength` property and will always call `fetch`.
      */
     showOnFocus?: boolean;
-    fetch: (text: string, update: (items: T[] | false) => void, trigger: EventTrigger) => void;
+    // fetch: (text: string, update: (items: T[] | false) => void, trigger: EventTrigger) => void;
+    fetch: (text: string) => Promise<T[]>;
     debounceWaitMs?: number;
 
     labelAttr?: string;
@@ -92,7 +93,7 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
     
     let items: T[] = [];
     let inputValue = "";
-    let minLen = 2;
+    const minLen = settings.minLength || 2;
     const showOnFocus = settings.showOnFocus;
     let selected: T = settings.value;
     if (selected) {
@@ -100,10 +101,6 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
     }
     let keypressCounter = 0;
     let debounceTimer : number | undefined;
-
-    if (settings.minLength !== undefined) {
-        minLen = settings.minLength;
-    }
 
     if (!input) {
         throw new Error("input undefined");
@@ -216,16 +213,13 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
      * Redraw the autocomplete div element with suggestions
      */
     function update(): void {
-        
-        console.info("autocompl.update");
-
         // delete all children from autocomplete DOM container
         while (container.firstChild) {
             container.removeChild(container.firstChild);
         }
 
         // function for rendering autocomplete suggestions
-        let render = function(item: T, currentValue: string): HTMLDivElement | undefined {
+        let render = function(item: T, currentValue: string): HTMLDivElement | undefined {            
             const itemElement = doc.createElement("div");
             // itemElement.textContent = item[labelAttr] || "";
             const textArea = doc.createElement("label");
@@ -468,30 +462,57 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
         }
     }
 
+    // function startFetch(trigger: EventTrigger) {
+    //     // if multiple keys were pressed, before we get update from server,
+    //     // this may cause redrawing our autocomplete multiple times after the last key press.
+    //     // to avoid this, the number of times keyboard was pressed will be
+    //     // saved and checked before redraw our autocomplete box.
+    //     const savedKeypressCounter = ++keypressCounter;
+
+    //     const val = input.value;
+    //     if (val.length >= minLen || trigger === EventTrigger.Focus) {
+    //         clearDebounceTimer();
+    //         debounceTimer = window.setTimeout(function(): void {
+    //             settings.fetch(val, function(elements: T[] | false): void {
+    //                 if (keypressCounter === savedKeypressCounter && elements) {
+    //                     items = elements;
+    //                     inputValue = val;
+    //                     selected = items.length > 0 ? items[0] : undefined;
+    //                     update();
+    //                 }
+    //             }, EventTrigger.Keyboard);
+    //         }, trigger === EventTrigger.Keyboard ? debounceWaitMs : 0);
+    //     } else {
+    //         clear();
+    //     }
+    // }
+
     function startFetch(trigger: EventTrigger) {
         // if multiple keys were pressed, before we get update from server,
         // this may cause redrawing our autocomplete multiple times after the last key press.
         // to avoid this, the number of times keyboard was pressed will be
         // saved and checked before redraw our autocomplete box.
         const savedKeypressCounter = ++keypressCounter;
-
+        console.info(`startFetch "${input.value}" ${trigger}`, trigger);
         const val = input.value;
-        if (val.length >= minLen || trigger === EventTrigger.Focus) {
+        // if (val.length >= minLen || trigger === EventTrigger.Focus) {
+            if (val.length >= minLen) {
             clearDebounceTimer();
             debounceTimer = window.setTimeout(function(): void {
-                settings.fetch(val, function(elements: T[] | false): void {
+                settings.fetch(val).then( (elements: T[]) => {
+                    // console.info(`autocompleter keypressCounter=${keypressCounter} savedKeypressCounter=${savedKeypressCounter}`, elements);
                     if (keypressCounter === savedKeypressCounter && elements) {
                         items = elements;
                         inputValue = val;
                         selected = items.length > 0 ? items[0] : undefined;
                         update();
                     }
-                }, EventTrigger.Keyboard);
+                });
             }, trigger === EventTrigger.Keyboard ? debounceWaitMs : 0);
         } else {
             clear();
         }
-    }
+    }    
 
     function blurEventHandler(): void {
         // we need to delay clear, because when we click on an item, blur will be called before click and remove items from DOM
