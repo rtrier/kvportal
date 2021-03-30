@@ -2,7 +2,7 @@ import { CategorieLayer, CategoryMarker, InteractiveLayer } from "./CategorieLay
 import { MapDispatcher } from "./MapControl";
 import { View, ViewControl } from "./ViewControl";
 import { createHtmlElement, createRow } from '../Util';
-import { createLayer } from "../MapApp";
+
 
 export type ListEntry<T> = {
     item:T;

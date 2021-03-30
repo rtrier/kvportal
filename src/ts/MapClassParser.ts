@@ -210,7 +210,11 @@ export class Expression {
                 // console.info("_evalValue"+key);
                 result = values[val.substring(1, val.length-1)];
             } else {
-                result = val;
+                if (val.startsWith("'")) {
+                    result = val.substring(1, val.length-1);
+                } else {
+                    result = val;
+                }
             }
         } else {
             result = val;
@@ -220,7 +224,7 @@ export class Expression {
 
     eval(values:any):any {
         const params = [];
-        // console.info(`eval`, this);
+        console.info(`eval`, this);
         this.params.forEach( element => {
             if (element instanceof Expression) {
                 params.push(this._evalExpression(element, values));
@@ -379,7 +383,8 @@ export class FormulaParserX {
             currentJSON ? { formula: currentJSON, remainder: currentString } :
                 this._parseUnarySubformula(currentString) ||
                 this._parseParenthesizedSubformula(currentString) ||
-                this._parseVariable(currentString);
+                this._parseVariable(currentString) ||
+                this._parseStringLiteral(currentString);
 
         if (!parsedHead) {
             throw new SyntaxError('Invalid formula! Could not find an initial subformula.');
@@ -414,6 +419,25 @@ export class FormulaParserX {
             formula: { var: variable },
             remainder: sliceSymbol(currentString, variable)
         };
+    }
+    private _parseStringLiteral(currentString: string):ParseResult {
+        if (currentString.startsWith("'")) {
+            let variable = "'";
+            for (let i=1; i<currentString.length; i++) {
+                if (currentString.charAt(i)!="'") {
+                    variable += currentString.charAt(i);
+                }
+                else {
+                    variable += "'";
+                    return {
+                        formula: { var: variable },
+                        remainder: sliceSymbol(currentString, variable)
+                    };
+                }
+            }
+
+        }
+        return null;
     }
     /**
      * Attempts to parse a parenthesized subformula at the head of a given string.

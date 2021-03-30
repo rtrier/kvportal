@@ -52,7 +52,8 @@ module.exports = {
 
   entry: {    
     edit:path.resolve('./src/EditApp.ts'),
-    map:path.resolve('./src/MapApp.ts')
+    map:path.resolve('./src/MapApp.ts'),
+    svgtest:path.resolve('./src/SVGTest.ts')
   },
 
   plugins: [

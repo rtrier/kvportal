@@ -3,14 +3,14 @@ import * as svg from '../svg/svg'
 import { LayerDescription } from '../conf/MapDescription';
 import { createHtmlElement } from '../Util';
 import { LayerControl } from './LayerControl';
-import { LayerSelectionEvent, MapDispatcher } from './MapControl';
+import { LayerEvent, LayerWrapper, MapControl, MapDispatcher } from './MapControl';
 
 export class LegendControl extends L.Control {
 
     map: L.Map;
     dom: HTMLElement;
 
-    layers: LayerDescription[] = [];
+    layers: LayerWrapper[] = [];
     navigationArea: HTMLElement;
     domLegend: HTMLDivElement;
     
@@ -21,15 +21,15 @@ export class LegendControl extends L.Control {
     }
     private _subscribe() {
         console.info("subs onListViewItemSelection");
-        MapDispatcher.onThemeLayerSelection.subscribe((sender, layerSelectEvt) => this.onThemeLayerSelection(sender, layerSelectEvt));
+        MapDispatcher.onLayerAdded.subscribe((sender, layerSelectEvt) => this.onThemeLayerSelection(sender, layerSelectEvt));
     }
 
 
-    onThemeLayerSelection(sender: LayerControl, evt: LayerSelectionEvent): void {
-        if (evt.isSelected) {
-            this.layers.push(evt.layerDescription);
+    onThemeLayerSelection(sender: MapControl, evt: LayerEvent): void {
+        if (evt.layer.isSelected) {
+            this.layers.push(evt.layer);
         } else {
-            const idx = this.layers.indexOf(evt.layerDescription);
+            const idx = this.layers.indexOf(evt.layer);
             if (idx >= 0) {
                 this.layers.splice(idx, 1);
             }
@@ -80,7 +80,7 @@ export class LegendControl extends L.Control {
             console.info(`layer ${idx}`, layer);
             const row = createHtmlElement("tr", table);
             const td01 = createHtmlElement('td', row);
-            td01.innerHTML = layer.label;
+            td01.innerHTML = layer.layerDescription.label;
             const td02 = createHtmlElement('td', row);
             // if (layer.type === 'GeoJSON') {
             //     if (layer.geomType === 'Point') {
@@ -95,8 +95,8 @@ export class LegendControl extends L.Control {
             //         td02.appendChild(svg);
             //     }
             // }
-            if (layer.type === 'GeoJSON') {
-                const legendItem = createLegendItem(layer);
+            if (layer.layerDescription.type === 'GeoJSON') {
+                const legendItem = createLegendItem(layer.layerDescription);
                 if (legendItem) {
                     td02.appendChild(legendItem);
                 }

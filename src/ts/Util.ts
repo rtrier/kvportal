@@ -48,6 +48,7 @@ export function makeRequest(url:string, auth?:string):Promise<any> {
 		if (auth) {
 			xhr.setRequestHeader("Authorization", auth);
         }
+		console.info(`run request "${url}"`);
 		xhr.send();
 	});
 }

@@ -5,13 +5,13 @@ import { LayerDescription, Theme } from '../conf/MapDescription';
 
 import { CategorieLayer, Category, CategoryMarker, Path } from './CategorieLayer';
 import { createLegendItem } from './LegendControl';
-import { MapDispatcher } from './MapControl';
+import { LayerEvent, LayerWrapper, MapDispatcher } from './MapControl';
 
 
 const layerRenderer: NodeRenderer = {    
     render: (node: TreeNode) => {
-        console.info(`nodeRenderer`, node.data);
-        const layerDescr = <LayerDescription>node.data;
+        // console.info(`nodeRenderer`, node.data);
+        const layer = <LayerWrapper>node.data;
         const div = document.createElement("div");
         if (typeof node.data === 'string') {
             div.innerHTML = node.data;
@@ -20,7 +20,7 @@ const layerRenderer: NodeRenderer = {
             div.title = node.data;
         }
         else {
-            const txt = node.data['label'];
+            const txt = node.data.layerDescription['label'];
             if (!txt) {
                 debugger
             }
@@ -31,8 +31,8 @@ const layerRenderer: NodeRenderer = {
         }
         div.className = 'tooltip';
 
-        if (layerDescr.type ===  'GeoJSON') {
-            const legendItem = createLegendItem(layerDescr);            
+        if (layer.layerDescription.type ===  'GeoJSON') {
+            const legendItem = createLegendItem(layer.layerDescription);            
             if (legendItem) {
                 div.appendChild(legendItem);
                 legendItem.classList.add('legend-item');
@@ -71,8 +71,6 @@ export type ListEntry<T> = {
 
 export class LayerControl extends L.Control {
 
-
-
     static catNodeParam:TreeNodeParam = {
         attName2Render:'bezeichnung',
         selectMode: SelectionMode.MULTI
@@ -92,7 +90,7 @@ export class LayerControl extends L.Control {
     overlays: { [id: string] : BaseLayerDefinition[] } = {};
     baseLayerDefOptions: LayerDefinitionOptions;
     themes: Theme[];
-    themesLayerDefinitionOptions: LayerDefinitionOptions;
+    // themesLayerDefinitionOptions: LayerDefinitionOptions;
 
     constructor(options?:LayerControlOptions) {
         super(options);
@@ -106,6 +104,19 @@ export class LayerControl extends L.Control {
         //     this.baseLayer = options.baseLayer;
         // }
         this._createTree();
+
+        // MapDispatcher.onLayerAdded.subscribe((sender, evt)=>this._layerAdded(evt));
+        // MapDispatcher.onLayerRemoved.subscribe((sender, evt)=>this._layerRemoved(evt));
+    
+    }
+
+    private _layerAdded(evt:LayerEvent) {
+        console.error('LayerControl._layerAdded', evt);
+        this.tree.selectNode(evt.layer);
+    }
+    private _layerRemoved(evt:LayerEvent) {
+        console.error('LayerControl._layerRemoved', evt);
+        this.tree.unselectNode(evt.layer);
     }
 
     nodeChanged(group:string, node:TreeNode, sel:SelectionStatus) {
@@ -117,27 +128,21 @@ export class LayerControl extends L.Control {
     }
 
     
-
     themeLayerChanged(node:TreeNode, sel:SelectionStatus) {
         console.info(`themeLayerChanged ${SelectionStatus[sel]}`, node);
         const isSelected = sel === SelectionStatus.SELECTED;
-        if (!node.data.layer) {
-            this.themesLayerDefinitionOptions.createLayer(node.data)
-            .then(
-                layer=>{
-                    node.data.layer = layer;
-                    MapDispatcher.onThemeLayerSelection.dispatch(this, {layer:layer, layerDescription:node.data, isSelected:isSelected});                    
-            })
-            .catch(
-                reason=>{
-                    console.error(`layer konnte nicht geladen werden ${reason}`, node.data);
-                }
-            );
-        }
-        else {
-            MapDispatcher.onThemeLayerSelection.dispatch(this, {layer:node.data.layer, layerDescription:node.data, isSelected:isSelected});
-        }
+        
+        const layer = <LayerWrapper>node.data;
+        layer.setSelected(isSelected);
+        // layer.isSelected = isSelected;
+        // console.info('themeLayerChanged', layer);
+        // MapDispatcher.onThemeLayerSelection.dispatch(this, {
+        //     type:'select', layer:layer
+        // });
+
     }
+
+
 
     baseLayerChanged(node:TreeNode, sel:SelectionStatus) {
         console.info(`baseLayerChanged ${SelectionStatus[sel]}`, node);
@@ -153,9 +158,7 @@ export class LayerControl extends L.Control {
         }
     }
 
-    // addOverlays(theme:string, baseLayers: BaseLayerDefinition[], options?:LayerDefinitionOptions) {
-    //     this.overlays[theme] = baseLayers;
-    // }
+
     setBaseLayers(baseLayers: BaseLayerDefinition[], options?:LayerDefinitionOptions) {
         this.baseLayerDefinitions = baseLayers;
         this.baseLayerDefOptions = options;
@@ -177,9 +180,10 @@ export class LayerControl extends L.Control {
     }    
 
 
-    addThemes(themes: Theme[], options:LayerDefinitionOptions) {
+    addThemes(themes: Theme[]) {
         this.themes = themes;
-        this.themesLayerDefinitionOptions = options;
+        MapDispatcher.onLayerAdded.subscribe((sender, evt)=>this._layerAdded(evt));
+        MapDispatcher.onLayerRemoved.subscribe((sender, evt)=>this._layerRemoved(evt));
         if (this.tree) {
             this._addThemesToTree();
         }

@@ -1,5 +1,6 @@
 import *  as Util from "../Util";
 import {IconOptions, CRS} from "leaflet";
+import { LayerWrapper } from "../controls/MapControl";
 
 let mapDescr: MapDescription;
 
@@ -19,7 +20,7 @@ export async function getConf(url: string) {
             if (overlay.type === "WMS") {
                 overlay.options.crs = CRS[<string>overlay.options.crs];
             }
-            theme.layers.push(overlay);
+            theme.layers.push(new LayerWrapper(overlay));
         }
 	}
 	return mapDescr;
@@ -32,7 +33,7 @@ export type MapDescription = {
 
 export type Theme = {
 	thema: string,
-	layers: LayerDescription[]
+	layers: LayerWrapper[]
 }
 
 export type LayerOptions = {
@@ -70,5 +71,6 @@ export type LayerDescription = {
 	options?: LayerOptions,
     style?: any,    
 	classes?: LayerClass[],
-    icon?:IconOptions
+    icon?:IconOptions,
+	popup?:string
 }

@@ -87,7 +87,7 @@ export class LayerConfigurationEditor {
 			h2.addEventListener('click', this.fThemeClicked);
 			const layers = thema.layers;
 			for (let lId = 0, lCount = layers.length; lId < lCount; lId++) {
-				this.appendLayer(layers[lId], d1);
+				this.appendLayer(layers[lId].layerDescription, d1);
 			}
 		}
 

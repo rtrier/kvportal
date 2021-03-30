@@ -10,3 +10,25 @@
     background-color: #8dbbd2;
     color:black;
 }
+.row-wrapper:hover, .row-wrapper:focus {
+    background-color: #aacbdb;
+    color:black;
+}
+.treerow {
+    background-image: none;
+}
+
+.treerow .treelabel {
+    /* display: inline; */
+    /* padding-right: 0.4em; */
+    min-width: 453px;
+}
+
+.treelabel svg, .treelabel img {
+    float: right;
+}
+
+.legend-item {
+    width: 20px;
+    height: 20px;
+}

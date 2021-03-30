@@ -11,6 +11,7 @@ import { View, ViewControl } from './ViewControl';
 import { MarkerListView } from './MarkerListView';
 import { Feature } from 'geojson';
 import { LayerDescription } from '../conf/MapDescription';
+import { LayerLoader } from '../LayerLoader';
 
 
 
@@ -22,10 +23,33 @@ export class MenuControlOptions implements L.ControlOptions {
     searchFct?: (s: string)=>Promise<any[]>;
 }
 
-export type LayerSelectionEvent = {
+export type LayerEvent = {
+    type: 'select'|'request-layer'|'layer-ready'|'create-start'|'created'|'added-to-map'|'removed-from-map';
+    layer: LayerWrapper
+    // layer:L.Layer;
+    // layerDescription:LayerDescription;
+    // isSelected: boolean;
+}
+
+export class LayerWrapper {    
     layer:L.Layer;
     layerDescription:LayerDescription;
-    isSelected: boolean;
+    isSelected = false;
+    isVisible = false;
+
+    constructor(layerDescription:LayerDescription) {        
+        this.layerDescription = layerDescription;
+    }
+
+    setSelected(selected:boolean):void {
+        console.error(`LayerWrapper.setSelected(${selected})`)
+        if (this.isSelected !== selected) {
+            this.isSelected = selected;
+            MapDispatcher.onThemeLayerSelection.dispatch(this, {
+                type:'select', layer:this
+            });
+        }
+    }
 }
 
 class Dispatcher {    
@@ -34,12 +58,23 @@ class Dispatcher {
     onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>|GeojsonLayer, CategoryMarker<any>>();
 
     onBaseLayerSelection = new EventDispatcher<LayerControl, L.Layer>();
-    onThemeLayerSelection = new EventDispatcher<LayerControl, LayerSelectionEvent>();
+    onThemeLayerSelection = new EventDispatcher<LayerWrapper, LayerEvent>();
+
+    onLayerCreationStart = new EventDispatcher<LayerLoader, LayerEvent>();
+
+    onLayerCreationEnd = new EventDispatcher<LayerLoader, LayerEvent>();
+
+    onLayerAdded = new EventDispatcher<MapControl, LayerEvent>();
+    onLayerRemoved = new EventDispatcher<MapControl, LayerEvent>();
+
+    onLayerRequest = new EventDispatcher<MapControl, LayerEvent>();
+
+    onLayerReady = new EventDispatcher<LayerLoader, LayerEvent>()
 }
 
 export const MapDispatcher = new Dispatcher();
 
-export class MenuControl extends L.Control {
+export class MapControl extends L.Control {
 
     
     map:L.Map;
@@ -79,6 +114,8 @@ export class MenuControl extends L.Control {
 
         MapDispatcher.onBaseLayerSelection.subscribe((sender, layer)=>this.onBaseLayerSelection(sender, layer));
         MapDispatcher.onThemeLayerSelection.subscribe((sender, layerSelectEvt)=>this.onThemeLayerSelection(sender, layerSelectEvt));
+
+        MapDispatcher.onLayerReady.subscribe((sender, evt)=>this.onLayerReady(sender, evt));
     }
 
     addCategorieLayer(categorieLayer:CategorieLayer<any, any>, showAll:boolean) {
@@ -112,7 +149,8 @@ export class MenuControl extends L.Control {
         console.info('onItemOnMapSelection', sender, item, typeof item);
 
         if (this.selectedMarker) {
-            this.onItemOnMapUnselection(sender, this.selectedMarker)
+            this.onItemOnMapUnselection(sender, this.selectedMarker);
+            this.selectedMarker = undefined;
         }
         if (item) {
             this.showData(sender, item);
@@ -145,26 +183,60 @@ export class MenuControl extends L.Control {
         } else {
             console.info('baseLayerChanged map==null');
         }
+
+
     }
 
-    onThemeLayerSelection(sender:LayerControl, evt: LayerSelectionEvent):void {
-        console.info("", evt);
+    onLayerReady(sender:LayerLoader, evt: LayerEvent):void {
+        console.info('onLayerReady', evt);
+        if (evt.layer.isSelected) {
+            this.map.addLayer(evt.layer.layer);
+            MapDispatcher.onLayerAdded.dispatch(this, {
+                type : 'added-to-map',                
+                layer: evt.layer
+            });
+        }
+    }    
+
+    onThemeLayerSelection(sender:LayerWrapper, evt: LayerEvent):void {
+        console.info("onThemeLayerSelection", evt);
         if (this.map) {
-            if (evt.isSelected) {
+            if (evt.layer.isSelected) {
                 try {
-                    this.map.addLayer(evt.layer);
+                    if (evt.layer && evt.layer.layer) {
+                        this.map.addLayer(evt.layer.layer);
+                        MapDispatcher.onLayerAdded.dispatch(this, {
+                            type: 'added-to-map',
+                            layer: evt.layer
+                        });
+                    } else {
+                        MapDispatcher.onLayerRequest.dispatch(this, {
+                            type: 'request-layer',
+                            layer: evt.layer
+                        });
+                    }
                 } catch (ex) {
-                    console.info(`error adding layer "${evt.layerDescription.label}"`, ex);
+                    console.info(`error adding layer "${evt.layer.layerDescription.label}"`, ex);
                 }
             } else {
-                this.map.removeLayer(evt.layer);
+                if (evt.layer.layer) {
+                    this.map.removeLayer(evt.layer.layer);
+                    MapDispatcher.onLayerRemoved.dispatch(this, {
+                        type: 'removed-from-map',
+                        layer: evt.layer
+                    });
+                }
             }
         }
     }
 
     showData(layer: CategorieLayer<any, any>|GeojsonLayer, marker: CategoryMarker<any>) {
         this.closeMenu();
-        this.viewCtrl.setContentView(layer.renderData(marker));
+        if (layer?.renderData) {
+            this.viewCtrl.setContentView(layer.renderData(marker));
+        } else {
+            console.info(layer, marker);
+        }
     }
 
     addTo(map:L.Map):this {

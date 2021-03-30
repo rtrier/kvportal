@@ -1,13 +1,14 @@
 import * as L from 'leaflet';
 import * as Util from './Util';
 import * as MapDescription from './conf/MapDescription';
-import { MapDispatcher, MenuControl } from './controls/MapControl'
+import { MapDispatcher, MapControl, LayerWrapper } from './controls/MapControl'
 import { LayerControl, LayerControlOptions } from './controls/LayerControl';
-import * as geoJson from 'geojson';
+
 import { CategorieLayer, CategoryMarker, GeojsonLayer } from './controls/CategorieLayer';
 import { LegendControl } from './controls/LegendControl';
 import { Geocoder } from './util/L.GeocoderMV';
 import { Expression, parseExpression } from './MapClassParser';
+import { LayerLoader} from './LayerLoader';
 
 
 function createGeoCoder(objclass:'parcel'|'address'|'address,parcel', limit:number):Geocoder {
@@ -34,112 +35,6 @@ export function initMap() {
     (new MapApp()).init();
 }
 
-function _createClassifiers(claszes:MapDescription.LayerClass[]):{exp:Expression; style:any;}[] {
-    const classifiers:{exp:Expression; style:any;}[] = [];
-    claszes.forEach(clasz=>{
-        const r = <Expression>parseExpression(clasz.def);
-        classifiers.push({exp:r, style:clasz.style});
-    });
-    return classifiers;
-}
-
-function _createStyleFct(layerDescr:MapDescription.LayerDescription):(feature:any)=>any {
-    if (layerDescr.classes) {
-        const classifiers = _createClassifiers(layerDescr.classes);
-        return (feature:any) => {
-            for (let i=0, count=classifiers.length; i<count; i++) {
-                if (classifiers[i].exp.eval(feature.properties)) {
-                    return classifiers[i].style;
-                }
-            }
-            return layerDescr.style;
-        }
-
-    } else {
-        return (feature:any) => layerDescr.style
-    }
-}
-
-export async function createGeoJSONLayer(layerDescr: MapDescription.LayerDescription): Promise<L.Layer> {
-
-    const f = (evt:L.LeafletMouseEvent)=>{
-        console.info(evt);
-        MapDispatcher.onItemOnMapSelection.dispatch(undefined, evt.target.feature);
-    }
-
-    const json:any = await Util.loadJson(layerDescr.url, layerDescr.params);
-    console.info(json);
-    const myIcon = L.icon(layerDescr.icon);
-    if (layerDescr.geomType == 'Point') {
-        // return new L.GeoJSON(
-        //     json, {
-        //     pointToLayer: function (feature, latlng) {
-        //         return L.marker(
-        //             latlng, {
-        //             icon: myIcon
-        //         }
-        //         );
-        //     },
-        //     onEachFeature: function (feature, _geojsonLayer) {
-        //         var p = feature.properties;
-        //         _geojsonLayer.on('click', f);
-        //         if (feature.properties && p[layerDescr.infoAttribute]) {
-        //             _geojsonLayer.bindPopup(feature.properties[layerDescr.infoAttribute]);
-        //         }
-        //     }
-        // }
-        // );
-
-        const geoJson = <geoJson.FeatureCollection>json;
-        
-        const layer = new GeojsonLayer({
-            maxClusterRadius:(zoom)=>{
-            // console.info("zoom="+zoom+"  "+L.CRS.EPSG3857.scale(zoom));
-                return 15;
-            },
-            attribution: layerDescr.options.attribution
-        });
-        
-        const markerOpt = myIcon? {icon:myIcon} : undefined;
-        geoJson.features.forEach(
-            (feature:geoJson.Feature<geoJson.Point>, idx)=> {
-                layer.addLayer(
-                    new CategoryMarker(layer,{
-                        lng:feature.geometry.coordinates[0],
-                        lat:feature.geometry.coordinates[1],
-                        ...feature.properties
-                    }, markerOpt)
-                )
-            }
-        );
-        return layer;
-    } else {
-        const styleFct = _createStyleFct(layerDescr);
-        
-        return new L.GeoJSON(
-            json, {
-            style: styleFct,
-            onEachFeature: function (feature, _geojsonLayer) {
-                var p = feature.properties;
-                if (feature.properties && p[layerDescr.infoAttribute]) {
-                    _geojsonLayer.bindPopup(feature.properties[layerDescr.infoAttribute]);
-                }
-            }
-        }
-        );
-    }
-}
-
-export async function createLayer(layerDescr: MapDescription.LayerDescription): Promise<L.Layer> {
-    if (layerDescr.type == "GeoJSON") {
-        return createGeoJSONLayer(layerDescr);
-    } else if (layerDescr.type == "WMS") {
-        return new L.TileLayer.WMS(layerDescr.url, <L.WMSOptions>layerDescr.options);
-    } else {
-        console.error(`not supported Layertype: ${layerDescr.type}`);
-    }
-    return undefined;
-}
 
 class MapApp {
 
@@ -150,12 +45,14 @@ class MapApp {
     baseLayers: { [id: string]: L.Layer } = {};
     baseLayer: L.Layer;
 
-    overlayLayers: { [id: string]: MapDescription.LayerDescription } = {};
+    overlayLayers: { [id: string]: LayerWrapper } = {};
     selectedLayerIds: string[];
     currentLayers: L.Layer[] = [];
-    menuCtrl: MenuControl;
+    menuCtrl: MapControl;
     geocoderAdress: Geocoder;
     geocoderParcel: Geocoder;
+
+    layerLoader = new LayerLoader();
 
     init() {
         const map = this.map = new L.Map('map', {
@@ -211,7 +108,7 @@ class MapApp {
         });
         const categorieLayerCtrl = new LayerControl({position: 'topleft'});
 
-        this.menuCtrl = new MenuControl({
+        this.menuCtrl = new MapControl({
             position: 'topleft',
             baseLayerCtrl: baseLayerCtrl,
             categorieLayerCtrl: categorieLayerCtrl,
@@ -271,24 +168,30 @@ class MapApp {
             { labelAttribute: 'label' }
         );
 
-        this.menuCtrl.categorieLayerCtrl.addThemes(
-            mapDescr.themes, {
-            createLayer:createLayer
-        });
+        // this.menuCtrl.categorieLayerCtrl.addThemes(
+        //     mapDescr.themes, {
+        //     createLayer: (l:MapDescription.LayerDescription)=>this.layerLoader.createLayer(l)
+        // });
+        this.menuCtrl.categorieLayerCtrl.addThemes( mapDescr.themes );
 
         mapDescr.themes.forEach((theme) => {
-            theme.layers.forEach((layerDescr) => {
-                this.overlayLayers[layerDescr.label] = layerDescr;
-                if (this.selectedLayerIds && this.selectedLayerIds.indexOf(layerDescr.label) >= 0) {
-                    createLayer(layerDescr).then(layer => {
-                        this.currentLayers.push(layer);
-                        console.info("before addLayer Themes");
-                        // this.map.addLayer(layer);
-                        this.menuCtrl.categorieLayerCtrl.selectThemeLayer(layerDescr);
-                        console.info(`Layer ${layerDescr.label} added.`);
-                    }).catch(reason => {
-                        console.info(`Layer ${layerDescr.label} konnte nicht hinzugefügt werden.`, reason);
-                    });
+            theme.layers.forEach((layer) => {
+                this.overlayLayers[layer.layerDescription.label] = layer;
+                if (this.selectedLayerIds && this.selectedLayerIds.indexOf(layer.layerDescription.label) >= 0) {
+                    // this.layerLoader.createLayer(layerDescr).then(layer => {
+                    //     this.currentLayers.push(layer);
+                    //     console.info("before addLayer Themes");
+                    //     this.map.addLayer(layer);
+                        layer.isSelected = true;
+                        MapDispatcher.onLayerRequest.dispatch(this.menuCtrl, {
+                            type:'request-layer',
+                            layer: layer
+                        });
+                        // this.menuCtrl.categorieLayerCtrl.selectThemeLayer(layerDescr);
+                    //     console.info(`Layer ${layerDescr.label} added.`);
+                    // }).catch(reason => {
+                    //     console.info(`Layer ${layerDescr.label} konnte nicht hinzugefügt werden.`, reason);
+                    // });
                 }
             });
         });

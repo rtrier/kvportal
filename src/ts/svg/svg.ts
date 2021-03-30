@@ -150,10 +150,15 @@ export class SVG {
     constructor(viewbox?:{x:number, y:number, width:number, height:number}) {
         const svg:SVGSVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         if (viewbox) {
-            svg.viewBox.baseVal.x = viewbox.x;
-            svg.viewBox.baseVal.y = viewbox.y;
-            svg.viewBox.baseVal.width = viewbox.width;
-            svg.viewBox.baseVal.height = viewbox.height;
+            if (svg.viewBox.baseVal) {
+                svg.viewBox.baseVal.x = viewbox.x;
+                svg.viewBox.baseVal.y = viewbox.y;
+                svg.viewBox.baseVal.width = viewbox.width;
+                svg.viewBox.baseVal.height = viewbox.height;
+            } else {
+                console.error("svg", svg.viewBox);
+            }
+
         }
         this.svg = svg;
     }
