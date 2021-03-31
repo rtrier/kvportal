@@ -4,29 +4,39 @@ import { Expression, parseExpression } from './MapClassParser';
 import * as Util from './Util';
 import * as L from 'leaflet';
 import * as geoJson from 'geojson';
-import { CategoryMarker, GeojsonLayer } from './controls/CategorieLayer';
+import { CategoryCircleMarker, CategoryMarker, GeojsonLayer } from './controls/CategorieLayer';
+import { createExpressionFct } from './util/FormatExpression';
 
-function _createClassifiers(claszes:MapDescription.LayerClass[]):{exp:Expression; style:any;}[] {
-    const classifiers:{exp:Expression; style:any;}[] = [];
+type ClassifiedStyles = {
+    classifiers:{exp:Expression; style:any;}[];
+    standardStyle?:any;
+}
+
+function _createClassifiers(claszes:MapDescription.LayerClass[]):ClassifiedStyles {
+    // const classifiers:{exp?:Expression; style:any;}[] = [];
+    const result:ClassifiedStyles = {classifiers:[]};
     claszes.forEach(clasz=>{
-        const r = <Expression>parseExpression(clasz.def);
-        classifiers.push({exp:r, style:clasz.style});
+        if (clasz.def) {
+            const r = <Expression>parseExpression(clasz.def);
+            result.classifiers.push({exp:r, style:clasz.style});
+        } else {
+            result.standardStyle = clasz.style;
+        }
     });
-    return classifiers;
+    return result;
 }
 
 function _createStyleFct(layerDescr:MapDescription.LayerDescription):(feature:any)=>any {
     if (layerDescr.classes) {
-        const classifiers = _createClassifiers(layerDescr.classes);
+        const styles = _createClassifiers(layerDescr.classes);
         return (feature:any) => {
-            for (let i=0, count=classifiers.length; i<count; i++) {
-                if (classifiers[i].exp.eval(feature.properties)) {
-                    return classifiers[i].style;
+            for (let i=0, count=styles.classifiers.length; i<count; i++) {
+                if (styles.classifiers[i].exp.eval(feature.properties)) {
+                    return styles.classifiers[i].style;
                 }
-            }
-            return layerDescr.style;
+            } 
+            return styles.standardStyle ? styles.standardStyle : layerDescr.style;
         }
-
     } else {
         return (feature:any) => layerDescr.style
     }
@@ -58,71 +68,32 @@ export class LayerLoader {
         }
     }
 
-    
-    async createGeoJSONLayer(layerDescr: MapDescription.LayerDescription): Promise<L.Layer> {
-        console.error(`createJsonLayer ${layerDescr.label}`);
-        const f = (evt:L.LeafletMouseEvent)=>{
-            console.info(evt);
-            MapDispatcher.onItemOnMapSelection.dispatch(evt.target, evt.target.feature);
-        }
+    // _createGlifyPointLayer(map:L.Map, layerDescr: MapDescription.LayerDescription, geoJson:geoJson.FeatureCollection):L.Layer {
+    //     glify.glify.points({
+    //         map: map,
+    //         data: geoJson,
+    //         click: (e, pointOrGeoJsonFeature, xy): boolean | void => {
+    //           // do something when a point is clicked
+    //           // return false to continue traversing
+    //         },
+    //         hover: (e, pointOrGeoJsonFeature, xy): boolean | void => {
+    //           // do something when a point is hovered
+    //         }
+    //       });
+    // }
 
-        
+    _createPointLayer(layerDescr: MapDescription.LayerDescription, geoJson:geoJson.FeatureCollection):L.Layer {
+        const layer = new GeojsonLayer({
+            maxClusterRadius:(zoom)=>{
+                return 15;
+            },
+            attribution: layerDescr.options.attribution
+        });
+        layer["LayerDescription"] = layerDescr;
 
-        const fPopup = (feature:any) => {
-            function substitute(literals: TemplateStringsArray, ...placeholders: string[]) {
-                let result = "";
-                for (let i=0; i<literals.length-1; i++) {
-                    console.info(`lit ${i} "${literals[i]}"`);
-                    console.info(`lit ${i} "${placeholders[i]}"`);
-                    // result += placeholders[i]
-                }
-                result += literals[literals.length-1];
-            }
-            const s = substitute`layerDescr.popup`
-            return s;
-        }
-
-        const fClick = (evt:L.LeafletMouseEvent)=>{
-            
-            fPopup(evt?.target?.feature);
-            const popupString = layerDescr.popup;
-            console.info("fClick", evt, evt?.target?.feature);
-        }
-    
-        const json:any = await Util.loadJson(layerDescr.url, layerDescr.params);
-        console.info(json);
-        const myIcon = L.icon(layerDescr.icon);
-        if (layerDescr.geomType == 'Point') {
-            // return new L.GeoJSON(
-            //     json, {
-            //     pointToLayer: function (feature, latlng) {
-            //         return L.marker(
-            //             latlng, {
-            //             icon: myIcon
-            //         }
-            //         );
-            //     },
-            //     onEachFeature: function (feature, _geojsonLayer) {
-            //         var p = feature.properties;
-            //         _geojsonLayer.on('click', f);
-            //         if (feature.properties && p[layerDescr.infoAttribute]) {
-            //             _geojsonLayer.bindPopup(feature.properties[layerDescr.infoAttribute]);
-            //         }
-            //     }
-            // }
-            // );
-    
-            const geoJson = <geoJson.FeatureCollection>json;
-            
-            const layer = new GeojsonLayer({
-                maxClusterRadius:(zoom)=>{
-                // console.info("zoom="+zoom+"  "+L.CRS.EPSG3857.scale(zoom));
-                    return 15;
-                },
-                attribution: layerDescr.options.attribution
-            });
-            
-            const markerOpt = myIcon? {icon:myIcon} : undefined;
+        if (layerDescr.icon) {
+            const myIcon = L.icon(layerDescr.icon);
+            const markerOpt = {icon:myIcon};        
             geoJson.features.forEach(
                 (feature:geoJson.Feature<geoJson.Point>, idx)=> {
                     layer.addLayer(
@@ -134,25 +105,133 @@ export class LayerLoader {
                     )
                 }
             );
-            return layer;
+        } else {
+            const styleFct = _createStyleFct(layerDescr);
+            geoJson.features.forEach(
+                (feature:geoJson.Feature<geoJson.Point>, idx)=> {
+                    let markerOpt = styleFct(feature);
+                    layer.addLayer(
+                        new CategoryCircleMarker(layer,{
+                            lng:feature.geometry.coordinates[0],
+                            lat:feature.geometry.coordinates[1],
+                            ...feature.properties
+                        }, markerOpt)
+                    )
+                }
+            );
+
+        }
+        return layer;
+    }
+
+    
+    async createGeoJSONLayer(layerDescr: MapDescription.LayerDescription): Promise<L.Layer> {
+        console.error(`createJsonLayer ${layerDescr.label}`);
+        const f = (evt:L.LeafletMouseEvent)=>{
+            console.info(evt);
+            MapDispatcher.onItemOnMapSelection.dispatch(evt.target, evt.target.feature);
+        }
+
+        
+
+        // const fPopup = (feature:any):string => {
+        //     function substitute(literals: TemplateStringsArray, ...placeholders: string[]) {
+        //         let result = "";
+        //         for (let i=0; i<literals.length-1; i++) {
+        //             console.info(`lit ${i} "${literals[i]}"`);
+        //             console.info(`lit ${i} "${placeholders[i]}"`);
+        //             // result += placeholders[i]
+        //         }
+        //         result += literals[literals.length-1];
+        //         return result;
+        //     }
+        //     const s = substitute`layerDescr.popup`;
+        //     return s;
+        // };
+
+        const fctPopup = layerDescr.popup ? createExpressionFct(layerDescr.popup) : undefined;
+
+        const fClick = (evt:L.LeafletMouseEvent)=>{
+            console.info("fClick", evt);
+            const layer = evt.target;
+            // const feature = layer.feature;
+            if (layer.selected) {
+                layer.selected = false;
+                MapDispatcher.onItemOnMapUnselection.dispatch(layer, layer);
+            } else {
+                layer.selected = true;
+                MapDispatcher.onItemOnMapSelection.dispatch(layer, layer);
+            }
+            // fPopup(evt?.target?.feature);
+            // const popupString = layerDescr.popup;
+            // console.info("fClick", evt, evt?.target?.feature);
+            // if (marker.selected) {
+            //     MapDispatcher.onItemOnMapUnselection.dispatch(this, marker);
+            //     // this.selectedMarker = undefined;
+            // } else {
+            //     // if (this.selectedMarker) {
+            //     //     MenuControl.DISPATCHER.onItemOnMapSelection.dispatch(this, undefined);
+            //     //     this.selectedMarker = undefined;
+            //     // }
+            //     MapDispatcher.onItemOnMapSelection.dispatch(this, marker);
+            //     this.selectedMarker = marker;
+            // }
+        }
+    
+        const json:any = await Util.loadJson(layerDescr.url, layerDescr.params);
+        console.info(json);
+        // const myIcon = L.icon(layerDescr.icon);
+        if (layerDescr.geomType == 'Point') {
+    
+            const geoJson = <geoJson.FeatureCollection>json;
+            
+            // const layer = new GeojsonLayer({
+            //     maxClusterRadius:(zoom)=>{
+            //     // console.info("zoom="+zoom+"  "+L.CRS.EPSG3857.scale(zoom));
+            //         return 15;
+            //     },
+            //     attribution: layerDescr.options.attribution
+            // });
+            
+            // const markerOpt = myIcon? {icon:myIcon} : undefined;
+            // geoJson.features.forEach(
+            //     (feature:geoJson.Feature<geoJson.Point>, idx)=> {
+            //         layer.addLayer(
+            //             new CategoryMarker(layer,{
+            //                 lng:feature.geometry.coordinates[0],
+            //                 lat:feature.geometry.coordinates[1],
+            //                 ...feature.properties
+            //             }, markerOpt)
+            //         )
+            //     }
+            // );
+            // return layer;
+            return this._createPointLayer(layerDescr, geoJson);
         } else {
             const styleFct = _createStyleFct(layerDescr);
             
-            return new L.GeoJSON(
+            const layer = new L.GeoJSON(
                 json, {
                 style: styleFct,
                 onEachFeature: function (feature, _geojsonLayer) {
-                    _geojsonLayer.on('click', fClick);
+                    // _geojsonLayer.on('click', fClick);
                     // console.info(feature, _geojsonLayer);
                     
                     // var p = feature.properties;
                     // if (feature.properties && p[layerDescr.infoAttribute]) {
                     //     console.info(feature, layerDescr.infoAttribute);
-                    //     _geojsonLayer.bindPopup(feature.properties[layerDescr.infoAttribute]);
+                    if (layerDescr.popup) {                       
+                        const s = fctPopup(feature.properties);
+                        _geojsonLayer.bindPopup(s);
+                        // _geojsonLayer.bindPopup(feature.properties[layerDescr.infoAttribute]);
+                    } else {
+                        _geojsonLayer.on('click', fClick);
+                    }
                     // }
                 }
-            }
-            );
+            });
+            layer["layerDescr"] = layerDescr;
+            return layer;
         }
     }
     

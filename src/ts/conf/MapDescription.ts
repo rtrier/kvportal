@@ -72,5 +72,7 @@ export type LayerDescription = {
     style?: any,    
 	classes?: LayerClass[],
     icon?:IconOptions,
-	popup?:string
+	popup?:string,
+	layerAttributes?:any
+	hideEmptyLayerAttributes?:boolean
 }

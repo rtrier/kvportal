@@ -1,7 +1,8 @@
-import { CategorieLayer, CategoryMarker, InteractiveLayer } from "./CategorieLayer";
+import { CategorieLayer, CategoryMapObject, InteractiveLayer } from "./CategorieLayer";
 import { MapDispatcher } from "./MapControl";
 import { View, ViewControl } from "./ViewControl";
 import { createHtmlElement, createRow } from '../Util';
+import { LayerDescription } from "../conf/MapDescription";
 
 
 export type ListEntry<T> = {
@@ -14,18 +15,19 @@ export type ListEntry<T> = {
 export class MarkerView implements View {
 
     layer: InteractiveLayer;
-    marker: CategoryMarker<any>;
+    marker: CategoryMapObject<any>;
 
     dom:HTMLElement;
 
-    constructor(layer:InteractiveLayer, marker:CategoryMarker<any>) {
+    constructor(layer:InteractiveLayer, marker:CategoryMapObject<any>) {
+        console.info("Markerview create");
         this.layer = layer;
         this.marker = marker;
     }
 
     getDom() {
         if (!this.dom) {
-            if (this.layer.popupFactory) {
+            if (this.layer?.popupFactory) {
                 this.dom = this.layer.popupFactory.renderDataView(this.layer, this.marker);
             }
             else {
@@ -37,21 +39,38 @@ export class MarkerView implements View {
 
     onAdd(view:ViewControl) {
         console.info('MarkerView.onAdd', this.layer.map);
-        this.layer.highlightMarker(this.marker, true);
-        if (this.layer.map) {
+        if (this.layer?.highlightMarker) {
+            this.layer.highlightMarker(this.marker, true);
+        }
+        if (this.layer?.map) {
             this.layer.map.panTo(this.marker.getLatLng());
         }
     }
     onRemove() {
         console.info('MarkerView.remove');
-        this.layer.highlightMarker(this.marker, false);
+        if (this.layer?.highlightMarker) {
+            this.layer.highlightMarker(this.marker, false);
+        }
     }
 
     renderDataView() {
         const dom = createHtmlElement('div', undefined, "data-view");
         const table = createHtmlElement('table', dom);
-        for (let k in this.marker.data) {
-            createRow(k, this.marker.data[k], table);
+
+        const data = this.marker.data? this.marker.data : (<any>this.marker)?.feature?.properties;
+
+        const layerDes:LayerDescription = this.layer["LayerDescription"];
+        if (layerDes?.layerAttributes) {
+            for (let k in layerDes.layerAttributes) {
+                const v = data[k];
+                if (v || !layerDes.hideEmptyLayerAttributes) {
+                    createRow(layerDes.layerAttributes[k], v, table);
+                }
+            }
+        } else {
+            for (let k in data) {
+                createRow(k, data[k], table);
+            }
         }
         return dom;
     }
@@ -60,12 +79,13 @@ export class MarkerView implements View {
 
 export class MarkerListView implements View {
     layer: CategorieLayer<any, any>;
-    markers: CategoryMarker<any>[];
+    markers: CategoryMapObject<any>[];
     selectedListEntry: ListEntry<any>;
     dom: HTMLDivElement;
     geoJson: L.GeoJSON<any>;
 
-    constructor(geoJ:L.GeoJSON, layer:CategorieLayer<any, any>, markers:CategoryMarker<any>[]) {
+    constructor(geoJ:L.GeoJSON, layer:CategorieLayer<any, any>, markers:CategoryMapObject<any>[]) {
+        console.info("MarkerListiew");
         this.layer = layer;
         this.markers = markers;
         this.geoJson = geoJ;
@@ -98,10 +118,10 @@ export class MarkerListView implements View {
 
 
 
-    listEntryLeave(marker: CategoryMarker<any>): any {
+    listEntryLeave(marker: CategoryMapObject<any>): any {
         // console.info('listEntryLeave', marker);
     }
-    listEntryEnter(marker: CategoryMarker<any>): any {
+    listEntryEnter(marker: CategoryMapObject<any>): any {
         // console.info('listEntryEnter', marker);
     }
     listEntryClicked(entry:ListEntry<any>): any {

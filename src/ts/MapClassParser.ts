@@ -223,8 +223,7 @@ export class Expression {
     }
 
     eval(values:any):any {
-        const params = [];
-        console.info(`eval`, this);
+        const params = [];        
         this.params.forEach( element => {
             if (element instanceof Expression) {
                 params.push(this._evalExpression(element, values));

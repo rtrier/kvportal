@@ -5,10 +5,10 @@ import * as L from 'leaflet';
 import { EventDispatcher } from 'strongly-typed-events';
 import autocomplete from '../util/Autocompleter';
 import { createHtmlElement } from '../Util';
-import { CategorieLayer, CategoryMarker, GeojsonLayer } from './CategorieLayer';
+import { CategorieLayer, CategoryMapObject, GeojsonLayer } from './CategorieLayer';
 import { LayerControl } from './LayerControl';
 import { View, ViewControl } from './ViewControl';
-import { MarkerListView } from './MarkerListView';
+import { MarkerListView, MarkerView } from './MarkerListView';
 import { Feature } from 'geojson';
 import { LayerDescription } from '../conf/MapDescription';
 import { LayerLoader } from '../LayerLoader';
@@ -53,9 +53,9 @@ export class LayerWrapper {
 }
 
 class Dispatcher {    
-    onListViewItemSelection = new EventDispatcher<MarkerListView, CategoryMarker<any>>();
-    onItemOnMapSelection = new EventDispatcher<CategorieLayer<any, any>| GeojsonLayer, CategoryMarker<any>>();
-    onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>|GeojsonLayer, CategoryMarker<any>>();
+    onListViewItemSelection = new EventDispatcher<MarkerListView, CategoryMapObject<any>>();
+    onItemOnMapSelection = new EventDispatcher<CategorieLayer<any, any>| GeojsonLayer, CategoryMapObject<any>>();
+    onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>|GeojsonLayer, CategoryMapObject<any>>();
 
     onBaseLayerSelection = new EventDispatcher<LayerControl, L.Layer>();
     onThemeLayerSelection = new EventDispatcher<LayerWrapper, LayerEvent>();
@@ -132,7 +132,7 @@ export class MapControl extends L.Control {
     itemSelected(ev: L.LeafletEvent): void {
         console.info("MenuCtrl.itemSelected", ev);
         const layer:CategorieLayer<any, any> = ev.target;
-        const marker:CategoryMarker<any> = (<any>ev).marker;
+        const marker:CategoryMapObject<any> = (<any>ev).marker;
         this.showData(layer, marker);        
     }
     itemUnselected(ev: L.LeafletEvent): void {
@@ -145,7 +145,7 @@ export class MapControl extends L.Control {
     }
     
 
-    onItemOnMapSelection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMarker<any>): void {
+    onItemOnMapSelection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMapObject<any>): void {
         console.info('onItemOnMapSelection', sender, item, typeof item);
 
         if (this.selectedMarker) {
@@ -160,7 +160,7 @@ export class MapControl extends L.Control {
         }
     }  
 
-    onItemOnMapUnselection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMarker<any>): void {
+    onItemOnMapUnselection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMapObject<any>): void {
         console.info('onItemOnMapUnSelection', sender, item);
         this.viewCtrl.goBack();
         this.selectedMarker = undefined;
@@ -230,12 +230,16 @@ export class MapControl extends L.Control {
         }
     }
 
-    showData(layer: CategorieLayer<any, any>|GeojsonLayer, marker: CategoryMarker<any>) {
+    showData(layer: CategorieLayer<any, any>|GeojsonLayer, marker: CategoryMapObject<any>|any) {
         this.closeMenu();
         if (layer?.renderData) {
             this.viewCtrl.setContentView(layer.renderData(marker));
         } else {
-            console.info(layer, marker);
+            if (marker?.feature) {
+                this.viewCtrl.setContentView(new MarkerView(layer, marker));
+            } else {
+                console.info(layer, marker);
+            }
         }
     }
 

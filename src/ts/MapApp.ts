@@ -56,12 +56,12 @@ class MapApp {
 
     init() {
         const map = this.map = new L.Map('map', {
-            // maxBounds: [[53, 9.8], [55,15]],
-            // maxZoom: 18,
+            maxBounds: [[53, 9.8], [55,15]],
+            minZoom: 8,
             // minZoom: 9,
             zoomControl: false
         });
-        map.setView([53.9, 12.45], 9);
+        map.setView([53.9, 12.45], 8);
 
         /*
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

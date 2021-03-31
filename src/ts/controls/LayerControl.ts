@@ -3,7 +3,7 @@ import { Tree } from '../../../../treecomponent/src/ts/Tree';
 import { NodeRenderer, RadioGroupTreeNode, SelectionMode, SelectionStatus, TreeNode, TreeNodeParam } from '../../../../treecomponent/src/ts/TreeNode';
 import { LayerDescription, Theme } from '../conf/MapDescription';
 
-import { CategorieLayer, Category, CategoryMarker, Path } from './CategorieLayer';
+import { CategorieLayer, Category, CategoryMapObject, Path } from './CategorieLayer';
 import { createLegendItem } from './LegendControl';
 import { LayerEvent, LayerWrapper, MapDispatcher } from './MapControl';
 
@@ -333,7 +333,7 @@ export class LayerControl extends L.Control {
 
 
 
-    findItemsOfCategorie(title: string, item: Category):CategoryMarker<any>[] {
+    findItemsOfCategorie(title: string, item: Category):CategoryMapObject<any>[] {
         console.info("findItemsOfCategorie", item);
         const node:TreeNode = this.categorieLayerNodes[title];        
         if (node) {
@@ -368,7 +368,7 @@ export class LayerControl extends L.Control {
         }
     }
 
-    getItems(title: string, path: Path<any>):CategoryMarker<any>[] {
+    getItems(title: string, path: Path<any>):CategoryMapObject<any>[] {
         console.info(`getItems(${title}, ${path})`)
         const layer = this.categorieLayers[title];
         return layer.getItems(path);

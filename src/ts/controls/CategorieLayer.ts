@@ -47,8 +47,8 @@ export interface CategorieSelector<T, N> {
 }
 
 export interface PopupCreator<T extends L.LatLngExpression> {
-    renderDataView(layer:InteractiveLayer, marker:CategoryMarker<T>):HTMLElement;
-    renderListItem(layer:InteractiveLayer, marker:CategoryMarker<T>):HTMLElement;
+    renderDataView(layer:InteractiveLayer, marker:CategoryMapObject<T>):HTMLElement;
+    renderListItem(layer:InteractiveLayer, marker:CategoryMapObject<T>):HTMLElement;
 }
 
 export interface CategoryMarkerOptions extends L.MarkerOptions {
@@ -66,7 +66,68 @@ export class CategoryPopup<T extends L.LatLngExpression> extends L.Popup {
 
 }
 */
-export class CategoryMarker<T extends L.LatLngExpression> extends L.Marker {
+
+export interface CategoryMapObject<T extends L.LatLngExpression> extends L.Layer {
+    data:T;
+    selected:boolean;
+
+    isVisible():boolean;
+
+    setVisible(visible:boolean):void;
+
+    getLatLng():L.LatLng;
+}
+
+export class CategoryCircleMarker<T extends L.LatLngExpression> extends L.CircleMarker implements CategoryMapObject<T> {
+    visible:boolean=false;
+
+    parentLayer: CategorieLayer<T, any>|InteractiveLayer;
+    data: T;
+    private _clickClosure: (ev: any) => void;
+    selected = false;
+
+    constructor(parentLayer:CategorieLayer<T, any>|InteractiveLayer, data:T, options?:CategoryMarkerOptions) {
+        super(data, options);        
+        this.data = data;
+        this.parentLayer = parentLayer;
+    }
+
+    onAdd(map: L.Map):this {     
+        this._clickClosure = (ev)=>this.parentLayer.mapItemClicked(this, ev);
+        this.on('click', this._clickClosure);       
+        return super.onAdd(map);
+    }
+
+    
+
+    onRemove(map: L.Map): this {
+        this.unbindPopup();
+        if (this._clickClosure) {
+            this.off('click', this._clickClosure);
+        }
+        return super.onRemove(map);
+    }
+
+    setVisible(visible:boolean) {
+        this.visible=visible;
+    }
+
+    isVisible():boolean {
+        return this.visible;
+    }
+ 
+    highLight(highlight: boolean) {
+        console.info('CategoryMarker.highlight ToDo', this.data['id'], highlight);
+        // this.selected = highlight;
+        // if (highlight) {
+        //     this.setIcon((<CategoryMarkerOptions>this.options).selectIcon);
+        // } else {
+        //     this.setIcon((<CategoryMarkerOptions>this.options).standardIcon);
+        // } 
+    } 
+}
+
+export class CategoryMarker<T extends L.LatLngExpression> extends L.Marker implements CategoryMapObject<T> {
 
     visible:boolean=false;
 
@@ -162,24 +223,24 @@ export interface InteractiveLayer {
     map?:L.Map;
     popupFactory?:PopupCreator<any>;
 
-    highlightMarker: (marker:CategoryMarker<any>, highlight:boolean)=>void;
-    mapItemClicked:(marker: CategoryMarker<any>, ev: L.LeafletEvent)=>void;
+    highlightMarker: (marker:CategoryMapObject<any>, highlight:boolean)=>void;
+    mapItemClicked:(marker: CategoryMapObject<any>, ev: L.LeafletEvent)=>void;
 }
 
 export class GeojsonLayer extends L.MarkerClusterGroup implements InteractiveLayer {
 
-    selectedMarker: CategoryMarker<any>;
+    selectedMarker: CategoryMapObject<any>;
 
     constructor(options?:L.MarkerClusterGroupOptions) {
         super(options);
     }
 
-    highlightMarker(marker: CategoryMarker<any>, highlight: boolean) {
+    highlightMarker(marker: CategoryMapObject<any>, highlight: boolean) {
         console.error("notImm", marker);
     }
    
 
-    mapItemClicked(marker: CategoryMarker<any>, ev: L.LeafletEvent): void {
+    mapItemClicked(marker: CategoryMapObject<any>, ev: L.LeafletEvent): void {
         console.info("mapItemClicked", marker.data['id'], ev); 
         if (marker.selected) {
             MapDispatcher.onItemOnMapUnselection.dispatch(this, marker);
@@ -189,7 +250,7 @@ export class GeojsonLayer extends L.MarkerClusterGroup implements InteractiveLay
         }        
     }
 
-    renderData(marker:CategoryMarker<any>):View {
+    renderData(marker:CategoryMapObject<any>):View {
         return new MarkerView(this, marker);
     }
 }
@@ -208,10 +269,10 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
     selector: CategorieSelector<T, N>;
     popupFactory: PopupCreator<T>;
 
-    markerMap:{ [id: number] : CategoryMarker<T>; } = {};
-    markers:CategoryMarker<T>[] = []; 
-    selectedMarker: CategoryMarker<T>;
-    foundMarkers: CategoryMarker<T>[]; 
+    markerMap:{ [id: number] : CategoryMapObject<T>; } = {};
+    markers:CategoryMapObject<T>[] = []; 
+    selectedMarker: CategoryMapObject<T>;
+    foundMarkers: CategoryMapObject<T>[]; 
     map: L.Map;
    
     constructor(options?:CategorieLayerOptions<T, N>) {
@@ -262,10 +323,10 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
     }
 
 
-    async findMarkers(att:string, value:any):Promise<CategoryMarker<T>[]> {
+    async findMarkers(att:string, value:any):Promise<CategoryMapObject<T>[]> {
         const response = await window.fetch(this.url+"/search?"+att+"="+value);
         const data:number[] = await response.json();
-        const result:CategoryMarker<T>[] = [];
+        const result:CategoryMapObject<T>[] = [];
         for (let i=0; i<data.length; i++) {
             const marker = this.markerMap[data[i]];
             if (marker) {
@@ -290,7 +351,7 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
         }
     }
 
-    mapItemClicked(marker: CategoryMarker<T>, ev: L.LeafletEvent): void {
+    mapItemClicked(marker: CategoryMapObject<T>, ev: L.LeafletEvent): void {
         console.info("mapItemClicked", marker.data['id'], ev); 
         if (marker.selected) {
             MapDispatcher.onItemOnMapUnselection.dispatch(this, marker);
@@ -390,7 +451,7 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
     //     this.fire("itemunselected", {marker:marker});
     // }
 
-    findMarker(value:any, prop:string):CategoryMarker<T> {
+    findMarker(value:any, prop:string):CategoryMapObject<T> {
         return this._findMarker(value, prop);
     }
 
@@ -416,7 +477,7 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
     //     return marker;
     // }
 
-    showMarker(value:any, prop:string):CategoryMarker<T> {
+    showMarker(value:any, prop:string):CategoryMapObject<T> {
         console.info("showMarker");
         const marker = this._findMarker(value, prop);
         if (marker) {
@@ -433,17 +494,17 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
     }
 
 
-    renderData(marker:CategoryMarker<T>):View {
+    renderData(marker:CategoryMapObject<T>):View {
         return new MarkerView(this, marker);
     }
 
+    getItems(path:Path<any>): CategoryMapObject<any>[] {
     
-    getItems(path:Path<any>): CategoryMarker<any>[] {
         console.info("_update");
         const selector = this.selector;
         const markers = this.markers;
 
-        const results:CategoryMarker<T>[] = [];
+        const results:CategoryMapObject<T>[] = [];
         for (let i=0, count=markers.length; i<count; i++) {
             const marker = markers[i];
             
