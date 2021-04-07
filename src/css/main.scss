@@ -118,8 +118,9 @@ textarea.input_error {
 	text-shadow:0px 1px 0px #283966;
 }
 .bttn_fixed > button:hover {
-	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
-	background-color:#476e9e;
+	background:linear-gradient(to bottom, #287da8 5%, #7892c2 100%);
+	background-color:#287da8;
+    
 }
 .bttn_fixed > button:active {
 	position:relative;
@@ -166,11 +167,15 @@ textarea.input_error {
 }
 .close:hover, .back:hover {
   opacity: 1;
-  background-color: #205570;
+  background-color: #287da8;
 }
 .back:after {
 	content: "\f100";
 }
 .close::after {
 	content: "\f00d";
+}
+
+.leaflet-container {
+	font: 12px/1.5 Landesdesign-MV,myriad-pro,'Myriad Pro',Arial,sans-serif;
 }

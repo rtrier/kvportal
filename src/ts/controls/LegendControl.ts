@@ -1,6 +1,6 @@
 import * as L from 'leaflet';
 import * as svg from '../svg/svg'
-import { LayerDescription } from '../conf/MapDescription';
+import { getMapDescription, LayerDescription } from '../conf/MapDescription';
 import { createHtmlElement } from '../Util';
 import { LayerControl } from './LayerControl';
 import { LayerEvent, LayerWrapper, MapControl, MapDispatcher } from './MapControl';
@@ -182,6 +182,65 @@ export function createLegendItem(layer:LayerDescription):Element|undefined {
     return legendItem;
 }
 
+export function createWMSLegendItem(layer:LayerDescription):Element|undefined {
+    let legendItem:Element = undefined;
+    const symbol = getMapDescription().default_wms_legend_icon;
+
+    const legendUrl = createLegendUrl(layer);
+    console.info(`legendUrl="${legendUrl}`);
+    if (!legendUrl) {
+        createLegendUrl(layer);
+    }
+    if (symbol && legendUrl) {
+        const img = document.createElement('img');
+        img.src = symbol;
+        img.addEventListener('click', evt=>{
+            showLegendUrl(evt, legendUrl);
+        });
+        img.style.position='relative';
+        img.title = "Legende anzeigen.";
+        legendItem = img;
+        
+    }
+    return legendItem;
+}
+
+function createLegendUrl(layer:LayerDescription):string|undefined {
+
+    let url = undefined;
+    if (layer.url_legend) {
+        return layer.url_legend;
+    }
+    if (layer.url) {
+        if (layer.url.endsWith('&')) {
+            url = layer.url + "SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER="+layer.options.layers+"&FORMAT=image/png&SLD_VERSION=1.1.0";
+            return url;
+        }
+        if (layer.url.indexOf('?')>0) {
+            url = layer.url + "&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER="+layer.options.layers+"&FORMAT=image/png&SLD_VERSION=1.1.0";
+            return url;
+        }
+        url = layer.url + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER="+layer.options.layers+"&FORMAT=image/png&SLD_VERSION=1.1.0";
+        return url;
+    }
+}
+
+function showLegendUrl(evt:MouseEvent, url:string) {
+    const content = document.createElement('div');
+    const img = document.createElement('img');
+    
+    img.addEventListener('error', evt=>{
+        const msg = document.createElement('span');
+        msg.innerHTML = 'Der Dienst stellt keine Legende zur Verfügung.';
+        img.parentElement.removeChild(img);
+        content.appendChild(msg);
+    });
+    img.src = url;
+    content.appendChild(img);
+    showContent(evt, content);
+}
+
+
 function createLegendCircle(style:any):Element {
     const svgEl = new svg.SVG({x:0, y:0, width:32, height:32});
     console.info("createLegendCircle",style);
@@ -197,4 +256,23 @@ function createLegendCircle(style:any):Element {
     }
     svgEl.addCircle(16, 16, 14, st);
     return svgEl.svg;
+}
+
+function showContent(evt:MouseEvent, content:HTMLElement) {    
+    const dom = createHtmlElement('div', undefined, 'legendctrl-legend');
+    const headArea = createHtmlElement('div', dom, 'legendctrl-legend-head');               
+    const headSpan = createHtmlElement('span', headArea);
+    headSpan.innerText = "Legende";
+    const anchorBack = createHtmlElement('a', headArea, 'close') ;        
+    anchorBack.addEventListener('click', (ev)=>{
+        if (dom.parentElement) {
+            dom.parentElement.removeChild(dom);
+        }
+    });
+    dom.appendChild(content);
+
+    dom.style.position = 'absolute';
+    dom.style.left = evt.clientX+'px';
+    dom.style.top = evt.clientY+'px';
+    document.body.appendChild(dom);
 }

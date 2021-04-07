@@ -5,7 +5,7 @@ function applyStyle(el:SVGElement, style:SvgStyle) {
     }
 }
 
-export interface SvgStyle {
+export interface SvgStyle { // extends CSSStyleDeclaration 
     fill?: string;
     fillOpacity?: string;
     stroke?: string;
@@ -13,6 +13,8 @@ export interface SvgStyle {
     strokeWidth?: string;
     strokeDasharray?: string;
     strokeDashoffset?: string;
+    transformOrigin?: string;
+    transform?: string;
 }
 
 export class SvgBaseElement<K extends SVGGeometryElement> {

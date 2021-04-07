@@ -4,11 +4,16 @@ import { LayerWrapper } from "../controls/MapControl";
 
 let mapDescr: MapDescription;
 
-export async function getConf(url: string) {
-	console.info("RGFDG");
+export async function getConf(url: string):Promise<MapDescription> {
+
 	if (!mapDescr) {
         const json = await Util.loadJson(url);
-        mapDescr = {baseLayers:json.baseLayers, themes:[]};
+        mapDescr = {
+			default_wms_legend_icon: json.default_wms_legend_icon,
+			baseLayers: json.baseLayers,
+			themes:[]
+		};
+		
         const themes:{ [id: string] : Theme } = {};
         for (let i=0, count=json.overlays.length; i<count; i++) {
             const overlay:LayerDescription = json.overlays[i];
@@ -26,7 +31,15 @@ export async function getConf(url: string) {
 	return mapDescr;
 }
 
+export function getMapDescription():MapDescription {
+	if (!mapDescr) {
+		throw new Error("Mapdescription not initializied");
+	}
+	return mapDescr;
+}
+
 export type MapDescription = {
+	default_wms_legend_icon: string,
 	baseLayers: LayerDescription[],
 	themes: Theme[]
 }
@@ -43,6 +56,7 @@ export type LayerOptions = {
 	transparent: boolean;
 	/** CRS if WMS */
 	crs:string|L.CRS;
+	layers?:string;
 }
 export type LayerClass = {
 	def: string;
@@ -67,6 +81,7 @@ export type LayerDescription = {
 	actuality?: string,
 	actualityCircle?: string,
 	type?: string,
+	url_legend?: string,
 	geomType?: string,
 	options?: LayerOptions,
     style?: any,    

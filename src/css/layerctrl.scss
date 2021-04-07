@@ -7,12 +7,12 @@
 }
 
 .row-wrapper {
-    background-color: #8dbbd2;
+    background-color: white;
     color:black;
 }
 .row-wrapper:hover, .row-wrapper:focus {
-    background-color: #aacbdb;
-    color:black;
+    background-color: #287da8;
+    color:white;
 }
 .treerow {
     background-image: none;
@@ -28,6 +28,25 @@
     float: right;
 }
 
+.treerow .closed::after {
+    position: relative;
+    line-height: 1em;
+    font-size: .9em;
+    content: '\e603';
+    font-family: icons_regportal;
+    width: 1em;
+}
+.treerow .opened::after {
+    position: relative;
+    line-height: 1em;
+    font-size: .9em;
+    content: '\e604';
+    font-family: icons_regportal;
+    width: 1em;
+}
+.treeicon input[type=checkbox] + label::before {
+    margin-left: 0.18em;
+}
 .legend-item {
     width: 20px;
     height: 20px;

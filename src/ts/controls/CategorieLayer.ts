@@ -98,8 +98,6 @@ export class CategoryCircleMarker<T extends L.LatLngExpression> extends L.Circle
         return super.onAdd(map);
     }
 
-    
-
     onRemove(map: L.Map): this {
         this.unbindPopup();
         if (this._clickClosure) {

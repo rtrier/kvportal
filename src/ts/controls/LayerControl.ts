@@ -4,7 +4,7 @@ import { NodeRenderer, RadioGroupTreeNode, SelectionMode, SelectionStatus, TreeN
 import { LayerDescription, Theme } from '../conf/MapDescription';
 
 import { CategorieLayer, Category, CategoryMapObject, Path } from './CategorieLayer';
-import { createLegendItem } from './LegendControl';
+import { createLegendItem, createWMSLegendItem } from './LegendControl';
 import { LayerEvent, LayerWrapper, MapDispatcher } from './MapControl';
 
 
@@ -37,6 +37,13 @@ const layerRenderer: NodeRenderer = {
                 div.appendChild(legendItem);
                 legendItem.classList.add('legend-item');
             }
+        } else if (layer.layerDescription.type === 'WMS') {
+            const legendItem = createWMSLegendItem(layer.layerDescription);            
+            if (legendItem) {
+                div.appendChild(legendItem);
+                legendItem.classList.add('legend-item');                
+            }
+
         };
 
         return div
