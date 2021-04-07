@@ -12,8 +12,10 @@
 				font-weight: bold;
 				src:url("fonts/Myriad Bold.otf") format("opentype");
 			}
+
 			.main {
 				width: 100%; height: 100%; display: flex; flex-direction: column;				
+				font-family: Landesdesign-MV,myriad-pro,'Myriad Pro',Arial,sans-serif;
 			}
 			.top {
 				flex-shrink: 0;
@@ -21,9 +23,8 @@
 				height: 100px;
 				padding-top: 10px;
 				padding-bottom: 10px;
-				padding-left: 15px;	
-				background-color: #84be6a; 
-				font-family: 'Myriad Bold';
+				padding-left: 15px;					
+				font-family: Landesdesign-MV,myriad-pro,'Myriad Pro',Arial,sans-serif;
 			}
 			#map {
 				flex-grow: 1;
@@ -36,7 +37,7 @@
 		<div class="main">
 			<div class="top">
 				<a href="javascript:history.back()"><img src='img/logo-de-mv-tut.png' style="vertical-align: middle;"></a>
-				<span style="font-size: 2.5rem; margin-left: 20px; font-weight: bold; vertical-align: middle">Energieatlas Mecklenburg-Vorpommern</span>
+				<span style="color:#287da8;font-size: 2.5rem; margin-left: 20px; font-weight: bold; vertical-align: middle">Energieatlas</span>
 			</div>
 			<div id="map"></div>
 		</div>
