@@ -48,17 +48,20 @@ class MapApp {
     overlayLayers: { [id: string]: LayerWrapper } = {};
     selectedLayerIds: string[];
     currentLayers: L.Layer[] = [];
-    menuCtrl: MapControl;
+    mapCtrl: MapControl;
     geocoderAdress: Geocoder;
     geocoderParcel: Geocoder;
 
     layerLoader = new LayerLoader();
 
     init() {
+        // window["leafletOptions"] = {preferCanvas: true};
         const map = this.map = new L.Map('map', {
             maxBounds: [[53, 9.8], [55,15]],
             minZoom: 8,
             // minZoom: 9,
+            preferCanvas: true,
+            renderer: L.canvas(),
             zoomControl: false
         });
         map.setView([53.9, 12.45], 8);
@@ -108,13 +111,13 @@ class MapApp {
         });
         const categorieLayerCtrl = new LayerControl({position: 'topleft'});
 
-        this.menuCtrl = new MapControl({
+        this.mapCtrl = new MapControl({
             position: 'topleft',
             baseLayerCtrl: baseLayerCtrl,
             categorieLayerCtrl: categorieLayerCtrl,
             searchFct: (s) => this._search(s)
         });
-        map.addControl(this.menuCtrl);
+        map.addControl(this.mapCtrl);
 
         map.addControl(new LegendControl({ position: 'topright' }));
         map.addControl(new L.Control.Zoom({ position: 'topright' }));
@@ -163,7 +166,7 @@ class MapApp {
             //     this.map.addLayer(layer);
             // }
         });
-        this.menuCtrl.baseLayerCtrl.setBaseLayers(
+        this.mapCtrl.baseLayerCtrl.setBaseLayers(
             mapDescr.baseLayers,
             { labelAttribute: 'label' }
         );
@@ -172,7 +175,7 @@ class MapApp {
         //     mapDescr.themes, {
         //     createLayer: (l:MapDescription.LayerDescription)=>this.layerLoader.createLayer(l)
         // });
-        this.menuCtrl.categorieLayerCtrl.addThemes( mapDescr.themes );
+        this.mapCtrl.categorieLayerCtrl.addThemes( mapDescr.themes );
 
         mapDescr.themes.forEach((theme) => {
             theme.layers.forEach((layer) => {
@@ -183,7 +186,7 @@ class MapApp {
                     //     console.info("before addLayer Themes");
                     //     this.map.addLayer(layer);
                         layer.isSelected = true;
-                        MapDispatcher.onLayerRequest.dispatch(this.menuCtrl, {
+                        MapDispatcher.onLayerRequest.dispatch(this.mapCtrl, {
                             type:'request-layer',
                             layer: layer
                         });
