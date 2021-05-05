@@ -75,13 +75,14 @@ export interface CategoryMapObject<T extends L.LatLngExpression> extends L.Layer
 
     setVisible(visible:boolean):void;
 
+    highlight(highlight:boolean):void;
+
     getLatLng():L.LatLng;
 }
 
 export class CategoryCircleMarker<T extends L.LatLngExpression> extends L.CircleMarker implements CategoryMapObject<T> {
     visible:boolean=false;
 
-    parentLayer: CategorieLayer<T, any>|InteractiveLayer;
     data: T;
     private _clickClosure: (ev: any) => void;
     selected = false;
@@ -89,21 +90,6 @@ export class CategoryCircleMarker<T extends L.LatLngExpression> extends L.Circle
     constructor(parentLayer:CategorieLayer<T, any>|InteractiveLayer, data:T, options?:CategoryMarkerOptions) {
         super(data, options);        
         this.data = data;
-        this.parentLayer = parentLayer;
-    }
-
-    onAdd(map: L.Map):this {     
-        this._clickClosure = (ev)=>this.parentLayer.mapItemClicked(this, ev);
-        this.on('click', this._clickClosure);       
-        return super.onAdd(map);
-    }
-
-    onRemove(map: L.Map): this {
-        this.unbindPopup();
-        if (this._clickClosure) {
-            this.off('click', this._clickClosure);
-        }
-        return super.onRemove(map);
     }
 
     setVisible(visible:boolean) {
@@ -114,14 +100,16 @@ export class CategoryCircleMarker<T extends L.LatLngExpression> extends L.Circle
         return this.visible;
     }
  
-    highLight(highlight: boolean) {
-        console.info('CategoryMarker.highlight ToDo', this.data['id'], highlight);
-        // this.selected = highlight;
-        // if (highlight) {
-        //     this.setIcon((<CategoryMarkerOptions>this.options).selectIcon);
-        // } else {
-        //     this.setIcon((<CategoryMarkerOptions>this.options).standardIcon);
-        // } 
+    highlight(highlight: boolean) {
+        console.info(`CategoryCircleMarker.highlight ${highlight} ${this.data['id']}`);
+
+        if (highlight) {
+            this["fillColor"] = this.options.fillColor || this.options.color;
+            this.setStyle({fillColor:'red'});
+        } else {
+            const fillColor = this["fillColor"];
+            this.setStyle({fillColor:fillColor});
+        } 
     } 
 }
 
@@ -152,25 +140,6 @@ export class CategoryMarker<T extends L.LatLngExpression> extends L.Marker imple
         }
     }
 
-    onAdd(map: L.Map):this {     
-        // console.info("onAdd", this.data);
-        // this.bindPopup(layer=>this.parentLayer.popupFactory.build(<any>layer));
-        this._clickClosure = (ev)=>this.parentLayer.mapItemClicked(this, ev);
-        this.on('click', this._clickClosure);       
-        // this.visible=true;
-        return super.onAdd(map);
-    }
-
-    
-
-    onRemove(map: L.Map): this {
-        // console.info("onRemove", this.data);
-        this.unbindPopup();
-        if (this._clickClosure) {
-            this.off('click', this._clickClosure);
-        }
-        return super.onRemove(map);
-    }
 
     setVisible(visible:boolean) {
         this.visible=visible;
@@ -194,25 +163,15 @@ export class CategoryMarker<T extends L.LatLngExpression> extends L.Marker imple
     //         // console.error(ex);
     //     }        
     // }    
-    highLight(highlight: boolean) {
+    highlight(highlight: boolean) {
         console.info('CategoryMarker.highlight', this.data['id'], highlight);
-        this.selected = highlight;
-        if (highlight) {
-            this.setIcon((<CategoryMarkerOptions>this.options).selectIcon);
-        } else {
-            this.setIcon((<CategoryMarkerOptions>this.options).standardIcon);
-        } 
+        // this.selected = highlight;
+        // if (highlight) {
+        //     this.setIcon((<CategoryMarkerOptions>this.options).selectIcon);
+        // } else {
+        //     this.setIcon((<CategoryMarkerOptions>this.options).standardIcon);
+        // } 
     } 
-
-    // showDetails(event: Event) {
-    //     try {
-    //         this.closePopup();
-    //         this.poiLayer.showDetails(this.poi);
-    //     }
-    //     catch (ex) {
-    //         console.error(ex)
-    //     }
-    // }
 
 }
 
@@ -234,18 +193,13 @@ export class GeojsonLayer extends L.MarkerClusterGroup implements InteractiveLay
     }
 
     highlightMarker(marker: CategoryMapObject<any>, highlight: boolean) {
-        console.error("notImm", marker);
+        console.error("GeojsonLayerhighlightMarker .notImm", marker);
+        marker.highlight(highlight);
     }
    
 
-    mapItemClicked(marker: CategoryMapObject<any>, ev: L.LeafletEvent): void {
-        console.info("mapItemClicked", marker.data['id'], ev); 
-        if (marker.selected) {
-            MapDispatcher.onItemOnMapUnselection.dispatch(this, marker);
-        } else {
-            MapDispatcher.onItemOnMapSelection.dispatch(this, marker);
-            this.selectedMarker = marker;
-        }        
+    mapItemClicked(marker: CategoryMapObject<any>, ev: L.LeafletMouseEvent): void {
+        MapDispatcher.onMapFeatureClick.dispatch(this, ev);
     }
 
     renderData(marker:CategoryMapObject<any>):View {
@@ -269,7 +223,7 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
 
     markerMap:{ [id: number] : CategoryMapObject<T>; } = {};
     markers:CategoryMapObject<T>[] = []; 
-    selectedMarker: CategoryMapObject<T>;
+    // selectedMarker: CategoryMapObject<T>;
     foundMarkers: CategoryMapObject<T>[]; 
     map: L.Map;
    
@@ -349,39 +303,15 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
         }
     }
 
-    mapItemClicked(marker: CategoryMapObject<T>, ev: L.LeafletEvent): void {
+    mapItemClicked(marker: CategoryMapObject<T>, ev: L.LeafletMouseEvent): void {
         console.info("mapItemClicked", marker.data['id'], ev); 
-        if (marker.selected) {
-            MapDispatcher.onItemOnMapUnselection.dispatch(this, marker);
-            // this.selectedMarker = undefined;
-        } else {
-            // if (this.selectedMarker) {
-            //     MenuControl.DISPATCHER.onItemOnMapSelection.dispatch(this, undefined);
-            //     this.selectedMarker = undefined;
-            // }
-            MapDispatcher.onItemOnMapSelection.dispatch(this, marker);
-            this.selectedMarker = marker;
-        }        
+        MapDispatcher.onMapFeatureClick.dispatch(this, ev);      
     }      
-    // mapItemClicked(marker: CategoryMarker<T>, ev: L.LeafletEvent): void {
-    //     console.info("mapItemClicked", marker.data['id'], ev); 
-    //     const unselect = marker===this.selectedMarker;
-    //     if (this.selectedMarker) {
-    //         //rtr this._unselectMarker(this.selectedMarker);
-    //         MenuControl.DISPATCHER.onItemOnMapSelection.dispatch(this, undefined);
-    //         this.selectedMarker = undefined;
-    //     }
-    //     if (!unselect) {
-    //         //rtr this._selectMarker(marker);
-    //         this.selectedMarker = marker;
-    //         MenuControl.DISPATCHER.onItemOnMapSelection.dispatch(this, marker);
-    //     }
-        
-    // }     
+     
 
 
     highlightMarker(marker:CategoryMarker<T>, highlight:boolean) {
-        console.info(`highlightMarker ${marker.data['id']} ${highlight}`)
+        console.info(`CategorieLayer.highlightMarker ${marker.data['id']} ${highlight}`)
         
         if (highlight) {
             this.removeLayer(marker);            
@@ -389,7 +319,7 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
             marker.options["oldPane"] = marker.options.pane;
             marker.options.pane = 'highlightPane';
             this._map.addLayer(marker);
-            marker.highLight(highlight);
+            marker.highlight(highlight);
         } else {            
             this._map.removeLayer(marker);
             const oldPane = marker.options["oldPane"];
@@ -397,83 +327,16 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
                 marker.options.pane = oldPane;
             }
             this.addLayer(marker);
-            marker.highLight(highlight);
+            marker.highlight(highlight);
         }
     }
 
-    // highlightMarkerOld(marker: CategoryMarker<T>) {
-    //     if (this.selectedMarker) {
-    //         this._map.removeLayer(this.selectedMarker);
-    //         this.addLayer(this.selectedMarker);
-    //         this.selectedMarker = null;
-    //         this.fire("itemunselected", {marker:marker});
-    //     }
-    //     if (marker) {
-    //         // this.selectedMarker = new CategoryMarker<T>(this, marker.data);            
-    //         this.selectedMarker = marker;
-    //         this.removeLayer(marker);
-    //         this._map.addLayer(marker);
-    //         // this._map.addLayer(this.selectedMarker);
-    //         this.selectedMarker.highLight(true);
-    //         if (this._map.getZoom()<12) {
-    //             this._map.setZoomAround(marker.getLatLng(), 12);
-    //         }
-    //         else {
-    //             this._map.panTo(marker.getLatLng());
-    //         }
-    //         // this.fire("itemselected", {marker:marker});
-    //     }        
-    //     return marker;
-    // }
-
-    // _selectMarker(marker: CategoryMarker<T>) {
-    //     this.selectedMarker = new CategoryMarker<T>(this, marker.data);            
-    //     this._map.addLayer(this.selectedMarker);
-    //     this.selectedMarker.highLight(true);
-    //     if (this._map.getZoom()<12) {
-    //         this._map.setZoomAround(marker.getLatLng(), 12);
-    //     } else {
-    //         this._map.panTo(marker.getLatLng());
-    //     }
-    //     this.fire("itemselected", {marker:marker});
-    // }
-
-    // unselectMarker(marker: CategoryMarker<T>) {
-    //     marker.remove();
-    //     this.selectedMarker = undefined;
-    //     this.fire("itemunselected", {marker:marker});
-    // }
-
-    // _unselectMarker(marker: CategoryMarker<T>) {
-    //     marker.remove();
-    //     this.fire("itemunselected", {marker:marker});
-    // }
+    
 
     findMarker(value:any, prop:string):CategoryMapObject<T> {
         return this._findMarker(value, prop);
     }
 
-    // selectMarker(value:any, prop:string):CategoryMarker<T> {
-    //     console.info("selectMarker");
-    //     const marker = this._findMarker(value, prop);
-    //     if (this.selectedMarker) {
-    //         this.selectedMarker.remove();
-    //         this.selectedMarker = null;
-    //         this.fire("itemunselected", {marker:marker});
-    //     }
-    //     if (marker) {
-    //         this.selectedMarker = new CategoryMarker<T>(this, marker.data);            
-    //         this._map.addLayer(this.selectedMarker);
-    //         this.selectedMarker.highLight(true);
-    //         if (this._map.getZoom()<12) {
-    //             this._map.setZoomAround(marker.getLatLng(), 12);
-    //         } else {
-    //             this._map.panTo(marker.getLatLng());
-    //         }
-    //         this.fire("itemselected", {marker:marker});
-    //     }        
-    //     return marker;
-    // }
 
     showMarker(value:any, prop:string):CategoryMapObject<T> {
         console.info("showMarker");
