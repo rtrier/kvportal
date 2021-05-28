@@ -1,8 +1,15 @@
 # kvportal
 
-Based on [Leaflet](https://leafletjs.com/)
+Webapp to display a map of WMS, WFS and GeoJSON layers. The Map is composed by an json file layerdef.json.
 
-The Map is composed by an json file layerdef.json.
+* layer tree with legends created automatically 
+* popup content of a feature can be specified by expression
+* features of on layer can be classified by mapserver notation
+* feature data can be displayed
+* names of feature attributes can adjusted
+* empty feature attributes can be hidden
+
+Based on [Leaflet](https://leafletjs.com/)
 
 ## map description file: layerdef.json ##
 
@@ -35,7 +42,9 @@ The Map is composed by an json file layerdef.json.
 
 ### Overlays WFS and GeoJSon ###
 
-Features can be classified by mapserver syntax. 
+Features can be classified by mapserver syntax. The attributes display name can be specified. 
+
+Popup can be specified like _**"popup": "${att_name01} AnyText ${att_name02}"**_
 
 For Styling the attributes of leaflet are used (corresponding to geometry type)
 
@@ -85,7 +94,8 @@ For Styling the attributes of leaflet are used (corresponding to geometry type)
 		"fill": true,
 		"fillColor": "#afffa9",
 		"fillOpacity": 0.6
-	}
+	},
+	"popup": "${wfs_att01} AnyText ${wfs_att02}"
 }
 ```
 
