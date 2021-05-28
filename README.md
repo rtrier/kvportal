@@ -121,7 +121,7 @@ For Styling the attributes of leaflet are used (corresponding to geometry type)
 
 
 # SOURCE
-Repository rtrier/energie-altas on [GitHub](https://github.com/rtrier/energie-atlas.git)
+Repository rtrier/kvportal on [GitHub](https://github.com/rtrier/kvportal.git)
 Repository rtrier/treecomponent on [GitHub](https://github.com/rtrier/treecomponent.git)
 # INSTALL
     cd ~
