@@ -1,12 +1,12 @@
 # kvportal
 
-Webapp to display a map of WMS, WFS and GeoJSON layers. The Map is composed by an json file layerdef.json.
+Webapp to display a map of WMS, WFS and GeoJSON layers. The Map is composed by a json file layerdef.json.
 
-* layer tree with legends created automatically 
-* popup content of a feature can be specified by expression
-* features of on layer can be classified by mapserver notation
+* layer tree with legends are created automatically 
+* popup content of a feature can be specified through expression
+* features of a layer can be classified by mapserver notation
 * feature data can be displayed
-* names of feature attributes can adjusted
+* names of feature attributes can be adjusted
 * empty feature attributes can be hidden
 
 Based on [Leaflet](https://leafletjs.com/)
@@ -42,7 +42,7 @@ Based on [Leaflet](https://leafletjs.com/)
 
 ### Overlays WFS and GeoJSon ###
 
-Features can be classified by mapserver syntax. The attributes display name can be specified. 
+Features can be classified by mapserver syntax. The attribute display name can be specified.
 
 Popup can be specified like _**"popup": "${att_name01} AnyText ${att_name02}"**_
 
@@ -125,7 +125,7 @@ Repository rtrier/energie-altas on [GitHub](https://github.com/rtrier/energie-at
 Repository rtrier/treecomponent on [GitHub](https://github.com/rtrier/treecomponent.git)
 # INSTALL
     cd ~
-    git clone https://github.com/rtrier/energie-atlas.git
+    git clone https://github.com/rtrier/kvportal.git
     git clone https://github.com/rtrier/treecomponent.git
     cd treecomponent
     npm install
