@@ -1,9 +1,9 @@
 # SOURCE
-Repository rtrier/energie-altas on [GitHub](https://github.com/rtrier/energie-atlas.git)
+Repository rtrier/energie-altas on [GitHub](https://github.com/rtrier/kvportal.git)
 Repository rtrier/treecomponent on [GitHub](https://github.com/rtrier/treecomponent.git)
 # INSTALL
     cd ~
-    git clone https://github.com/rtrier/energie-atlas.git
+    git clone https://github.com/rtrier/kvportal.git
     git clone https://github.com/rtrier/treecomponent.git
     cd treecomponent
     npm install

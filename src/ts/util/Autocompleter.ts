@@ -507,7 +507,7 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
                         selected = items.length > 0 ? items[0] : undefined;
                         update();
                     }
-                });
+                }).catch((reason)=>console.info(`fetch not succedded`, reason));
             }, trigger === EventTrigger.Keyboard ? debounceWaitMs : 0);
         } else {
             clear();

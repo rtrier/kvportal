@@ -13,6 +13,9 @@ export interface SvgStyle { // extends CSSStyleDeclaration
     strokeWidth?: string;
     strokeDasharray?: string;
     strokeDashoffset?: string;
+    strokeLinecap?: string;
+    strokeLinejoin?: string;
+    fillRule?: string;
     transformOrigin?: string;
     transform?: string;
 }
@@ -158,7 +161,7 @@ export class SVG {
                 svg.viewBox.baseVal.width = viewbox.width;
                 svg.viewBox.baseVal.height = viewbox.height;
             } else {
-                console.error("svg", svg.viewBox);
+                console.debug("svg", svg.viewBox);
             }
 
         }
@@ -179,10 +182,10 @@ export class SVG {
         return circle;
     }
 
-    addLine(cx:number, cy:number, radius:number, style?:SvgStyle):Circle {
-        const circle = new Circle(cx, cy, radius, style);
-        this.getGElement().appendChild(circle.svg);
-        return circle;
+    addLine(x1:number, y1:number, x2:number, y2:number, style?:SvgStyle):Line {
+        const line = new Line(x1, y1, x2, y2, style);
+        this.getGElement().appendChild(line.svg);
+        return line;
     }
 
     addPolyLine(points:string|number[][], style?:SvgStyle):PolyLine {

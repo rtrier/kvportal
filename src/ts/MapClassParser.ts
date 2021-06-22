@@ -486,5 +486,10 @@ export class FormulaParserX {
 const FormularParser = new FormulaParserX('var', [], binaries);
 
 export function parseExpression(s:string):Expression|Value {
-    return FormularParser.parse(s);
+    try {
+        return FormularParser.parse(s);    
+    } catch (error) {
+        console.error(`could not parse expression {s}`)
+    }
+    
 }

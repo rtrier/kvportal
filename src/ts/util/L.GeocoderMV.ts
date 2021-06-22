@@ -1,6 +1,7 @@
 import * as L from 'leaflet';
 import { RadioGroupTreeNode } from '../../../../treecomponent/src/ts/TreeNode';
 import *  as Util from "../Util";
+import { CancelablePromise } from '../Util';
 
 export interface GeocoderGeocodingQueryParams {
 
@@ -25,7 +26,8 @@ export class Geocoder {
         geocodingQueryParams: undefined,
         reverseQueryParams: undefined,
     }
-    _key: string
+    _key: string;
+    _activeRequest: XMLHttpRequest;
 
     constructor(key: string, options:GeocoderParam) {
         this.options = { ...this.options, ...options };
@@ -33,6 +35,52 @@ export class Geocoder {
     }
 
     async geocode(query:string):Promise<any> {
+        if (this._activeRequest) {
+            console.info("cancel last");
+            this._activeRequest.abort();
+        } 
+        const params = {
+            type: 'search',
+            key: this._key,
+            query: query.toLowerCase(),
+            ...this.options.geocodingQueryParams
+        }
+        const url = this.options.serviceUrl + Util.getParamString(params);   
+        const xhr = this._activeRequest = new XMLHttpRequest();	
+        const promise = new Promise((resolve, reject) => {
+            xhr.onloadend = () => {
+                if (xhr.status === 200) {
+                    const json = JSON.parse(xhr.responseText);
+                    const data = this._decodeFeatures(json, params);
+                    console.info(`resolved`);
+                    resolve(data);
+                } 
+                else {
+                    reject({
+                        status: xhr.status,
+                        statusText: xhr.statusText
+                    });
+                }
+            };
+            xhr.onerror = function (ev) {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText,
+                    event: ev
+                });
+            };
+            xhr.open('GET', url);              
+            console.info(`run request "${url}"`);
+            xhr.send();
+        });
+        return promise;
+    }
+    /*
+    async geocode2(query:string):Promise<any> {
+        if (this._activeRequest) {
+            console.info("cancel last");
+            this._activeRequest.cancel();
+        }
         return new Promise<any>( (resolve, reject) => {
             const params = {
                 type: 'search',
@@ -40,11 +88,16 @@ export class Geocoder {
                 query: query.toLowerCase(),
                 ...this.options.geocodingQueryParams
             }
-            Util.loadJson(this.options.serviceUrl, params).then(
+            console.info("create Request");
+            const promise = this._activeRequest = Util.loadJson(this.options.serviceUrl, params);
+            promise.then(                
                 data => { 
+                    console.info("loadJson=>then");                 
+                    this._activeRequest = undefined;
                     resolve(this._decodeFeatures(data, params));
                 }
             ).catch(reason => {
+                this._activeRequest = undefined;
                 reject(reason);
             });
         });
@@ -55,7 +108,7 @@ export class Geocoder {
         //     (data) => { cb.call(context, this._decodeFeatures(data, params.query)) }
         // )
     }
-
+*/
     suggest(query:string):Promise<any> {
         return this.geocode(query);
     }

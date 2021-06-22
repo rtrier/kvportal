@@ -1,38 +1,38 @@
-function createFormatExpression(s) {
+function createFormatExpression(s: string) {
     const tokens = [];
     let token = '';
-    // let placeHolder = undefined;
-    for (let i=0; i<s.length; i++) {        
-        if (s[i]==='$' && token.length>0) {
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === '$' && token.length > 0) {
             tokens.push(token);
             token = '$';
         } else {
             token += s[i];
-            if (s[i]==='}') {
+            if (s[i] === '}') {
                 tokens.push(token);
                 token = '';
-            } 
+            }
         }
     }
     tokens.push(token);
     return tokens;
 }
 
-export function createExpressionFct(s:string) {
+export function createExpressionFct(s: string) {
     const tokens = createFormatExpression(s);
-    // for (let i=0; i<tokens.length; i++)  {
-    //     console.info(i, tokens[i]);
-    // }
+
     console.info("createf");
-    return (obj) => {
-        // console.info("fCall");
-        // console.info(obj);
-        // console.info(tokens);
+    return (obj: any) => {
+        console.info("kshdkdhjaskkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        console.info("popup", obj);
+        
+        if (tokens.length === 1) {
+            return obj[tokens[0]];
+        }
         s = '';
-        for (let i=0; i<tokens.length; i++)  {
+        for (let i = 0; i < tokens.length; i++) {
             const token = tokens[i];
             if (token.startsWith('$')) {
-                const attN = token.substring(2, token.length-1);
+                const attN = token.substring(2, token.length - 1);
                 const v = obj[attN];
                 s += v;
             } else {
@@ -42,8 +42,3 @@ export function createExpressionFct(s:string) {
         return s;
     };
 };
-
-
-
-// const fct = createExpressionFct("${gemeindename}: ${summe_mwh} MWh");
-// const res = fct({gemeindename:"GemX", summe_mwh:12});

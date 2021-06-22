@@ -1,9 +1,12 @@
 import * as L from 'leaflet';
+import { createHtmlElement } from '../Util';
+import { MapDispatcher } from './MapControl';
 
 export interface View {
     getDom():HTMLElement;
     onAdd?(parent:ViewControl):void;
     onRemove?():void;
+    getTitle?():string;
 }
 
 
@@ -17,6 +20,7 @@ export class ViewControl extends L.Control {
     counter: number = 0;
     navBttn: HTMLElement;
     anchorBack: HTMLAnchorElement;
+    navTitle: HTMLSpanElement;
 
     constructor(options:L.ControlOptions) {
         super(options);
@@ -24,6 +28,7 @@ export class ViewControl extends L.Control {
         div.className = 'viewctrl';
         const navArea = this.navigationArea = document.createElement('div');
         navArea.className = 'viewctrl-nav';        
+        const navTitle = this.navTitle = createHtmlElement('span', navArea);        
         const navSpan = this.navBttn = document.createElement('span');
         navArea.appendChild(navSpan);
         const anchorBack = this.anchorBack = document.createElement('a') ;
@@ -44,11 +49,13 @@ export class ViewControl extends L.Control {
             ev.stopPropagation();
             return false;
         }
-        div.addEventListener("pointermove", fnStopPropagation); 
-        div.addEventListener("click", fnStopPropagation);
-        div.addEventListener("mouseup", fnStopPropagation);
-        div.addEventListener("pointerup", fnStopPropagation);
-        div.addEventListener("wheel", fnStopPropagation);
+        L.DomEvent.disableClickPropagation(div);
+        L.DomEvent.disableScrollPropagation(div);
+        // div.addEventListener("pointermove", fnStopPropagation); 
+        // div.addEventListener("click", fnStopPropagation);
+        // div.addEventListener("mouseup", fnStopPropagation);
+        // div.addEventListener("pointerup", fnStopPropagation);
+        // div.addEventListener("wheel", fnStopPropagation);
     }
     private _backBttnClicked(): any {
         this.goBack();
@@ -86,7 +93,7 @@ export class ViewControl extends L.Control {
         } 
     }
 
-    private _setContent(view:View):void {
+    private _setContent(view:View):void {        
         const dom = view.getDom();
         dom.id='view_'+this.counter;
         this.counter++;
@@ -100,6 +107,9 @@ export class ViewControl extends L.Control {
             this.contentArea.appendChild(dom);
             this.contentHistory.push(view);            
         }
+        const viewText = view.getTitle ? view.getTitle() : undefined;
+        this.navTitle.innerText = (viewText) ? viewText : '';
+
         console.info(`setContent done ${this.contentHistory.length}`, this.contentHistory);
         if (this.contentHistory.length===1) {
             this.anchorBack.classList.replace('back', 'close');
@@ -131,6 +141,7 @@ export class ViewControl extends L.Control {
                 if (currentContent.onRemove) {
                     currentContent.onRemove();
                 }
+                MapDispatcher.onViewRemove.dispatch(this, currentContent);
             }
         }
         if (this.contentHistory.length===1) {

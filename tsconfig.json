@@ -18,9 +18,14 @@
       "module": "amd",
       "moduleResolution": "node",
       "inlineSourceMap": false,
-      "sourceMap": true
-      // "target": "es5"
+      "sourceMap": true,
+      // "target": "es6"
       // "esModuleInterop": true
+    },
+    "typedocOptions": {
+      "entryPoints": ["src/ts"],
+      "out": "jsdoc",
+      "theme": "minimal"
     }
   
 /*

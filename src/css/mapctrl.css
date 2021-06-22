@@ -223,12 +223,19 @@
 
 .viewctrl-nav {   
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     border-bottom: none;
     flex-shrink: 0;
     border-left: 2px solid #afafaf;
     border-right: 2px solid #afafaf;
     border-top: 2px solid #afafaf;
+    align-items: center;
+    font-size: 1.3rem;
+}
+.viewctrl-nav > span:first-child {
+    flex-grow: 1;
+    font-weight: bold;
+    padding-left: 3px;
 }
 .viewctrl-nav-back {    
     position: absolute;
@@ -281,6 +288,8 @@
     z-index: 9999;
     flex-direction: column;
     transform: translate(-50%, -50%);
+    max-height: 80%;
+    overflow: hidden;
 } 
 
 .legendctrl-legend-head {
@@ -296,14 +305,31 @@
     cursor: pointer;
 }
 
-.legendctrl-legend svg {
-    min-width: 22px;
+.legendctrl-legend-content {
+    height: 100%;
+    overflow: auto;
+    padding: 0.4rem
 }
 
-.legendctrl-legend  .subelement {
+.legendctrl-legend-content table {
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+.legendctrl-legend svg {
+    margin-left: 5px;
+    width: 22px;
+    height: 22px;
+    vertical-align: inherit;
+}
+
+.legendctrl-legend .subelement {
     font-size: 1rem;    
 }
 
+.legendctrl-legend .subelement td:first-child {
+    padding-left: 2rem;      
+}
 .marker-cluster {
     color: black;
 }

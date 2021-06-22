@@ -193,7 +193,6 @@ export class GeojsonLayer extends L.MarkerClusterGroup implements InteractiveLay
     }
 
     highlightMarker(marker: CategoryMapObject<any>, highlight: boolean) {
-        console.error("GeojsonLayerhighlightMarker .notImm", marker);
         marker.highlight(highlight);
     }
    

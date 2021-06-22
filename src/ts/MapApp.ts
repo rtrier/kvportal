@@ -8,10 +8,10 @@ import { CategorieLayer, CategoryMarker, GeojsonLayer } from './controls/Categor
 import { LegendControl } from './controls/LegendControl';
 import { Geocoder } from './util/L.GeocoderMV';
 import { Expression, parseExpression } from './MapClassParser';
-import { LayerLoader} from './LayerLoader';
+import { LayerLoader } from './LayerLoader';
 
 
-function createGeoCoder(objclass:'parcel'|'address'|'address,parcel', limit:number):Geocoder {
+function createGeoCoder(objclass: 'parcel' | 'address' | 'address,parcel', limit: number): Geocoder {
     return new Geocoder('esDtb7H5Kh8zl5YXJ3iIP6xPnKEIb5Ch', {
         serviceUrl: 'https://geo.sv.rostock.de/geocodr/query',
         geocodingQueryParams: {
@@ -27,16 +27,21 @@ function createGeoCoder(objclass:'parcel'|'address'|'address,parcel', limit:numb
             'shape': 'centroid',
             'out_epsg': '4326'
         }
-    }); 
+    });
 }
 
+/**
+ * 
+ * @param mapDescriptionUrl initialized the map with the map description file (Standard: layerdef.json) see:{@link MapDescription}
+ * @returns 
+ */
+export function initMap(mapDescriptionUrl?: string) {
 
-export function initMap() {
-    (new MapApp()).init();
+    const mapApp = new MapApp(mapDescriptionUrl || 'layerdef.json');
+    mapApp.init();
 }
 
-
-class MapApp {
+export class MapApp {
 
     availableLayers?: string;
 
@@ -54,10 +59,21 @@ class MapApp {
 
     layerLoader = new LayerLoader();
 
+    private mapDescription: string;
+
+    /**
+     * 
+     * @param mapDescription url to the mapdescription-file see:{@link MapDescription}
+     * 
+     */
+    constructor(mapDescription?: string) {
+        this.mapDescription = mapDescription;
+    }
+
     init() {
         // window["leafletOptions"] = {preferCanvas: true};
         const map = this.map = new L.Map('map', {
-            maxBounds: [[53, 9.8], [55,15]],
+            maxBounds: [[53, 9.8], [55.5, 15]],
             minZoom: 8,
             // minZoom: 9,
             preferCanvas: true,
@@ -66,32 +82,7 @@ class MapApp {
         });
         map.setView([53.9, 12.45], 8);
 
-        /*
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            //maxZoom: 18,
-            //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-            //	'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'OSM',
-            //tileSize: 512,
-            //zoomOffset: -1
-        }).addTo(map);
-
-        L.tileLayer('https://sgx.geodatenzentrum.de/wmts_webatlasde.light/tile/1.0.0/webatlasde.light/default/DE_EPSG_25832_LIGHT/{z}/{y}/{x}.png', {
-            //maxZoom: 18,
-            //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-            //	'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'webatlasde.light',
-            minZoom: 5,
-            maxZoom: 15,
-            zoomOffset: -5,
-            //tileSize: 512,
-            // zoomOffset: 0
-        }).addTo(map);
-        */
-
-        
-
-        MapDescription.getConf('layerdef.json').then((mapDescr)=>this.initLayer(mapDescr));
+        MapDescription.getConf(this.mapDescription).then((mapDescr) => this.initLayer(mapDescr));
 
         const urlParams = new URLSearchParams(window.location.search);
         // ?layers=Windenergieanlagen%20Onshore,Biogasanlagen,Freiflächenanlagen,Freiflächenanlagen%20ATKIS,Strassennetz,Freileitungen%20ab%20110kV,Umspannwerke
@@ -109,7 +100,7 @@ class MapApp {
             position: 'topleft',
             className: 'flex-no-shrink'
         });
-        const categorieLayerCtrl = new LayerControl({position: 'topleft'});
+        const categorieLayerCtrl = new LayerControl({ position: 'topleft' });
 
         this.mapCtrl = new MapControl({
             position: 'topleft',
@@ -119,22 +110,20 @@ class MapApp {
         });
         map.addControl(this.mapCtrl);
 
-        map.addControl(new LegendControl({ position: 'topright' }));
+        // map.addControl(new LegendControl({ position: 'topright' }));
         map.addControl(new L.Control.Zoom({ position: 'topright' }));
 
     }
     private async _search(s: string): Promise<any[]> {
         if (!this.geocoderAdress) {
-            this.geocoderAdress = createGeoCoder('address,parcel',30);
+            this.geocoderAdress = createGeoCoder('address,parcel', 30);
         }
-        // if (!this.geocoderParcel) {
-        //     this.geocoderParcel = createGeoCoder('parcel');
-        // }
+        
         return new Promise<any[]>((resolve, reject) => {
             this.geocoderAdress.geocode(s).then(
-                (result:any) => resolve(result)
+                (result: any) => resolve(result)
             ).catch(
-                (reason:any) => reject(reason)
+                (reason: any) => reject(reason)
             );
         });
         // const promise02 = new Promise<any[]>((resolve, reject) => {
@@ -161,40 +150,24 @@ class MapApp {
             const layer = L.tileLayer(layerDescr.url, layerDescr.options);
             layerDescr['layer'] = layer;
             this.baseLayers[layerDescr.label] = layer;
-            // if (!this.baseLayer) {
-            //     this.baseLayer = layer;
-            //     this.map.addLayer(layer);
-            // }
         });
         this.mapCtrl.baseLayerCtrl.setBaseLayers(
             mapDescr.baseLayers,
             { labelAttribute: 'label' }
         );
 
-        // this.menuCtrl.categorieLayerCtrl.addThemes(
-        //     mapDescr.themes, {
-        //     createLayer: (l:MapDescription.LayerDescription)=>this.layerLoader.createLayer(l)
-        // });
-        this.mapCtrl.categorieLayerCtrl.addThemes( mapDescr.themes );
+
+        this.mapCtrl.categorieLayerCtrl.addThemes(mapDescr.themes);
 
         mapDescr.themes.forEach((theme) => {
             theme.layers.forEach((layer) => {
                 this.overlayLayers[layer.layerDescription.label] = layer;
                 if (this.selectedLayerIds && this.selectedLayerIds.indexOf(layer.layerDescription.label) >= 0) {
-                    // this.layerLoader.createLayer(layerDescr).then(layer => {
-                    //     this.currentLayers.push(layer);
-                    //     console.info("before addLayer Themes");
-                    //     this.map.addLayer(layer);
-                        layer.isSelected = true;
-                        MapDispatcher.onLayerRequest.dispatch(this.mapCtrl, {
-                            type:'request-layer',
-                            layer: layer
-                        });
-                        // this.menuCtrl.categorieLayerCtrl.selectThemeLayer(layerDescr);
-                    //     console.info(`Layer ${layerDescr.label} added.`);
-                    // }).catch(reason => {
-                    //     console.info(`Layer ${layerDescr.label} konnte nicht hinzugefügt werden.`, reason);
-                    // });
+                    layer.isSelected = true;
+                    MapDispatcher.onLayerRequest.dispatch(this.mapCtrl, {
+                        type: 'request-layer',
+                        layer: layer
+                    });
                 }
             });
         });

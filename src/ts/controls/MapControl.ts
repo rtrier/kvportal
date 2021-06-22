@@ -5,7 +5,7 @@ import * as L from 'leaflet';
 import { EventDispatcher } from 'strongly-typed-events';
 import autocomplete from '../util/Autocompleter';
 import { createHtmlElement } from '../Util';
-import { CategorieLayer, CategoryMapObject, GeojsonLayer } from './CategorieLayer';
+import { CategorieLayer, CategoryMapObject, GeojsonLayer, InteractiveLayer } from './CategorieLayer';
 import { LayerControl } from './LayerControl';
 import { View, ViewControl } from './ViewControl';
 import { MarkerListView, MarkerView } from './MarkerListView';
@@ -42,7 +42,7 @@ export class LayerWrapper {
     }
 
     setSelected(selected:boolean):void {
-        console.error(`LayerWrapper.setSelected(${selected})`)
+        // console.error(`LayerWrapper.setSelected(${selected})`)
         if (this.isSelected !== selected) {
             this.isSelected = selected;
             MapDispatcher.onThemeLayerSelection.dispatch(this, {
@@ -54,8 +54,13 @@ export class LayerWrapper {
 
 class Dispatcher {    
     onListViewItemSelection = new EventDispatcher<MarkerListView, CategoryMapObject<any>>();
-    onItemOnMapSelection = new EventDispatcher<CategorieLayer<any, any>| GeojsonLayer, CategoryMapObject<any>>();
-    onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>|GeojsonLayer, CategoryMapObject<any>>();
+    // onItemOnMapSelection = new EventDispatcher<CategorieLayer<any, any>| GeojsonLayer, CategoryMapObject<any>>();
+    // onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>|GeojsonLayer, CategoryMapObject<any>>();
+
+    // onShowPopup = new EventDispatcher<any, L.LeafletMouseEvent>();
+    onViewRemove = new EventDispatcher<ViewControl, View>();
+
+    onMapFeatureClick = new EventDispatcher<any, L.LeafletMouseEvent>();
 
     onBaseLayerSelection = new EventDispatcher<LayerControl, L.Layer>();
     onThemeLayerSelection = new EventDispatcher<LayerWrapper, LayerEvent>();
@@ -69,8 +74,10 @@ class Dispatcher {
 
     onLayerRequest = new EventDispatcher<MapControl, LayerEvent>();
 
-    onLayerReady = new EventDispatcher<LayerLoader, LayerEvent>()
+    onLayerReady = new EventDispatcher<LayerLoader, LayerEvent>();
 }
+
+
 
 export const MapDispatcher = new Dispatcher();
 
@@ -91,14 +98,14 @@ export class MapControl extends L.Control {
     viewCtrl: ViewControl;
     topDiv: HTMLElement;
 
-    
     searchBox: HTMLInputElement;
     isMenuOpen: boolean;
 
     foundArea: L.GeoJSON<any>;
-    selectedMarker: any;
 
     baseLayer: L.Layer;
+
+    selectedItem:{featureLayer:InteractiveLayer, feature:CategoryMapObject<any>};
 
     constructor(options:MenuControlOptions) {
         super(options);
@@ -107,16 +114,22 @@ export class MapControl extends L.Control {
         this.searchFct = options.searchFct;
         this._subscribe();
     }
-    private _subscribe() {
-        console.info("subs onListViewItemSelection");
-        MapDispatcher.onItemOnMapSelection.subscribe((sender, item)=>this.onItemOnMapSelection(sender, item));
-        MapDispatcher.onItemOnMapUnselection.subscribe((sender, item)=>this.onItemOnMapUnselection(sender, item));
+    private _subscribe() { 
+        // MapDispatcher.onItemOnMapSelection.subscribe((sender, item)=>this.onItemOnMapSelection(sender, item));
+        // MapDispatcher.onItemOnMapUnselection.subscribe((sender, item)=>this.onItemOnMapUnselection(sender, item));
+
+        MapDispatcher.onMapFeatureClick.subscribe((sender, evt)=>this.onMapFeatureClick(sender, evt));
 
         MapDispatcher.onBaseLayerSelection.subscribe((sender, layer)=>this.onBaseLayerSelection(sender, layer));
         MapDispatcher.onThemeLayerSelection.subscribe((sender, layerSelectEvt)=>this.onThemeLayerSelection(sender, layerSelectEvt));
 
         MapDispatcher.onLayerReady.subscribe((sender, evt)=>this.onLayerReady(sender, evt));
+
+        MapDispatcher.onViewRemove.subscribe((sender, evt)=>this.onViewRemove(sender, evt));
+
+        // MapDispatcher.onShowPopup.subscribe((sender, evt)=>this._showPopup(evt));
     }
+
 
     addCategorieLayer(categorieLayer:CategorieLayer<any, any>, showAll:boolean) {
         categorieLayer.once("CategoriesLoaded", (evt)=>{
@@ -143,27 +156,45 @@ export class MapControl extends L.Control {
     setContentView(v:View):void {
         this.viewCtrl.setContentView(v);        
     }
+
+    onViewRemove(sender: ViewControl, view: View): void {
+        console.info('onViewRemove', sender, view);
+        if (view && view instanceof MarkerView) {
+            if (view.layer?.highlightMarker) {
+                view.layer.highlightMarker(view.marker, false);
+                if (this.selectedItem && this.selectedItem.feature === view.marker) {
+                    this.selectedItem = undefined;
+                }
+            }
+        }        
+    }
     
-
-    onItemOnMapSelection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMapObject<any>): void {
-        console.info('onItemOnMapSelection', sender, item, typeof item);
-
-        if (this.selectedMarker) {
-            this.onItemOnMapUnselection(sender, this.selectedMarker);
-            this.selectedMarker = undefined;
+    onMapFeatureClick(sender:any, evt:L.LeafletMouseEvent) {       
+        console.info('onMapFeatureClick', evt);
+        const layer = evt.propagatedFrom;
+        const geoJsonL = evt.target;
+        let isOtherItem = true;
+        if (this.selectedItem) {
+            isOtherItem = this.selectedItem.feature !== layer;            
+            if (geoJsonL.fctPopup) {
+                this.selectedItem.featureLayer.highlightMarker(this.selectedItem.feature, false);
+            } else {
+                this.viewCtrl.goBack();
+            }
+        }          
+        if (isOtherItem) {
+            geoJsonL.highlightMarker(layer, true);
+            if (geoJsonL.fctPopup) {
+                const s = geoJsonL.fctPopup(layer.feature.properties);
+                const popup = L.popup().setContent(s).setLatLng(evt.latlng).openOn(geoJsonL._map);
+                popup.once('remove', (evt)=>{
+                    geoJsonL.highlightMarker(layer, false);
+                });                
+            } else {
+                this.showData(geoJsonL, layer);   
+            }
+            this.selectedItem = {featureLayer:geoJsonL, feature:layer};
         }
-        if (item) {
-            this.showData(sender, item);
-            this.selectedMarker = item;    
-        } else {
-            this.viewCtrl.goBack();
-        }
-    }  
-
-    onItemOnMapUnselection(sender: CategorieLayer<any, any>|GeojsonLayer, item: CategoryMapObject<any>): void {
-        console.info('onItemOnMapUnSelection', sender, item);
-        this.viewCtrl.goBack();
-        this.selectedMarker = undefined;
     }
 
     onBaseLayerSelection(sender:LayerControl, nBaseLayer: L.Layer): void {
@@ -262,6 +293,8 @@ export class MapControl extends L.Control {
             createHtmlElement('div', anchor);
 
             const searchWrapper = document.createElement('div');
+            L.DomEvent.disableClickPropagation(searchWrapper);
+            L.DomEvent.disableScrollPropagation(searchWrapper);
             searchWrapper.className = 'search-wrapper';
             divTop.appendChild(searchWrapper);
 
@@ -280,36 +313,39 @@ export class MapControl extends L.Control {
                 this.viewCtrl.clear();
             });
 
-            div.addEventListener("pointermove", (ev)=>{
-                ev.stopPropagation();
-                return true;
-            }); 
-            div.addEventListener("dblclick", (ev)=>{
-                console.info("click");
-                ev.cancelBubble = true;
-                ev.stopPropagation();               
-                return true;
-            });
-            div.addEventListener("click", (ev)=>{
-                console.info("click");
-                ev.cancelBubble = true;
-                ev.stopPropagation();               
-                return true;
-            });
-            div.addEventListener("mouseup", (ev)=>{
-                console.info("mouseup");
-                ev.stopPropagation();               
-                return true;
-            });
-            div.addEventListener("pointerup", (ev)=>{
-                console.info("pointerup");
-                ev.stopPropagation();               
-                return true;
-            });
-            div.addEventListener("wheel", (ev)=>{
-                ev.stopPropagation();
-                return true;
-            }); 
+            L.DomEvent.disableClickPropagation(div);
+            L.DomEvent.disableScrollPropagation(div);
+
+            // div.addEventListener("pointermove", (ev)=>{
+            //     ev.stopPropagation();
+            //     return true;
+            // }); 
+            // div.addEventListener("dblclick", (ev)=>{
+            //     console.info("click");
+            //     ev.cancelBubble = true;
+            //     ev.stopPropagation();               
+            //     return true;
+            // });
+            // div.addEventListener("click", (ev)=>{
+            //     console.info("click");
+            //     ev.cancelBubble = true;
+            //     ev.stopPropagation();               
+            //     return true;
+            // });
+            // div.addEventListener("mouseup", (ev)=>{
+            //     console.info("mouseup");
+            //     ev.stopPropagation();               
+            //     return true;
+            // });
+            // div.addEventListener("pointerup", (ev)=>{
+            //     console.info("pointerup");
+            //     ev.stopPropagation();               
+            //     return true;
+            // });
+            // div.addEventListener("wheel", (ev)=>{
+            //     ev.stopPropagation();
+            //     return true;
+            // }); 
             this.dom = div;
 
             this.viewCtrl = new ViewControl({position: 'topleft'});
@@ -326,11 +362,29 @@ export class MapControl extends L.Control {
                 showOnFocus: true,
                 labelAttr : 'name'
             });
+
+            // map.on('layeradd', (evt)=>this.onLayerAdded(evt));
+            // map.on('layerremove', (evt)=>this.onLayerRemoved(evt));
             
         }
          
         return this.dom;
     }
+    // onLayerAdded(evt: L.LeafletEvent): void {
+        
+    //     console.info("onLayerAdded", evt);
+    // }
+    // onLayerRemoved(evt: L.LeafletEvent): void {
+    //     if (this.selectedItem?.popup) {            
+    //         console.info("onLayerRemoved popup", evt);
+    //         console.info("onLayerRemoved popup", this.selectedItem.popup);
+    //         // this.selectedItem.featureLayer.highlightMarker(this.selectedItem.feature, false);
+    //         this.selectedItem = undefined;
+    //     } else {
+    //         console.info("onLayerRemoved", evt);
+    //     }
+    // }
+
     private _searchStart(input: HTMLInputElement): void {
         this.clearResults();
     }

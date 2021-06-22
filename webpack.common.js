@@ -41,8 +41,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const TerserPlugin = require('terser-webpack-plugin');
 
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -53,7 +51,8 @@ module.exports = {
   entry: {    
     edit:path.resolve('./src/EditApp.ts'),
     map:path.resolve('./src/MapApp.ts'),
-    svgtest:path.resolve('./src/SVGTest.ts')
+    svgtest:path.resolve('./src/SVGTest.ts'),
+    testunit:path.resolve('./src/__tests__/test.ts'),
   },
 
   plugins: [
