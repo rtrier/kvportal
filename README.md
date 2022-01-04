@@ -13,6 +13,8 @@ Based on [Leaflet](https://leafletjs.com/)
 
 ## map description file: layerdef.json ##
 
+see: [layerdef.json.md](layerdef.json.md)
+
 ```javascript
 {
   "baseLayers": [
