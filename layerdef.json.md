@@ -1,0 +1,113 @@
+```javascript
+{
+	mapOptions:{
+		center:{
+			lat:number
+			lng:number
+		}
+		zoom:number
+		maxBounds:[ [rw1, hw1], [rw2, hw2]]
+		minZoom:number
+	}
+	default_wms_legend_icon:string
+	themes:{
+		thema:string
+		icon:string
+		themes:{
+			thema:string
+			icon:string
+		}
+	}
+	baseLayers:{
+		label:string
+		url:string
+		options:{
+			attribution:string
+			minZoom:number
+			maxZoom:number
+			zoomOffset:number
+		}
+		img:string
+		shortLabel:string
+		url2:string
+	}
+	overlays:{
+		thema:string
+		label:string
+		infoAttribute:string
+		img:string
+		backgroundColor:string
+		url:string
+		params:{
+			gast:number
+			go:string
+			selected_layer_id:number
+			export_format:string
+			browserwidth:number
+			browserheight:number
+			epsg:number
+			all:number
+		}
+		options:{
+			attribution:string
+			transparent:boolean
+			crs:string
+			version:string
+			layers:string
+			format:string
+			opacity:number
+		}
+		layerAttributes:{
+				[name:string] 
+		}
+		hideEmptyLayerAttributes:boolean
+		icon:{
+			iconUrl:string
+			iconSize: [width, height]
+			iconAnchor: [x, y]
+			popupAnchor: [x, y]
+		}
+		contactOrganisation:string
+		abstract:string
+		contactPersonName:string
+		contactEMail:string
+		contactPhon:string
+		actuality:string
+		actualityCircle:string
+		type:string
+		geomType:string
+		classes:{
+			def:string
+			name:string
+			style:{
+				color:string
+				weight:number
+				fill:boolean
+				fillColor:string
+				fillOpacity:number
+				symbolname:string
+				size:number
+				stroke:boolean
+			}
+			icon:{
+				iconUrl:string
+				iconSize:[width, height]
+				iconAnchor:[x, y]
+				popupAnchor:[x, y]
+			}
+		}
+		style:{
+			stroke:boolean
+			weight:number
+			color:string
+			symbolname:string
+			size:number
+			fill:boolean
+			fillColor:string
+			fillOpacity:number
+		}
+		popup:string
+		url_legend:string
+	}
+}
+```
