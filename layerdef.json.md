@@ -10,15 +10,15 @@
 		minZoom:number
 	}
 	default_wms_legend_icon:string
-	themes:{
+	themes:[{
 		thema:string
 		icon:string
-		themes:{
+		themes:[{
 			thema:string
 			icon:string
-		}
-	}
-	baseLayers:{
+		}]
+	}}
+	baseLayers:[{
 		label:string
 		url:string
 		options:{
@@ -30,8 +30,8 @@
 		img:string
 		shortLabel:string
 		url2:string
-	}
-	overlays:{
+	}]
+	overlays:[{
 		thema:string
 		label:string
 		infoAttribute:string
@@ -76,7 +76,7 @@
 		actualityCircle:string
 		type:string
 		geomType:string
-		classes:{
+		classes:[{
 			def:string
 			name:string
 			style:{
@@ -95,7 +95,7 @@
 				iconAnchor:[x, y]
 				popupAnchor:[x, y]
 			}
-		}
+		}]
 		style:{
 			stroke:boolean
 			weight:number
@@ -108,6 +108,6 @@
 		}
 		popup:string
 		url_legend:string
-	}
+	}]
 }
 ```
