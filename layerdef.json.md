@@ -29,7 +29,6 @@
 		}
 		img:string
 		shortLabel:string
-		url2:string
 	}]
 	overlays:[{
 		thema:string
