@@ -9,6 +9,9 @@ export interface View {
     getTitle?():string;
 }
 
+interface ViewCtrlOptions extends L.ControlOptions {
+    parentNode? : HTMLElement
+}
 
 export class ViewControl extends L.Control {
 
@@ -21,14 +24,17 @@ export class ViewControl extends L.Control {
     navBttn: HTMLElement;
     anchorBack: HTMLAnchorElement;
     navTitle: HTMLSpanElement;
+    parentNode: HTMLElement;
+    private _map: L.Map;
 
-    constructor(options:L.ControlOptions) {
+    constructor(options:ViewCtrlOptions) {
         super(options);
+        this.parentNode = options.parentNode;
         const div = this.dom = document.createElement('div');
         div.className = 'viewctrl';
         const navArea = this.navigationArea = document.createElement('div');
         navArea.className = 'viewctrl-nav';        
-        const navTitle = this.navTitle = createHtmlElement('span', navArea);        
+        this.navTitle = createHtmlElement('span', navArea);        
         const navSpan = this.navBttn = document.createElement('span');
         navArea.appendChild(navSpan);
         const anchorBack = this.anchorBack = document.createElement('a') ;
@@ -61,12 +67,27 @@ export class ViewControl extends L.Control {
         this.goBack();
     }
 
+    addTo(map: L.Map):this {
+        // console.error('ViewControl.addTo');
+        if (this.parentNode) {
+            this.remove();
+  		    this._map = map;
+  		    const container = (<any>this)._container = this.onAdd(map);  		    
+            this.parentNode.appendChild(container);            
+  		    this._map.on('unload', this.remove, this);
+            return this;
+        } else {
+            return super.addTo(map);
+        }
+    }
+
     onAdd(map:L.Map):HTMLElement {
         return this.dom;
     }	
 
-    onRemove(map:L.Map) {
-    }
+    // onRemove(map:L.Map) {
+    //     // console.error("ViewControl.onRemove");
+    // }
 
     clear() {
         console.info("clear");
@@ -75,6 +96,7 @@ export class ViewControl extends L.Control {
             if (view.onRemove) {
                 view.onRemove();
             }
+            MapDispatcher.onViewRemove.dispatch(this, view);
         }
         this.contentHistory = [];
         if (this.contentArea.firstChild) {
@@ -85,16 +107,40 @@ export class ViewControl extends L.Control {
         }
     }
 
-    setContentView(v:View):void {
-        console.info(`setView`, v);        
-        this._setContent(v);
+    setContentView(v:View, replace:boolean):void {
+        console.info(`setView`, v); 
+        if (replace) {
+            this._replaceContent(v);
+        } else {
+            this._setContent(v);
+        }
         if (v.onAdd) {
             v.onAdd(this);
         } 
     }
-
+    
+    private _replaceContent(view:View):void {
+        console.info("_replaceContent");
+        let oldView:View;
+        while (oldView=this.contentHistory.pop()) {
+            if (oldView.onRemove) {
+                oldView.onRemove();
+            }
+        }
+        const dom = view.getDom();
+        if (this.contentArea.firstChild) {
+            console.info("_replaceContent01", this.contentArea.firstChild);
+            this.contentArea.replaceChild(dom, this.contentArea.firstChild);
+        } else {
+            console.info("_replaceContent02");
+            this.dom.insertBefore(this.navigationArea, this.contentArea);
+            this.contentArea.appendChild(dom);
+        }
+        this.contentHistory = [view];
+    }
     private _setContent(view:View):void {        
         const dom = view.getDom();
+        console.info('ViewControl._setContent01', dom);
         dom.id='view_'+this.counter;
         this.counter++;
         if (this.contentArea.firstChild) {
@@ -135,7 +181,6 @@ export class ViewControl extends L.Control {
                 else {
                     console.info(`goBack ${currentContent['id']} => none removeNavArea`);
                     this.contentArea.removeChild(currentContent.getDom());                    
-                    console.info('remove navArea');
                     this.dom.removeChild(this.navigationArea);
                 }
                 if (currentContent.onRemove) {
@@ -144,7 +189,8 @@ export class ViewControl extends L.Control {
                 MapDispatcher.onViewRemove.dispatch(this, currentContent);
             }
         }
-        if (this.contentHistory.length===1) {
+        console.info('goBack this.anchorBack.classList', this.anchorBack.className);
+        if (this.contentHistory.length<=1) {
             this.anchorBack.classList.replace('back', 'close');
         } else {
             this.anchorBack.classList.replace('close', 'back');

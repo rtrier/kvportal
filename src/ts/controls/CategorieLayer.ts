@@ -5,6 +5,7 @@ import * as L from 'leaflet';
 import { View } from './ViewControl';
 import {MapDispatcher} from './MapControl'
 import { MarkerView } from './MarkerListView';
+import { LeafletEvent, LeafletEventHandlerFn, LeafletMouseEvent, LeafletMouseEventHandlerFn } from 'leaflet';
 // import {MarkerClusterGroup} from "@glartek/leaflet.markercluster";
 
 function createIcon(code:number):L.Icon {
@@ -175,6 +176,13 @@ export class CategoryMarker<T extends L.LatLngExpression> extends L.Marker imple
 
 }
 
+
+export interface FeatureClickEvent extends LeafletMouseEvent {
+    layer:L.Layer,
+    feature:CategoryMapObject<any>
+}
+export type FeatureClickEventHandlerFn = (event: FeatureClickEvent) => void;
+
 export interface InteractiveLayer {
     
     map?:L.Map;
@@ -182,7 +190,12 @@ export interface InteractiveLayer {
 
     highlightMarker: (marker:CategoryMapObject<any>, highlight:boolean)=>void;
     mapItemClicked:(marker: CategoryMapObject<any>, ev: L.LeafletEvent)=>void;
+
+    // on: (type: 'itemclicked', fn: LeafletMouseEventHandlerFn, context?: any)=> this;
+    on(type:'featureclicked', fn: FeatureClickEventHandlerFn|LeafletEventHandlerFn, context?: any): this;
+    on(type: string, fn: LeafletEventHandlerFn|FeatureClickEventHandlerFn, context?: any): this;
 }
+
 
 export class GeojsonLayer extends L.MarkerClusterGroup implements InteractiveLayer {
 
@@ -198,12 +211,19 @@ export class GeojsonLayer extends L.MarkerClusterGroup implements InteractiveLay
    
 
     mapItemClicked(marker: CategoryMapObject<any>, ev: L.LeafletMouseEvent): void {
-        MapDispatcher.onMapFeatureClick.dispatch(this, ev);
+        // MapDispatcher.onMapFeatureClick.dispatch(marker, {...ev, layer:this, feature:marker});
+        MapDispatcher.onMapFeatureClick.dispatch(marker, ev);
     }
 
     renderData(marker:CategoryMapObject<any>):View {
         return new MarkerView(this, marker);
     }
+
+
+   
+    // on1(type: 'bll', fn: L.LeafletEventHandlerFn, context?: any): this {
+    //     return super.on(type, fn, context);
+    // }
 }
 
 // export class CategorieLayer<T extends L.LatLngExpression> extends L.LayerGroup {
@@ -225,6 +245,10 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
     // selectedMarker: CategoryMapObject<T>;
     foundMarkers: CategoryMapObject<T>[]; 
     map: L.Map;
+    enqueueSpiderfy: boolean;
+
+    // 
+    selectedMarker: CategoryMapObject<T>;
    
     constructor(options?:CategorieLayerOptions<T, N>) {
         super(options);
@@ -259,9 +283,18 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
 
     onAdd(map:L.Map):this {
         super.onAdd(map);
-        this.map = map;
+        this.map = map;        
+        map.on('zoomend', (evt)=>{
+            this.enqueueSpiderfy = true;
+        });
+        return this;
+    }	
+    onRemove(map:L.Map):this {
+        super.onRemove(map);
+        this.map = undefined;
         return this;
     }
+
 
     private _findMarker(value:any, prop:string) {
         const markers = this.markers;        
@@ -302,12 +335,40 @@ export class CategorieLayer<T extends L.LatLngExpression, N> extends L.MarkerClu
         }
     }
 
-    mapItemClicked(marker: CategoryMapObject<T>, ev: L.LeafletMouseEvent): void {
-        console.info("mapItemClicked", marker.data['id'], ev); 
-        MapDispatcher.onMapFeatureClick.dispatch(this, ev);      
-    }      
+    // mapItemClickedOrg(marker: CategoryMapObject<T>, ev: L.LeafletMouseEvent): void {
+    //     console.info("mapItemClicked", marker.data['id'], ev); 
+    //     MapDispatcher.onMapFeatureClick.dispatch(marker, ev);      
+    // }      
      
+    mapItemClicked(marker: CategoryMapObject<T>, ev: L.LeafletMouseEvent): void {
+        console.info("mapItemClicked", marker, ev);
 
+		if (marker.selected) {
+            if (this.map.getZoom()) {
+                const lat = (<any>marker.data).lat;
+                const lng = (<any>marker.data).lng; 
+                const c = new L.LatLng(lat, lng);
+                
+                this._map.setView(c, 18);
+
+                this.once('animationend', (evt)=>{
+                    console.info(`animationend=>map.setView(${c})`);
+                    window.setTimeout(()=>{this.map.setView(c)});
+                });
+                   
+                
+            } else {
+                // MapDispatcher.onMapFeatureClick.dispatch(marker, {...ev, layer:this, feature:marker});
+                // MapDispatcher.onItemOnMapUnselection.dispatch(this, marker);
+                MapDispatcher.onMapFeatureClick.dispatch(marker, ev);
+            }
+        } else {
+            // MapDispatcher.onItemOnMapSelection.dispatch(this, marker);
+            // MapDispatcher.onMapFeatureClick.dispatch(marker, {...ev, layer:this, feature:marker});
+            MapDispatcher.onMapFeatureClick.dispatch(marker, ev);
+            this.selectedMarker = marker;
+        }																   
+    } 
 
     highlightMarker(marker:CategoryMarker<T>, highlight:boolean) {
         console.info(`CategorieLayer.highlightMarker ${marker.data['id']} ${highlight}`)

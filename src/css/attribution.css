@@ -1,0 +1,43 @@
+.control-attribution {
+	display: flex;
+	font-size: 11px;
+	background-color: transparent;
+	border-bottom-right-radius: 3px;
+}
+.control-attribution.open {
+	background-color: rgba(255, 255, 255, 0.7);
+}
+.div-attribution {
+	display: none;
+
+}
+.open>.div-attribution {
+	display: inline-block;
+	padding-right: 3px;
+	padding-left: 3px;
+}
+
+
+.control-attribution>button, .control-search>button {
+	align-self: flex-end;
+	background-color:#005e90;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size: 2.2rem;
+	padding: 0px 0px;
+	text-decoration:none;
+	/* text-shadow:0px 1px 0px #263666;	*/
+}
+.control-search>button {
+	font-size: 20px;
+}
+/*
+.control-attribution>button:hover, .control-search>button:hover {
+	background-color:#005e90;
+	box-shadow:inset 0px -3px 7px 0px #29bbff;
+}
+*/
+.control-attribution span {
+	line-height: 1em;
+}

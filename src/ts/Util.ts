@@ -1,3 +1,4 @@
+import { Browser } from "leaflet";
 
 export interface CancelablePromise extends Promise<any> {
 	onCancel(cb:()=>void):this
@@ -22,28 +23,6 @@ export function createCancellablePromise(executor: (
     }
 	return t;
 }
-
-export class XCancelablePromise<T> extends Promise<T>{
-
-    private cancelMethod: () => void;
-
-    constructor(executor: (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void) {
-        super(executor);
-    }
-
-	onCancel(cb:()=>void):this {
-		this.cancelMethod = cb;
-		return this;
-	}
-
-    
-    public cancel() {
-        if (this.cancelMethod) {
-            this.cancelMethod();
-        }
-    }
-}
-
 
 export function loadJson(url: string, params?:any):CancelablePromise {
 	let promise:CancelablePromise;
@@ -100,7 +79,7 @@ export function makeRequest(url:string, auth?:string):CancelablePromise {
 		console.info(`run request "${url}"`);
 		xhr.send();
 	}).onCancel(()=>{
-		console.info("xhr abort", xhr);
+		console.debug("xhr abort", xhr);
 		xhr.abort();
 	});
 }
@@ -124,12 +103,8 @@ export function getParamString(obj:any, existingUrl?:string, uppercase?:boolean)
 	return (!existingUrl || existingUrl.indexOf('?') === -1 ? '?' : '&') + params.join('&');
 }
 
-// export function addTooltip(el:HTMLElement, txt?:string) {
-// 	const t = createHtmlElement('div', el, 'csstooltip');
-// 	t.innerHTML = txt;
-// }
 
-export function createHtmlElement<K extends keyof HTMLElementTagNameMap>(tag:K, parent?:HTMLElement, className?:string): HTMLElementTagNameMap[K] {
+export function createHtmlElement<K extends keyof HTMLElementTagNameMap>(tag:K, parent?:HTMLElement, className?:string, mixin?:any): HTMLElementTagNameMap[K] {
     const el = document.createElement(tag);
     if (parent) {
         parent.appendChild(el);
@@ -137,7 +112,20 @@ export function createHtmlElement<K extends keyof HTMLElementTagNameMap>(tag:K, 
     if (className) {
         el.className = className;
     }
+	if (mixin) {
+		for (const k in mixin) {
+			el[k] = mixin[k];
+		}
+	}
     return el;
+}
+
+export function createCloseButton(cb:(ev:MouseEvent)=>void) {
+	const closeBttn = document.createElement("span");
+	closeBttn.className = 'close-button';
+	/* closeBttn.innerHTML = '&#xf00d;'; */
+	closeBttn.addEventListener('click', cb);
+	return closeBttn;
 }
 
 export function createRow(attName:string, value:any, parent:HTMLElement):HTMLTableRowElement {
@@ -150,4 +138,29 @@ export function createRow(attName:string, value:any, parent:HTMLElement):HTMLTab
     row.appendChild(c2);
     parent.appendChild(row);
     return row;
+}
+
+const fnStopPropagation = (ev: Event) => {
+	if (ev.stopPropagation) {
+		ev.stopPropagation();
+	} else {
+		ev.cancelBubble = true;
+	}
+	ev.stopPropagation();
+	if (ev.preventDefault) {
+		ev.preventDefault();
+	} else {
+		ev.returnValue = false;
+	}
+	return false;
+};
+// if (type === 'touchstart' || type === 'touchmove' || type === 'wheel' ||  type === 'mousewheel') {
+export function disableEvtPropagation(dom:HTMLElement):void {
+	const passiveEvents = (<any>Browser).passiveEvents;
+	dom.addEventListener("pointermove", fnStopPropagation);
+	dom.addEventListener("mousedown", fnStopPropagation);      
+	dom.addEventListener("dblclick", fnStopPropagation);
+	dom.addEventListener("dragstart", fnStopPropagation);
+	dom.addEventListener("drag", fnStopPropagation);
+	dom.addEventListener("wheel", fnStopPropagation, passiveEvents ? {passive: false} : false);
 }

@@ -1,15 +1,68 @@
-import *  as Util from "../Util";
-import { IconOptions, CRS } from "leaflet";
+import { IconOptions, CRS, MapOptions } from "leaflet";
 import { LayerWrapper } from "../controls/MapControl";
+import { loadJson } from "../Util";
 
 let mapDescr: MapDescription;
 
 export async function getConf(url: string): Promise<MapDescription> {
+	if (!mapDescr) {
+		const json = await loadJson(url);
+
+		mapDescr = {
+			default_wms_legend_icon: json.default_wms_legend_icon,
+			mapOptions: json.mapOptions,
+			baseLayers: json.baseLayers,
+			themes: []
+		};
+		const mapThemes: { [id: string]: Theme } = {};
+		const parse=function(themes:Theme[]) {
+			for (let i=0; i<themes.length; i++) {
+				const theme = themes[i];
+				theme.layers = [];
+				if (theme.themes) {
+					parse(theme.themes)
+				}
+				mapThemes[theme.thema] = theme;
+				const themesArr = theme.thema.split('|');
+				theme.thema = themesArr[themesArr.length-1];
+			}
+		}
+		parse(json.themes);
+		mapDescr.themes = json.themes;
+
+		
+		for (let i = 0, count = json.overlays.length; i < count; i++) {
+			const overlay: LayerDescription = json.overlays[i];
+			
+			let theme = mapThemes[overlay.thema];
+
+			if (theme) {
+				if (overlay.type === "WMS") {
+					overlay.options["crs"] = CRS[<string>overlay.options["crs"]];
+				}				
+				theme.layers.push(new LayerWrapper(overlay));
+			} else {
+				console.error('Thema not defined', overlay);
+			}
+		}
+		
+	}
+	return mapDescr;
+}
+
+
+
+
+
+
+/*
+export async function getConfOld(url: string): Promise<MapDescription> {
 
 	if (!mapDescr) {
 		const json = await Util.loadJson(url);
 		mapDescr = {
 			default_wms_legend_icon: json.default_wms_legend_icon,
+			mapOptions: json.mapOptions,
 			baseLayers: json.baseLayers,
 			themes: []
 		};
@@ -17,19 +70,46 @@ export async function getConf(url: string): Promise<MapDescription> {
 		const themes: { [id: string]: Theme } = {};
 		for (let i = 0, count = json.overlays.length; i < count; i++) {
 			const overlay: LayerDescription = json.overlays[i];
+			
 			let theme = themes[overlay.thema];
+
 			if (!theme) {
-				theme = themes[overlay.thema] = { thema: overlay.thema, layers: [] };
-				mapDescr.themes.push(theme);
+				const themesArr = overlay.thema.split('|');
+				let themesId:string;
+				let currentTheme:Theme;
+				for (let i=0; i<themesArr.length; i++) {
+					themesId = themesId ? (themesId+'|'+themesArr[i]) : themesArr[i];					
+					theme = themes[themesId];
+					if (!theme) {
+						theme = themes[themesId] = { thema: themesArr[i], layers: [] };
+						if (currentTheme) {
+							if (!currentTheme.themes) {
+								currentTheme.themes = [];
+							}
+							currentTheme.themes.push(theme);
+						} else {
+							mapDescr.themes.push(theme);
+						}
+					}
+					currentTheme = theme;
+				}
 			}
 			if (overlay.type === "WMS") {
 				overlay.options["crs"] = CRS[<string>overlay.options["crs"]];
 			}
 			theme.layers.push(new LayerWrapper(overlay));
 		}
+
+		for (let i=0, count = json.themes.length; i<count; i++) {
+			const t = json.themes[i];
+			const thema = themes[t["thema"]];
+			if (thema) {
+				thema['icon'] = t["icon"];
+			}
+		}
 	}
 	return mapDescr;
-}
+}*/
 
 export function getMapDescription(): MapDescription {
 	if (!mapDescr) {
@@ -40,13 +120,16 @@ export function getMapDescription(): MapDescription {
 
 export type MapDescription = {
 	default_wms_legend_icon: string,
+	mapOptions: MapOptions,
 	baseLayers: LayerDescription[],
 	themes: Theme[]
 }
 
 export type Theme = {
 	thema: string,
-	layers: LayerWrapper[]
+	layers: LayerWrapper[],
+	icon?:  string,
+	themes?: Theme[]
 }
 
 export interface LayerOptions {
@@ -64,7 +147,8 @@ export interface LayerOptionsWMS extends LayerOptions {
 export type LayerClass = {
 	def: string;
 	name: string;
-	style: any;
+	style?: any;
+	icon?: any;
 }
 
 export type LayerDescription = {

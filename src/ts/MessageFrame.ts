@@ -62,16 +62,7 @@ export class MessageFrame {
 		this.dom.addEventListener("mousedown", this.dragStart.bind(this), false);
 		this.dom.addEventListener("mouseup", this.dragEnd.bind(this));
         
-        /*
-		if (window.localStorage) {				
-			var x = window.localStorage.getItem('frame_x_'+title);
-			var y = window.localStorage.getItem('frame_y_'+title);
-			if (x && y) {
-				this.dom.style.left=x+"px";
-				this.dom.style.top=y+"px";
-			}
-        } 
-        */  
+ 
         document.body.appendChild(this.dom);     
     
         let h = this.dom.clientHeight;
@@ -127,23 +118,9 @@ export class MessageFrame {
         this.dom.appendChild(innerPane);
         this.innerpane = innerPane;
         document.body.appendChild(this.dom);     
-    
-        /*
-        let h = innerPane.clientHeight;
-        let w = innerPane.clientWidth;
-        innerPane.style.left = (document.body.clientWidth/2 - w/2)+"px";
-        innerPane.style.top = (document.body.clientHeight/2 - h/2)+"px";
-        */
+
     }
-   
-    /*
-    cancled(evt: MouseEvent): any {
-        throw new Error("Method not implemented.");
-    }
-    confirmed(evt: MouseEvent): any {
-        throw new Error("Method not implemented.");
-    }
-    */
+
 
     hide() {
 		if (this.dom) {
@@ -212,12 +189,7 @@ export class MessageFrame {
             }
             this.innerpane.style.left=clientX+"px";
             this.innerpane.style.top=clientY+"px";
-            /*
-			if (window.localStorage) {				
-				window.localStorage.setItem('frame_x_'+this.title, clientX.toString());
-				window.localStorage.setItem('frame_y_'+this.title, clientY.toString());
-            }
-            */
+            
         }
 
     }

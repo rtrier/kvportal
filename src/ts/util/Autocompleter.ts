@@ -5,6 +5,7 @@
   */
 
 import { divIcon } from "leaflet";
+import { LayerWrapper } from "../controls/MapControl";
 
  export const enum EventTrigger {
     Keyboard = 0,
@@ -25,6 +26,9 @@ export interface AutocompleteSettings<T extends AutocompleteItem> {
     emptyMsg?: string;
     onSelect: (item: T, input: HTMLInputElement) => void;
     onSearchStart: (input: HTMLInputElement) => void;
+    onSearchStartRunning?: (input: HTMLInputElement) => void;
+    onSearchFinished?: (input: HTMLInputElement) => void;
+
     initialItems?:T[];
     /**
      * Show autocomplete on focus event. Focus event will ignore the `minLength` property and will always call `fetch`.
@@ -102,6 +106,9 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
     let keypressCounter = 0;
     let debounceTimer : number | undefined;
 
+    let searchCounter=0;
+    let lastSearch:string;
+
     if (!input) {
         throw new Error("input undefined");
     }
@@ -157,20 +164,33 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
         inputValue = "";
         selected = undefined;
         detach();
+        lastSearch = undefined;
     }
 
     /**
      * Update autocomplete position
      */
     function updatePosition(): void {
+
+        // console.warn("updatePosition");
         if (!containerDisplayed()) {
             return;
         }
 
         containerStyle.height = "auto";
-        containerStyle.width = input.offsetWidth + "px";
+
+        let width = input.offsetWidth + "px";
+        // try {
+        //     console.info('updatePosition', input.parentElement.parentElement);
+        // } catch (ex) {
+        //     console.error(ex)
+        // }
+
+
+        containerStyle.width = width;
 
         let maxHeight = 0;
+        let maxWidth = input.offsetWidth;
         let inputRect: ClientRect | DOMRect | undefined;
 
         function calc() {
@@ -180,24 +200,33 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
             const scrollTop = window.pageYOffset || docEl.scrollTop;
             const scrollLeft = window.pageXOffset || docEl.scrollLeft;
 
-            inputRect = input.getBoundingClientRect();
+            inputRect = input.parentElement.getBoundingClientRect();
         
-            const top = inputRect.top + input.offsetHeight + scrollTop - clientTop;
+            const top = inputRect.top + input.offsetHeight + scrollTop - clientTop + 6;
             const left = inputRect.left + scrollLeft - clientLeft;
     
             containerStyle.top = top + "px";
             containerStyle.left = left + "px";
     
-            maxHeight = window.innerHeight - (inputRect.top + input.offsetHeight);
+            maxHeight = window.innerHeight - (inputRect.top + input.offsetHeight + 8);
     
             if (maxHeight < 0) {
                 maxHeight = 0;
             }
+
+            maxWidth = window.innerWidth - (inputRect.left)
     
             containerStyle.top = top + "px";
             containerStyle.bottom = "";
             containerStyle.left = left + "px";
             containerStyle.maxHeight = maxHeight + "px";
+            containerStyle.minWidth = input.parentElement.offsetWidth + "px";
+
+
+            if (maxWidth>100) {
+                containerStyle.width = 'unset';
+                containerStyle.maxWidth = maxWidth  + "px";
+            }
         }
 
         // the calc method must be called twice, otherwise the calculation may be wrong on resize event (chrome browser)
@@ -219,32 +248,35 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
         }
 
         // function for rendering autocomplete suggestions
-        let render = function(item: T, currentValue: string): HTMLDivElement | undefined {            
+        const render = settings.render || function(item: T, currentValue: string): HTMLDivElement | undefined {            
             const itemElement = doc.createElement("div");
-            // itemElement.textContent = item[labelAttr] || "";
             const textArea = doc.createElement("label");
             textArea.innerText = item[labelAttr] || "";
             itemElement.appendChild(textArea);
+            if (item['group'] === 'Thema') {
+                itemElement.title = (<LayerWrapper>item['layer']).layerDescription.abstract;
+            }
             return itemElement;
         };
-        if (settings.render) {
-            render = settings.render;
-        }
+        // if (settings.render) {
+        //     render = settings.render;
+        // }
 
         // function to render autocomplete groups
-        let renderGroup = function(groupName: string, currentValue: string): HTMLDivElement | undefined {
+        const renderGroup = settings.renderGroup || function(groupName: string, currentValue: string): HTMLDivElement | undefined {
             const groupDiv = doc.createElement("div");
             groupDiv.textContent = groupName;
             return groupDiv;
         };
-        if (settings.renderGroup) {
-            renderGroup = settings.renderGroup;
-        }
+        // if () {
+        //     renderGroup = settings.renderGroup;
+        // }
 
         const fragment = doc.createDocumentFragment();
         let prevGroup = "#9?$";
 
         items.forEach(function(item: T): void {
+            
             if (item["group"] && item["group"] !== prevGroup) {
                 prevGroup = item["group"];
                 const groupDiv = renderGroup(item["group"], inputValue);
@@ -312,7 +344,7 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
 
 
 
-        const ignore = [Keys.Up, Keys.Enter, Keys.Esc, Keys.Right, Keys.Left, Keys.Shift, Keys.Ctrl, Keys.Alt, Keys.CapsLock, Keys.WindowsKey, Keys.Tab];
+        const ignore = [Keys.Up, Keys.Esc, Keys.Right, Keys.Left, Keys.Shift, Keys.Ctrl, Keys.Alt, Keys.CapsLock, Keys.WindowsKey, Keys.Tab];
         for (const key of ignore) {
             if (keyCode === key) {
                 return;
@@ -487,30 +519,57 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
     //     }
     // }
 
+    function addToSearchCounter(i:number) {
+        searchCounter += i;
+        if (searchCounter === 0) {
+            // console.warn("allSsearchFetchDone");
+            if (settings.onSearchFinished) {
+                settings.onSearchFinished(input)
+            };
+        } else {
+            // console.warn("searching");
+            if (settings.onSearchStartRunning) {
+                settings.onSearchStartRunning(input)
+            };
+        }
+    }
+
     function startFetch(trigger: EventTrigger) {
         // if multiple keys were pressed, before we get update from server,
         // this may cause redrawing our autocomplete multiple times after the last key press.
         // to avoid this, the number of times keyboard was pressed will be
         // saved and checked before redraw our autocomplete box.
         const savedKeypressCounter = ++keypressCounter;
-        console.info(`startFetch "${input.value}" ${trigger}`, trigger);
+        // console.info(`startFetch "${input.value}" ${trigger}`, trigger);
         const val = input.value;
         // if (val.length >= minLen || trigger === EventTrigger.Focus) {
-            if (val.length >= minLen) {
+        if (val.length >= minLen &&  val !== lastSearch) { 
+            if (val === lastSearch) {
+                console.info(`equ ${val} ${lastSearch}`)
+            }
+            lastSearch = val;
+            addToSearchCounter(1);
             clearDebounceTimer();
             debounceTimer = window.setTimeout(function(): void {
                 settings.fetch(val).then( (elements: T[]) => {
+                    console.error("Autocomnplete.update", elements);
                     // console.info(`autocompleter keypressCounter=${keypressCounter} savedKeypressCounter=${savedKeypressCounter}`, elements);
                     if (keypressCounter === savedKeypressCounter && elements) {
                         items = elements;
                         inputValue = val;
                         selected = items.length > 0 ? items[0] : undefined;
                         update();
+                        addToSearchCounter(-1);
                     }
-                }).catch((reason)=>console.info(`fetch not succedded`, reason));
+                }).catch((reason)=>{
+                    console.info(`fetch not succedded`, reason);
+                    addToSearchCounter(-1);
+                });
+                
             }, trigger === EventTrigger.Keyboard ? debounceWaitMs : 0);
         } else {
             clear();
+
         }
     }    
 

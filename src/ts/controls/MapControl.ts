@@ -1,6 +1,3 @@
-/*
-<a class="menu-button" style=""><div class="menu-button-block"></div></a>
-*/
 import * as L from 'leaflet';
 import { EventDispatcher } from 'strongly-typed-events';
 import autocomplete from '../util/Autocompleter';
@@ -9,36 +6,49 @@ import { CategorieLayer, CategoryMapObject, GeojsonLayer, InteractiveLayer } fro
 import { LayerControl } from './LayerControl';
 import { View, ViewControl } from './ViewControl';
 import { MarkerListView, MarkerView } from './MarkerListView';
-import { Feature } from 'geojson';
 import { LayerDescription } from '../conf/MapDescription';
 import { LayerLoader } from '../LayerLoader';
-
-
+import { LeafletMouseEvent } from 'leaflet';
+import { BaseLayerSelectorCtrl } from './BaselayerSelectorCtrl';
+import { LayerControlVar } from './LayerControlVar';
+import { SearchControl } from './SearchCtrl';
+import { ChangeFontSizeCtrl, IconActionCtrl } from './IconAction';
 
 export class MenuControlOptions implements L.ControlOptions {
     position?: L.ControlPosition;    
-    baseLayerCtrl:LayerControl;
-    categorieLayerCtrl:LayerControl;
-    // searchFct?: (s: string, cb: (results: any[]) => any)=>void;
+    parentNode?: HTMLElement;
     searchFct?: (s: string)=>Promise<any[]>;
 }
 
 export type LayerEvent = {
-    type: 'select'|'request-layer'|'layer-ready'|'create-start'|'created'|'added-to-map'|'removed-from-map';
+    type: 'select'|'request-layer'|'layer-ready'|'create-start'|'created'|'added-to-map'|'removed-from-map'|'layer-error';
     layer: LayerWrapper
-    // layer:L.Layer;
-    // layerDescription:LayerDescription;
-    // isSelected: boolean;
 }
 
+export type LayerOrderChangeEvent = {
+    type: 'order-changed',
+    layers:LayerWrapper[]
+}
+
+
 export class LayerWrapper {    
+
+    private static idCounter = 0;
+
     layer:L.Layer;
     layerDescription:LayerDescription;
     isSelected = false;
-    isVisible = false;
+
+    id:number;
+    /**
+     * order 1 ist unten ...
+     */
+    idx:number = -1;
+    loadError: boolean;
 
     constructor(layerDescription:LayerDescription) {        
         this.layerDescription = layerDescription;
+        this.id = LayerWrapper.idCounter++;
     }
 
     setSelected(selected:boolean):void {
@@ -53,14 +63,11 @@ export class LayerWrapper {
 }
 
 class Dispatcher {    
-    onListViewItemSelection = new EventDispatcher<MarkerListView, CategoryMapObject<any>>();
-    // onItemOnMapSelection = new EventDispatcher<CategorieLayer<any, any>| GeojsonLayer, CategoryMapObject<any>>();
-    // onItemOnMapUnselection = new EventDispatcher<CategorieLayer<any, any>|GeojsonLayer, CategoryMapObject<any>>();
-
-    // onShowPopup = new EventDispatcher<any, L.LeafletMouseEvent>();
+    onListViewItemSelection = new EventDispatcher<MarkerListView, CategoryMapObject<any>>();    
+    
     onViewRemove = new EventDispatcher<ViewControl, View>();
 
-    onMapFeatureClick = new EventDispatcher<any, L.LeafletMouseEvent>();
+    onMapFeatureClick = new EventDispatcher<any, LeafletMouseEvent>();
 
     onBaseLayerSelection = new EventDispatcher<LayerControl, L.Layer>();
     onThemeLayerSelection = new EventDispatcher<LayerWrapper, LayerEvent>();
@@ -72,24 +79,39 @@ class Dispatcher {
     onLayerAdded = new EventDispatcher<MapControl, LayerEvent>();
     onLayerRemoved = new EventDispatcher<MapControl, LayerEvent>();
 
+    onLayerOrderChanged = new EventDispatcher<any, LayerOrderChangeEvent>();
+
     onLayerRequest = new EventDispatcher<MapControl, LayerEvent>();
 
     onLayerReady = new EventDispatcher<LayerLoader, LayerEvent>();
+
+    onLayerError = new EventDispatcher<LayerLoader, LayerEvent>();
+
+    onShowLayerInfoRequest = new EventDispatcher<any, LayerWrapper>();
 }
 
 
 
 export const MapDispatcher = new Dispatcher();
 
+const LayerInfoAttr : Array<{attrName:string, attrLabel:string}> = [
+    {attrName:'contactPersonName', attrLabel:'Ansprechpartner:'},
+    {attrName:'contactEMail', attrLabel:'E-Mail:'},
+    {attrName:'contactPhon', attrLabel:'Tel:'},
+    {attrName:'actuality', attrLabel:'Aktualität:'},
+    {attrName:'actualityCircle', attrLabel:'Aktualisierungszyklus:'}
+];
+
+
+
+
 export class MapControl extends L.Control {
 
-    
     map:L.Map;
     dom: HTMLElement;
-    baseLayerCtrl:LayerControl;
-    categorieLayerCtrl:LayerControl;
-
-    // searchFct: (s: string, cb: (results: any[]) => any)=>void;
+    baseLayerCtrl:LayerControl|BaseLayerSelectorCtrl;
+    categorieLayerCtrl:LayerControl|LayerControlVar;
+    
     searchFct: (s: string)=>Promise<any[]>;
 
     closed:boolean = true;
@@ -106,18 +128,39 @@ export class MapControl extends L.Control {
     baseLayer: L.Layer;
 
     selectedItem:{featureLayer:InteractiveLayer, feature:CategoryMapObject<any>};
+    
+    parentNode: HTMLElement;
+
+    layerOnMapList: LayerWrapper[] = [];
+
+    mapCtrlContentContainer: HTMLDivElement;
+    _sidebarClosed: boolean;
+
 
     constructor(options:MenuControlOptions) {
         super(options);
-        this.baseLayerCtrl=options.baseLayerCtrl;
-        this.categorieLayerCtrl=options.categorieLayerCtrl;        
-        this.searchFct = options.searchFct;
+                
+        if (options.parentNode) {
+            this.parentNode = options.parentNode;
+            options.parentNode.classList.add('mapctrl_parent')
+            this.categorieLayerCtrl = new LayerControlVar({ parentNode: options.parentNode });            
+            this.baseLayerCtrl = new BaseLayerSelectorCtrl({position:'bottomright'});
+
+            const container = this.mapCtrlContentContainer = document.createElement('div');
+            container.className = 'mapctrl_content';            
+        }
+        else {
+            this.categorieLayerCtrl = new LayerControl({ position: 'topleft' });
+            this.baseLayerCtrl = new LayerControl({
+                position: 'topleft',
+                className: 'flex-no-shrink'
+            });
+        }
+        
+        this.searchFct = options.searchFct;        
         this._subscribe();
     }
     private _subscribe() { 
-        // MapDispatcher.onItemOnMapSelection.subscribe((sender, item)=>this.onItemOnMapSelection(sender, item));
-        // MapDispatcher.onItemOnMapUnselection.subscribe((sender, item)=>this.onItemOnMapUnselection(sender, item));
-
         MapDispatcher.onMapFeatureClick.subscribe((sender, evt)=>this.onMapFeatureClick(sender, evt));
 
         MapDispatcher.onBaseLayerSelection.subscribe((sender, layer)=>this.onBaseLayerSelection(sender, layer));
@@ -127,35 +170,110 @@ export class MapControl extends L.Control {
 
         MapDispatcher.onViewRemove.subscribe((sender, evt)=>this.onViewRemove(sender, evt));
 
-        // MapDispatcher.onShowPopup.subscribe((sender, evt)=>this._showPopup(evt));
+        MapDispatcher.onShowLayerInfoRequest.subscribe((sender, layerDescr)=>this.onShowLayerInfoRequest(sender, layerDescr));
     }
+
+
 
 
     addCategorieLayer(categorieLayer:CategorieLayer<any, any>, showAll:boolean) {
         categorieLayer.once("CategoriesLoaded", (evt)=>{
-            console.info('App CategoriesLoaded', categorieLayer);
             this.categorieLayerCtrl.addCategorieLayer("Kategories", categorieLayer, showAll);
             this.map.addLayer(categorieLayer);
         });
         categorieLayer.loadCategories();
-        this.categorieLayers["Kategories"] = categorieLayer;   
-        // categorieLayer.on('itemselected', (ev)=>this.itemSelected(ev));     
-        // categorieLayer.on('itemunselected', (ev)=>this.itemUnselected(ev));
+        this.categorieLayers["Kategories"] = categorieLayer;
     }
     itemSelected(ev: L.LeafletEvent): void {
-        console.info("MenuCtrl.itemSelected", ev);
         const layer:CategorieLayer<any, any> = ev.target;
         const marker:CategoryMapObject<any> = (<any>ev).marker;
         this.showData(layer, marker);        
     }
     itemUnselected(ev: L.LeafletEvent): void {
-        console.info("itemUnselected", ev);
         this.viewCtrl.goBack();
     }    
 
-    setContentView(v:View):void {
-        this.viewCtrl.setContentView(v);        
+    setContentView(v:View, replace:boolean):void {
+        this.viewCtrl.setContentView(v, replace);        
     }
+
+    onShowLayerInfoRequest(sender: any, layer: LayerWrapper): void {
+        console.info('onShowLayerInfoRequest', sender, layer);
+        const self = this;
+        const v:View = {            
+            getDom:function() {
+                console.info("getDom", this)
+                if (!this.dom) {
+                    const d = this.dom = document.createElement('div');   
+                    d.className = "layerinfo";
+                    if (layer.layerDescription.label) {
+                        createHtmlElement("span", d, "layerinfo-title", {
+                            innerText : layer.layerDescription.label
+                        });
+                    };
+                    if (layer.loadError) {
+                        createHtmlElement("span", d, "layerinfo-error", {
+                            innerText : "Beim Laden des Themas ist ein Fehler aufgetreten. Versuchen Sie es später erneut."
+                        });
+                    }
+                    const layerDescr = layer.layerDescription;
+                    if (layerDescr.abstract) {
+                        createHtmlElement("span", d, "layerinfo-subtitle", {
+                            innerText : "Beschreibung:"
+                        });
+                        createHtmlElement("span", d, "layerinfo-text", {
+                            innerText : layerDescr.abstract
+                        });
+                    };
+                    if (layerDescr.contactOrganisation) {
+                        createHtmlElement("span", d, "layerinfo-subtitle", {
+                            innerText : "Quelle:"
+                        });
+                        createHtmlElement("span", d, "layerinfo-text", {
+                            innerText : layerDescr.contactOrganisation
+                        });
+                    };
+                    for (let i=0, count=LayerInfoAttr.length; i<count; i++) {
+                        const layerInfoAttr = LayerInfoAttr[i];
+                        if (layerDescr[layerInfoAttr.attrName]) {
+                            const p = createHtmlElement("p", d, "layerinfo-row");
+                            createHtmlElement("span", p, "layerinfo-row-head", {
+                                innerText : layerInfoAttr.attrLabel
+                            });
+                            createHtmlElement("span", p, "layerinfo-row-content", {
+                                innerText : layerDescr[layerInfoAttr.attrName]
+                            });
+                        }
+                    }
+
+                    let txt:string;
+                    let f : (evt:MouseEvent)=>void;
+                    const vc = this.viewCtc
+                    if (layer.isSelected) {
+                        txt = 'ausblenden';
+                        f = (evt)=>{
+                            layer.setSelected(false);
+                            //  MapDispatcher.onThemeLayerSelection.dispatch(layer, {type:'removed-from-map', layer:layer})
+                            self.viewCtrl.goBack();
+                        }
+                    } else {
+                        txt = 'einblenden';
+                        f = (evt)=>{
+                            layer.setSelected(true);
+                            self.viewCtrl.goBack();
+                            // MapDispatcher.onThemeLayerSelection.dispatch(layer, {type:'select', layer:layer})
+                        }
+                    }
+                    const bttnDiv = createHtmlElement("div", d);
+                    const bttn = createHtmlElement('button', bttnDiv);
+                    bttn.addEventListener('click', f);
+                    bttn.innerText = txt;
+                }
+                return this.dom;
+            }
+        };
+        this.showView(v);
+    }    
 
     onViewRemove(sender: ViewControl, view: View): void {
         console.info('onViewRemove', sender, view);
@@ -166,10 +284,17 @@ export class MapControl extends L.Control {
                     this.selectedItem = undefined;
                 }
             }
-        }        
+        } 
+        if (this.parentNode) {
+            this.map.removeControl(this.viewCtrl);            
+            this.map.addControl(this.categorieLayerCtrl);
+        }
+        if (this._sidebarClosed) {
+            document.getElementById("main").classList.add("sidebar-collapsed") 
+        }
     }
     
-    onMapFeatureClick(sender:any, evt:L.LeafletMouseEvent) {       
+    onMapFeatureClick(sender:any, evt:LeafletMouseEvent) {       
         console.info('onMapFeatureClick', evt);
         const layer = evt.propagatedFrom;
         const geoJsonL = evt.target;
@@ -208,6 +333,7 @@ export class MapControl extends L.Control {
         if (this.map) {
             console.info('baseLayerChanged new', nBaseLayer);
             console.info("before addLayer", nBaseLayer);
+            (<any>nBaseLayer).setZIndex(0);
             this.map.addLayer(nBaseLayer);
             console.info("layer added", nBaseLayer);
             this.baseLayer = nBaseLayer;
@@ -218,28 +344,62 @@ export class MapControl extends L.Control {
 
     }
 
+    addOverlayToMap(lw:LayerWrapper):void {
+        console.info("addOverlayToMap")
+        this.map.addLayer(lw.layer);
+        lw.idx = this.layerOnMapList.length;
+        this.layerOnMapList.push(lw);
+        MapDispatcher.onLayerAdded.dispatch(this, {
+            type : 'added-to-map',                
+            layer: lw
+        });
+        // this.printLayerInfo();
+    }
+
     onLayerReady(sender:LayerLoader, evt: LayerEvent):void {
-        console.info('onLayerReady', evt);
         if (evt.layer.isSelected) {
-            this.map.addLayer(evt.layer.layer);
-            MapDispatcher.onLayerAdded.dispatch(this, {
-                type : 'added-to-map',                
-                layer: evt.layer
-            });
+            this.addOverlayToMap(evt.layer);
         }
-    }    
+    }   
+    
+    removeLayerFromMap(lw:LayerWrapper) {
+        this.map.removeLayer(lw.layer);
+        MapDispatcher.onLayerRemoved.dispatch(this, {
+            type: 'removed-from-map',
+            layer: lw
+        });
+        const arr:LayerWrapper[] = [];
+        for (let i=0; i<this.layerOnMapList.length; i++) {
+            if (lw !== this.layerOnMapList[i]) {
+                this.layerOnMapList[i].idx = arr.length;
+                arr.push(this.layerOnMapList[i]);
+            }
+        }
+        lw.idx = -1;
+        this.layerOnMapList = arr;
+        // this.printLayerInfo();
+    }
+
+    printLayerInfo() {
+        console.error('printLayerInfo');
+        this.map.eachLayer(item => {
+            console.warn(item);
+        })
+        console.error('printLayerInfo2');
+        this.layerOnMapList.forEach(item => {
+            console.warn(item);
+        })
+    }
+
+
 
     onThemeLayerSelection(sender:LayerWrapper, evt: LayerEvent):void {
-        console.info("onThemeLayerSelection", evt);
+        // console.error("onThemeLayerSelection", evt);
         if (this.map) {
             if (evt.layer.isSelected) {
                 try {
                     if (evt.layer && evt.layer.layer) {
-                        this.map.addLayer(evt.layer.layer);
-                        MapDispatcher.onLayerAdded.dispatch(this, {
-                            type: 'added-to-map',
-                            layer: evt.layer
-                        });
+                        this.addOverlayToMap(evt.layer);
                     } else {
                         MapDispatcher.onLayerRequest.dispatch(this, {
                             type: 'request-layer',
@@ -251,36 +411,71 @@ export class MapControl extends L.Control {
                 }
             } else {
                 if (evt.layer.layer) {
-                    this.map.removeLayer(evt.layer.layer);
-                    MapDispatcher.onLayerRemoved.dispatch(this, {
-                        type: 'removed-from-map',
-                        layer: evt.layer
-                    });
+                    this.removeLayerFromMap(evt.layer);
                 }
             }
         }
     }
 
+
+
+
+    showView(view:View) {
+        if (this.parentNode) {
+            console.info('MapCtrl.showData');
+            this.categorieLayerCtrl.remove();
+            this.map.addControl(this.viewCtrl);
+        } else {
+            this.closeMenu();
+        }
+        this.viewCtrl.setContentView(view, true);
+        if (document.getElementById("main")?.classList.contains("sidebar-collapsed")) {
+            document.getElementById("main").classList.remove("sidebar-collapsed");
+            this._sidebarClosed = true;
+        } else {
+            this._sidebarClosed = false;
+        }
+    }
+
     showData(layer: CategorieLayer<any, any>|GeojsonLayer, marker: CategoryMapObject<any>|any) {
-        this.closeMenu();
         if (layer?.renderData) {
-            this.viewCtrl.setContentView(layer.renderData(marker));
+            this.showView(layer.renderData(marker));
         } else {
             if (marker?.feature) {
-                this.viewCtrl.setContentView(new MarkerView(layer, marker));
+                this.showView(new MarkerView(layer, marker));
             } else {
                 console.info(layer, marker);
             }
         }
     }
 
-    addTo(map:L.Map):this {
-        super.addTo(map);
-        this.searchBox.focus();
-        map.addControl(this.viewCtrl);
-        return this;
-    }
 
+
+
+    addTo(map: L.Map):this {
+        // console.error('LayerControl.addTo', this.parentNode);
+        if (this.parentNode) {
+            this.remove();
+  		    this.map = map;
+  		    const container = (<any>this)._container = this.onAdd(map);  		    
+            this.parentNode.appendChild(container);            
+  		    this.map.on('unload', this.remove, this);            
+            this.map.addControl(this.baseLayerCtrl);            
+            this.map.addControl(this.categorieLayerCtrl);
+            // this.map.addControl(this.baseLayerCtrl2);
+            this.parentNode.appendChild(this.mapCtrlContentContainer);
+            // this.parentNode.appendChild(this.layCtrlContainer);
+            // this.parentNode.appendChild(this.viewCtrlContainer);
+            // this.viewCtrlContainer.style.display = 'none';
+            return this;
+        } else {
+            // return super.addTo(map);
+            super.addTo(map);
+            this.searchBox.focus();
+            map.addControl(this.viewCtrl);
+            return this;
+        }
+    }
 
     onAdd(map:L.Map):HTMLElement	{
         console.info("MenuControl.onAdd");
@@ -288,102 +483,94 @@ export class MapControl extends L.Control {
         if (!this.dom) {
             const div = createHtmlElement('div', undefined, "mapctrl");
             const divTop = this.topDiv = createHtmlElement('div', div, "mapctrl-top closed");
-            const anchor = createHtmlElement('a', divTop, 'menu-button');
-            anchor.addEventListener('pointerup', (p)=>this._menuClicked(p));
-            createHtmlElement('div', anchor);
+            const searchTop = document.getElementById("searchwrapper");
 
-            const searchWrapper = document.createElement('div');
-            L.DomEvent.disableClickPropagation(searchWrapper);
-            L.DomEvent.disableScrollPropagation(searchWrapper);
-            searchWrapper.className = 'search-wrapper';
-            divTop.appendChild(searchWrapper);
+            if (!this.parentNode) {
+                const anchor = createHtmlElement('a', divTop, 'menu-button');
+                anchor.addEventListener('pointerup', (p)=>this._menuClicked(p));
+                createHtmlElement('div', anchor);
+                const searchWrapper = document.createElement('div');
+                L.DomEvent.disableClickPropagation(searchWrapper);
+                L.DomEvent.disableScrollPropagation(searchWrapper);
+                searchWrapper.className = 'search-wrapper';
+                
+                if (searchTop) {
+                    searchTop.appendChild(searchWrapper);
+                } else {
+                    divTop.appendChild(searchWrapper);
+                }
 
-            const searchBox = this.searchBox = document.createElement('input');
-            searchWrapper.appendChild(searchBox);
-            searchBox.type = 'text';
-            // searchBox.addEventListener('keyup', (ev)=>this._searchInput(ev));
-            searchBox.addEventListener('focusin', (ev)=>this._searchFocusIn(ev));
-            searchBox.placeholder = 'Suche';
+                const searchBox = this.searchBox = document.createElement('input');            
+                searchWrapper.appendChild(searchBox);
+                searchBox.type = 'text';
+                // searchBox.addEventListener('keyup', (ev)=>this._searchInput(ev));
+                searchBox.addEventListener('focusin', (ev)=>this._searchFocusIn(ev));
+                searchBox.placeholder = 'Suche';
 
-            const searchBoxClear = document.createElement('i');
-            searchBoxClear.className = 'search-input-clear';
-            searchWrapper.appendChild(searchBoxClear);
-            searchBoxClear.addEventListener('click', (ev)=>{
-                searchBox.value = '';
-                this.viewCtrl.clear();
-            });
+                const searchBoxClear = document.createElement('i');
+                searchBoxClear.className = 'search-input-clear';
+                searchWrapper.appendChild(searchBoxClear);
+                searchBoxClear.addEventListener('click', (ev)=>{
+                    searchBox.value = '';
+                    this.viewCtrl.clear();
+                });
+
+                autocomplete(searchBox, {
+                    onSelect: (item: any, input: HTMLInputElement) => this._found(item, input),
+                    onSearchStart: (input: HTMLInputElement)=>this._searchStart(input),
+                    fetch : this.searchFct,
+                    minLength : 3,
+                    showOnFocus: true,
+                    labelAttr : 'name'
+                });
+
+            } else {
+                const searchCtrl = new SearchControl({
+                    onSelect: (item: any, input: HTMLInputElement) => this._found(item, input),
+                    onSearchStart: (input: HTMLInputElement)=>this._searchStart(input),
+                    fetch : this.searchFct,
+                    minLength : 3,
+                    showOnFocus: true,
+                    labelAttr : 'name'
+                });
+                map.addControl(searchCtrl);
+                map.addControl(new IconActionCtrl({
+                    position: 'topright',
+                    className: 'home-icon',
+                    action: (ctrl)=>{
+                        this.showHome(ctrl);
+                    }
+                }));
+                map.addControl(new ChangeFontSizeCtrl({
+                    position: 'topright'
+                }));
+            }
 
             L.DomEvent.disableClickPropagation(div);
             L.DomEvent.disableScrollPropagation(div);
 
-            // div.addEventListener("pointermove", (ev)=>{
-            //     ev.stopPropagation();
-            //     return true;
-            // }); 
-            // div.addEventListener("dblclick", (ev)=>{
-            //     console.info("click");
-            //     ev.cancelBubble = true;
-            //     ev.stopPropagation();               
-            //     return true;
-            // });
-            // div.addEventListener("click", (ev)=>{
-            //     console.info("click");
-            //     ev.cancelBubble = true;
-            //     ev.stopPropagation();               
-            //     return true;
-            // });
-            // div.addEventListener("mouseup", (ev)=>{
-            //     console.info("mouseup");
-            //     ev.stopPropagation();               
-            //     return true;
-            // });
-            // div.addEventListener("pointerup", (ev)=>{
-            //     console.info("pointerup");
-            //     ev.stopPropagation();               
-            //     return true;
-            // });
-            // div.addEventListener("wheel", (ev)=>{
-            //     ev.stopPropagation();
-            //     return true;
-            // }); 
             this.dom = div;
 
-            this.viewCtrl = new ViewControl({position: 'topleft'});
-            // const content = this.contentArea = document.createElement('div');
-            // content.className = 'mapctrl-content';
-            // this.dom.appendChild(content);
+            if (this.parentNode) {
+                this.viewCtrl = new ViewControl({parentNode: this.mapCtrlContentContainer});
+            } else {
+                this.viewCtrl = new ViewControl({position: 'topleft'});
+            }
 
-
-            autocomplete(searchBox, {
-                onSelect: (item: any, input: HTMLInputElement) => this._found(item, input),
-                onSearchStart: (input: HTMLInputElement)=>this._searchStart(input),
-                fetch : this.searchFct,
-                minLength : 3,
-                showOnFocus: true,
-                labelAttr : 'name'
-            });
-
-            // map.on('layeradd', (evt)=>this.onLayerAdded(evt));
-            // map.on('layerremove', (evt)=>this.onLayerRemoved(evt));
             
         }
+        
          
         return this.dom;
     }
-    // onLayerAdded(evt: L.LeafletEvent): void {
-        
-    //     console.info("onLayerAdded", evt);
-    // }
-    // onLayerRemoved(evt: L.LeafletEvent): void {
-    //     if (this.selectedItem?.popup) {            
-    //         console.info("onLayerRemoved popup", evt);
-    //         console.info("onLayerRemoved popup", this.selectedItem.popup);
-    //         // this.selectedItem.featureLayer.highlightMarker(this.selectedItem.feature, false);
-    //         this.selectedItem = undefined;
-    //     } else {
-    //         console.info("onLayerRemoved", evt);
-    //     }
-    // }
+    showHome(ctrl: L.Control) {
+        document.getElementById('home-overlay').style.display = '';
+        if (this.categorieLayerCtrl instanceof LayerControlVar) {
+            this.categorieLayerCtrl.clearThemes();
+        }
+        this.viewCtrl.clear();
+    }
+    
 
     private _searchStart(input: HTMLInputElement): void {
         this.clearResults();
@@ -403,8 +590,12 @@ export class MapControl extends L.Control {
     /* TODO */
     private _found(item: any, input: HTMLInputElement): void {                
         this.closeMenu();
-        const geoJ = this.showGeojson(item);
-        console.info("found", item);
+        if (item?.group === 'Thema') {
+            MapDispatcher.onShowLayerInfoRequest.dispatch(this, item.layer);
+        } else {
+            const geoJ = this.showGeojson(item);
+            console.info("found", item);
+        }
 
         // if (item.group==='Kategorie') {            
         // } else if (item.group==='Ort') {            
@@ -433,7 +624,8 @@ export class MapControl extends L.Control {
 
 
 
-    showGeojson(item: any):L.GeoJSON {        
+    showGeojson(item: any):L.GeoJSON {      
+        console.error('showGeojson')  
         const geoJ = this.foundArea = L.geoJSON(item.feature.geometry, {
             style: function (feature) {
                 return {color: '#888888', dashArray: '10 8', fillColor:'#555555'};
@@ -483,5 +675,9 @@ export class MapControl extends L.Control {
     onRemove(map:L.Map){
         console.info("MenuControl.onRemove");
         this.map = null;
+    }
+
+    setBaseLayers(baseLayers: LayerDescription[], options: { labelAttribute: string; }) {
+        this.baseLayerCtrl.setBaseLayers(baseLayers, options);
     }
 }

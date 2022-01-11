@@ -1,4 +1,3 @@
-
 function applyStyle(el:SVGElement, style:SvgStyle) {
     for (let k in style) {
         el.style[k] = style[k];

@@ -1,0 +1,67 @@
+.accordion {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.accordion-item {
+    flex-shrink: 0.2;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.3rem;
+    overflow: hidden;    
+}
+
+.accordion-item:first-child {
+    margin-top: 0rem;
+    flex-shrink: 1;
+}
+
+.accordion-item .icon::after {
+    position: relative;
+    line-height: 1rem;
+    font-size: 0.9rem;
+    content: "\f078";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-style: normal;
+    display: inline-block;
+    width: 1.25rem;
+    text-align: center;
+}
+.accordion-item.opened .icon::after {
+    content: "\f077";
+}
+
+
+.accordion-item>div:first-child {
+    width: 100%;
+    height: (50rem/16);
+    background-color: #005e90;
+    color:#fff; 
+    flex-shrink: 0;
+    flex-grow: 0;   
+    line-height: (50rem/16);
+    padding-left: 0.9rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+.accordion-item>div:first-child span:first-child {
+    width: calc(100% - (50rem/16));
+    display: inline-block;
+}
+
+.accordion-item>div:nth-child(2) {
+    display: none;
+    flex-shrink: 1;
+}
+
+.accordion-item.opened>div:nth-child(2) {
+    display: flex;
+    padding-left: 0.9rem;
+    overflow: auto;
+}
+

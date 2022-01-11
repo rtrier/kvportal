@@ -228,24 +228,6 @@ export class ToggleAction extends Action {
 }
 
 
-export class ToggleActionOld  {
-
-    actions:Array<Action>
-    selected:Action
-    
-    constructor(actions:Array<Action>) {
-        this.actions = actions;
-    }
-
-    setSelected(action:Action) {
-        this.selected=action;
-    }
-    getSelected():Action {
-        return this.selected;
-    }
-}
-
-
 export interface ActionProvider<L> {
     getActions(o:L):Action[];
 }

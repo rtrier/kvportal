@@ -44,22 +44,41 @@ export class MarkerView implements View {
     renderDataView() {
         console.info('renderdataView', this);
         const dom = createHtmlElement('div', undefined, "data-view");
-        const table = createHtmlElement('table', dom);
+        createHtmlElement('h1', dom, 'datainfo-title', {
+            'innerHTML': this.layer["LayerDescription"]?.label
+        });
+        this.layer["LayerDescription"]?.label;
+        // const table = createHtmlElement('table', dom);
 
         const data = this.marker.data ? this.marker.data : (<any>this.marker)?.feature?.properties;
 
         const layerDes: LayerDescription = this.layer["LayerDescription"];
         if (layerDes?.layerAttributes) {
+            let i = 0;
             for (let k in layerDes.layerAttributes) {
                 const v = data[k];
                 if (v || !layerDes.hideEmptyLayerAttributes) {
-                    createRow(layerDes.layerAttributes[k], v, table);
-                }
+                    const p = createHtmlElement('p', dom, 'datainfo-row');                
+                    createHtmlElement('span', p, 'datainfo-row-head', {
+                        'innerHTML': layerDes.layerAttributes[k]
+                    });
+                    createHtmlElement('span', p, 'datainfo-row-content', {
+                        'innerHTML': v
+                    });
+                    i++;
+                    // createRow(layerDes.layerAttributes[k], v, table);
+                }                                
+            }
+            if (i===0) {
+                createHtmlElement('p', dom, 'datainfo-row-head', {
+                    'innerHTML': "Es liegen keine weiteren Daten vor."
+                });
             }
         } else {
-            for (let k in data) {
-                createRow(k, data[k], table);
-            }
+            // createRow(k, data[k], table);
+            createHtmlElement('p', dom, 'datainfo-row-head', {
+                'innerHTML': "Es liegen keine weiteren Daten vor."
+            });
         }
         return dom;
     }

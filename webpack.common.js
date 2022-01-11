@@ -25,10 +25,7 @@ const webpack = require('webpack');
  * https://github.com/webpack-contrib/mini-css-extract-plugin
  *
  */
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-
 
 
 /*
@@ -40,8 +37,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
  */
 
 const TerserPlugin = require('terser-webpack-plugin');
-
-const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+// const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -49,10 +46,11 @@ module.exports = {
 
 
   entry: {    
-    edit:path.resolve('./src/EditApp.ts'),
+    // edit:path.resolve('./src/EditApp.ts'),
     map:path.resolve('./src/MapApp.ts'),
-    svgtest:path.resolve('./src/SVGTest.ts'),
-    testunit:path.resolve('./src/__tests__/test.ts'),
+    energieAtlas:path.resolve('./src/EnergieAtlas.ts')//,
+    // svgtest:path.resolve('./src/SVGTest.ts'),
+    // testunit:path.resolve('./src/__tests__/test.ts'),
   },
 
   plugins: [
@@ -117,6 +115,26 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   },
+
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+            // keep_classnames: true,
+            // keep_fnames: true,
+            compress: {
+              // drop_console: true
+              pure_funcs: [ 'console.info', 'console.debug' ]
+            }
+        }
+      }), 
+      // new OptimizeCSSAssetsPlugin({}),
+      new CssMinimizerPlugin(),
+      // new HtmlMinimizerPlugin({minimizerOptions: {
+      //   collapseWhitespace: false,
+      // }})
+    ]
+  }
 
   // optimization: {
   //   minimizer: [

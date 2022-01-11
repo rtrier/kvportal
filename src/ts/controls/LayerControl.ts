@@ -4,12 +4,16 @@ import { NodeRenderer, RadioGroupTreeNode, SelectionMode, SelectionStatus, TreeN
 import { LayerDescription, Theme } from '../conf/MapDescription';
 
 import { CategorieLayer, Category, CategoryMapObject, Path } from './CategorieLayer';
-import { createLegendItem } from './LegendControl';
+// import { createLegendLayerItem } from './LegendControl';
 import { LayerEvent, LayerWrapper, MapDispatcher } from './MapControl';
 
 
-const layerRenderer: NodeRenderer = {
-    render: (node: TreeNode) => {
+
+class LayerNodeRenderer implements NodeRenderer {
+
+    // showLegend = true
+
+    render(node: TreeNode) {
         const layer = <LayerWrapper>node.data;
         const div = document.createElement("div");
         if (typeof node.data === 'string') {
@@ -30,19 +34,25 @@ const layerRenderer: NodeRenderer = {
         }
         div.className = 'tooltip';
 
-        const legendItem = createLegendItem(layer.layerDescription);
-        if (legendItem) {
-            div.appendChild(legendItem);
-            legendItem.classList.add('legend-item');
-        }
+        // if (this.showLegend) {
+        //     const legendItem = createLegendLayerItem(layer.layerDescription);
+        //     if (legendItem) {
+        //         div.appendChild(legendItem);
+        //         legendItem.classList.add('legend-item');
+        //     }
+        // }
+        
         return div
     }
 }
+
+const layerRenderer = new LayerNodeRenderer();
 
 export class BaseLayerDefinition {
     id?: string | number;
     layer?: L.Layer;
     bounds?: L.LatLngBounds;
+    img?: string;
 }
 
 export class LayerDefinitionOptions {
@@ -56,6 +66,7 @@ export class LayerControlOptions implements L.ControlOptions {
     baseLayerId?: string;
     position?: L.ControlPosition;
     className?: string;
+    parentNode?: HTMLElement;
 }
 
 export type ListEntry<T> = {
@@ -74,7 +85,7 @@ export class LayerControl extends L.Control {
     baseLayerDefinitions: BaseLayerDefinition[];
     baseLayerDefinition: BaseLayerDefinition;
 
-    map: L.Map;
+    _map: L.Map;
     tree: Tree;
     className: string;
 
@@ -84,6 +95,7 @@ export class LayerControl extends L.Control {
     overlays: { [id: string]: BaseLayerDefinition[] } = {};
     baseLayerDefOptions: LayerDefinitionOptions;
     themes: Theme[];
+    parentNode: HTMLElement;
 
     constructor(options?: LayerControlOptions) {
         super(options);
@@ -92,6 +104,9 @@ export class LayerControl extends L.Control {
         }
         if (options.baseLayers) {
             this.baseLayerDefinitions = options.baseLayers;
+        }
+        if (options.parentNode) {
+            this.parentNode = options.parentNode;
         }
         this._createTree();
     }
@@ -166,7 +181,7 @@ export class LayerControl extends L.Control {
 
 
     private _createTree() {
-        console.info("_createTree");
+        console.error("_createTree");
         this.tree = new Tree(null, { selectMode: SelectionMode.MULTI, expandOnlyOneNode:true });
         this._addBaseLayersToTree();
         for (const title in this.overlays) {
@@ -179,7 +194,7 @@ export class LayerControl extends L.Control {
     }
 
     private _addThemesToTree() {
-        console.info(`_addThemesToTree ${this.tree}`);
+        console.error("_addThemesToTree");
         if (this.tree) {
             if (this.themes) {
                 this.themes.forEach(theme => {
@@ -200,7 +215,6 @@ export class LayerControl extends L.Control {
         }
     }
     private _addBaseLayersToTree() {
-        console.info(`_addBaseLayersToTree ${this.tree}`);
         if (this.tree) {
             const count = this.baseLayerDefinitions ? this.baseLayerDefinitions.length : 0;
             if (count > 0) {
@@ -226,7 +240,6 @@ export class LayerControl extends L.Control {
     }
 
     _addCategorieLayerToTree(title: string, categorieLayer: CategorieLayer<any, any>) {
-        console.info(`_addCategorieLayerToTree ${this.tree}`);
         if (this.tree) {
             const categories = categorieLayer.getCategories();
             const treeNode = new TreeNode(title);
@@ -250,6 +263,21 @@ export class LayerControl extends L.Control {
         }
     }
 
+    addTo(map: L.Map):this {
+        console.error('LayerControl.addTo');
+        if (this.parentNode) {
+            this.remove();
+  		    this._map = map;            
+  		    const container = (<any>this)._container = this.onAdd(map);
+            container.classList.add('layerctrl-dom');
+            this.parentNode.appendChild(container);            
+  		    this._map.on('unload', this.remove, this);
+            return this;
+        } else {
+            return super.addTo(map);
+        }
+    }
+
     onAdd(map: L.Map): HTMLElement {
         console.info("LayerControl.onAdd");
         if (!this.tree) {
@@ -258,7 +286,7 @@ export class LayerControl extends L.Control {
 
         // console.info("addbaseLayer", this.baseLayer);
 
-        this.map = map;
+        this._map = map;
         // this.map.addEventListener("movestart", (ev) => { });
         // this.map.addEventListener("moveend", (ev) => { });
         const dom = this.tree._render();
@@ -281,9 +309,14 @@ export class LayerControl extends L.Control {
         return dom;
     }
     onRemove(map: L.Map) {
-        console.info("LayerControl.onRemove");
-        this.map = null;
+        console.error("LayerControl.onRemove");
     }
+
+    // remove() {
+    //     console.error("LayerControl.remove");
+    //     super.remove();
+    //     return this;
+    // }
 
     _findBaseLayerDefinition(baseLayerId: string): BaseLayerDefinition {
         for (let i = 0; i < this.baseLayerDefinitions.length; i++) {
