@@ -48,8 +48,8 @@ module.exports = {
   entry: {    
     // edit:path.resolve('./src/EditApp.ts'),
     map:path.resolve('./src/MapApp.ts'),
-    energieAtlas:path.resolve('./src/EnergieAtlas.ts')//,
-    // svgtest:path.resolve('./src/SVGTest.ts'),
+    energieAtlas:path.resolve('./src/EnergieAtlas.ts'),
+    svgtest:path.resolve('./src/SVGTest.ts'),
     // testunit:path.resolve('./src/__tests__/test.ts'),
   },
 

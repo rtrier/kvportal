@@ -34,7 +34,7 @@ export class Geocoder {
         this._key = key;
     }
 
-    async geocode(query:string):Promise<any> {
+    geocode(query:string):Promise<any> {
         if (this._activeRequest) {
             console.info("cancel last");
             this._activeRequest.abort();
@@ -73,6 +73,10 @@ export class Geocoder {
             console.info(`run request "${url}"`);
             xhr.send();
         });
+        promise["cancel"] = () => {
+            xhr.abort();
+            console.info("xhr.canceled");
+        }
         return promise;
     }
     /*

@@ -113,6 +113,8 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
         throw new Error("input undefined");
     }
 
+    let promises: Promise<any>[] = [];
+
     container.className = "autocomplete " + (settings.className || "");
 
     // IOS implementation for fixed positioning has many bugs, so we will use absolute positioning
@@ -165,6 +167,10 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
         selected = undefined;
         detach();
         lastSearch = undefined;
+
+        for (let i=0; i<promises.length; i++) {
+            promises[i]["cancel"]();
+        }
     }
 
     /**
@@ -448,6 +454,7 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
 
             if (keyCode === Keys.Esc) {
                 clear();
+                // cancel();
             } else {
                 if (!containerDisplayed || items.length < 1) {
                     return;
@@ -519,8 +526,12 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
     //     }
     // }
 
-    function addToSearchCounter(i:number) {
-        searchCounter += i;
+    function addToSearchCounter(i:number) {        
+        searchCounter = searchCounter + i;
+        console.info(`addToSearchCounter(${i})=>${searchCounter}`)
+        if (searchCounter<0) {
+            searchCounter = 0;
+        }
         if (searchCounter === 0) {
             // console.warn("allSsearchFetchDone");
             if (settings.onSearchFinished) {
@@ -532,6 +543,12 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
                 settings.onSearchStartRunning(input)
             };
         }
+    }
+
+    function removePromise(p:Promise<any>) {
+        promises = promises.filter( (f)=>{
+            return f!==p
+        });
     }
 
     function startFetch(trigger: EventTrigger) {
@@ -548,26 +565,32 @@ export default function autocomplete<T extends AutocompleteItem>(input: HTMLInpu
                 console.info(`equ ${val} ${lastSearch}`)
             }
             lastSearch = val;
-            addToSearchCounter(1);
+            
             clearDebounceTimer();
             debounceTimer = window.setTimeout(function(): void {
-                settings.fetch(val).then( (elements: T[]) => {
-                    console.error("Autocomnplete.update", elements);
+                addToSearchCounter(1);
+                const promise:Promise<any> = settings.fetch(val);
+                promises.push(promise);
+                promise.then( (elements: T[]) => {
+                    console.info("Autocomnplete.update", elements);
                     // console.info(`autocompleter keypressCounter=${keypressCounter} savedKeypressCounter=${savedKeypressCounter}`, elements);
                     if (keypressCounter === savedKeypressCounter && elements) {
                         items = elements;
                         inputValue = val;
                         selected = items.length > 0 ? items[0] : undefined;
-                        update();
-                        addToSearchCounter(-1);
+                        update();                        
                     }
+                    addToSearchCounter(-1);
+                    removePromise(promise);
                 }).catch((reason)=>{
                     console.info(`fetch not succedded`, reason);
                     addToSearchCounter(-1);
+                    removePromise(promise);
                 });
                 
             }, trigger === EventTrigger.Keyboard ? debounceWaitMs : 0);
         } else {
+            console.info("startFetch=>clear");
             clear();
 
         }

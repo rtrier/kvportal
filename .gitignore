@@ -24,3 +24,4 @@ dist/images/marker-icon.png
 dist/map copy.html
 jsdoc
 *.7z
+dist/*

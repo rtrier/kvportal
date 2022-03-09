@@ -1,31 +1,41 @@
-
-@font-face{font-family:Landesdesign-MV;font-style:normal;font-weight:400;src:local('PT Sans'),local('PTSans-Regular'),
-    url(../fonts/pt-sans/jizaRExUiTo99u79D0KExQ.woff2) format('woff2'),
-    url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-regular.ttf) format('truetype'),
-    url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-regular.woff) format('woff');
-    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-    font-display:swap;
-}
-@font-face{font-family:Landesdesign-MV;font-style:italic;
-    font-weight:400;src:local('PT Sans Italic'),local('PTSans-Italic'),
-    url(../fonts/pt-sans/jizYRExUiTo99u79D0e0x8mI.woff2) format('woff2'),
-    url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-italic.ttf),
-    format('truetype'),url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-italic.woff) format('woff');
-    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-    font-display:swap;
-}
-@font-face{font-family:icons_regportal;    
-    src:url(../images/fonts/icons_regportal.eot) format('embedded-opentype'),
-    url(../images/fonts/icons_regportal.woff?-88br5p) format('woff'),
-    url(../images/fonts/icons_regportal.ttf?-88br5p) format('truetype');
-    font-weight:400;font-style:normal;
-    font-display:swap;
+@font-face {
+    font-family: Landesdesign-MV;
+    font-style: normal;
+    font-weight: 400;
+    src: local('PT Sans'), local('PTSans-Regular'),
+        url(../fonts/pt-sans/jizaRExUiTo99u79D0KExQ.woff2) format('woff2'),
+        url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-regular.ttf) format('truetype'),
+        url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-regular.woff) format('woff');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    font-display: swap;
 }
 
+@font-face {
+    font-family: Landesdesign-MV;
+    font-style: italic;
+    font-weight: 400;
+    src: local('PT Sans Italic'), local('PTSans-Italic'),
+        url(../fonts/pt-sans/jizYRExUiTo99u79D0e0x8mI.woff2) format('woff2'),
+        url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-italic.ttf),
+        format('truetype'), url(../fonts/pt-sans/pt-sans-v11-latin_cyrillic_latin-ext_cyrillic-ext-italic.woff) format('woff');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    font-display: swap;
+}
 
-.leaflet-bar a:hover  {
+@font-face {
+    font-family: icons_regportal;
+    src: url(../images/fonts/icons_regportal.eot) format('embedded-opentype'),
+        url(../images/fonts/icons_regportal.woff?-88br5p) format('woff'),
+        url(../images/fonts/icons_regportal.ttf?-88br5p) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+.leaflet-bar a:hover {
     background-color: #287da8;
-    color:white;    
+    color: white;
 }
 
 /*
@@ -41,6 +51,7 @@
 .leaflet-bar {
     border-radius: 0px;
 }
+
 .leaflet-top.leaflet-left {
     max-height: calc(100% - 10px);
     width: 533px;
@@ -148,7 +159,7 @@
 
 
 .search-button {
-    background-color: white;    
+    background-color: white;
     border: 2px solid #afafaf;
     font-size: 2rem;
     padding-top: 0.2rem;
@@ -159,14 +170,15 @@
     width: 60px;
     height: 60px;
 }
-.search-button i::after {    
+
+.search-button i::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-style: normal;
     line-height: 2.5rem;
     content: "\f002";
     color: #fff;
-    font-size: 1.4rem;    
+    font-size: 1.4rem;
 }
 
 /* autocomplete */
@@ -183,18 +195,21 @@
 .autocomplete * {
     font: inherit;
 }
+
 .autocomplete label {
-    width: 100%;    
+    width: 100%;
     margin-top: 2px;
     margin-bottom: 1px;
-    display: inline-block;    
+    display: inline-block;
 }
+
 .autocomplete textarea {
     width: 100%;
     border: none;
     resize: none;
 }
-.autocomplete > div {
+
+.autocomplete>div {
     padding: 0 4px;
 }
 
@@ -202,11 +217,12 @@
     background: #eee;
 }
 
-.autocomplete > div:not(.group) {
+.autocomplete>div:not(.group) {
     background-color: white;
 }
-.autocomplete > div:hover:not(.group),
-.autocomplete > div.selected {
+
+.autocomplete>div:hover:not(.group),
+.autocomplete>div.selected {
     background: #c7e5ff;
     cursor: pointer;
 }
@@ -217,13 +233,13 @@
     min-width: calc(100% - 0px);
     display: flex;
     flex-direction: column;
-    max-height: calc(100% - 20px);        
+    max-height: calc(100% - 20px);
     overflow: auto;
     background-color: white;
 }
 
 
-.viewctrl-nav {   
+.viewctrl-nav {
     display: flex;
     flex-direction: row;
     border-bottom: none;
@@ -234,12 +250,14 @@
     align-items: center;
     font-size: 1.3rem;
 }
-.viewctrl-nav > span:first-child {
+
+.viewctrl-nav>span:first-child {
     flex-grow: 1;
     font-weight: bold;
     padding-left: 3px;
 }
-.viewctrl-nav-back {    
+
+.viewctrl-nav-back {
     position: absolute;
     transform: translate(10px, 10px);
 }
@@ -251,11 +269,13 @@
     overflow: hidden;
     display: flex;
 }
+
 .viewctrl-content>* {
     overflow: auto;
     width: 100%;
     margin-right: 2px;
 }
+
 .viewctrl-content:empty {
     border: none;
 }
@@ -264,6 +284,7 @@
 .marker-cluster {
     color: black;
 }
+
 /*
 .marker-cluster-small {
     background-color: rgba(181, 226, 140, 0.6);
@@ -277,20 +298,26 @@
 .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
     background-color: gray;
 }
+
 .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
     background-color: white;
 }
 
 
-.leaflet-control-zoom {
-    border: none !important;    
-    margin-bottom: 20px !important;
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .leaflet-control-zoom a {
-    line-height: 36px !important;
+    display: flex;
+    line-height: 1;
     background-color: #005E90;
-    border: 2px solid #afafaf !important;
+    border: 2px solid #afafaf;
     color: white;
     margin-bottom: 5px;
+    align-items: center;
+    justify-content: center;
 }

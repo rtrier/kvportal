@@ -1,4 +1,4 @@
-@import '../../../treecomponent/src/css/tree.scss'; 
+/* @import '../../../treecomponent/src/css/tree.scss'; */
 
 
 .treecontainer {
@@ -50,4 +50,11 @@
 .legend-item {
     width: 20px;
     height: 20px;
+}
+
+
+.treeicon>img {
+    margin: (2rem/16);
+    height: 2rem;
+    width: 2rem;
 }

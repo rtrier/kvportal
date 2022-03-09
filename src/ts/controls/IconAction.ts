@@ -69,10 +69,10 @@ export class ChangeFontSizeCtrl extends Control {
         if (!this.dom) {            
             const div = createHtmlElement('div', undefined, 'ctrl-fontsize');     
             const divPlus = this.divPlus = createHtmlElement('div', div, 'ctrl-icon font-plus');     
-            const span1 = createHtmlElement('span', divPlus);
-            span1.innerText = "A";
-            const span2 = createHtmlElement('sup', span1);            
-            span2.innerText = '+';
+            // const span1 = createHtmlElement('span', divPlus);
+            divPlus.innerText = "A";
+            // const span2 = createHtmlElement('sup', span1);            
+            // span2.innerText = '+';
             DomEvent.disableClickPropagation(divPlus);
             const fPlus = this._clickFct = (ev:MouseEvent) => {
                 this.changeFontSize(this, true);
@@ -85,10 +85,10 @@ export class ChangeFontSizeCtrl extends Control {
 
             
             const divMinus = this.divMinus = createHtmlElement('div', div, 'ctrl-icon font-minus');     
-            const spanMinus1 = createHtmlElement('span', divMinus);
-            spanMinus1.innerText = "A";
-            const spanMinus2 = createHtmlElement('sup', spanMinus1);
-            spanMinus2.innerText = '-';
+            // const spanMinus1 = createHtmlElement('span', divMinus);
+            divMinus.innerText = "A";
+            // const spanMinus2 = createHtmlElement('sup', spanMinus1);
+            // spanMinus2.innerText = '-';
             DomEvent.disableClickPropagation(divMinus);
             const fMinus = this._clickFct = (ev:MouseEvent) => {
                 this.changeFontSize(this, false);
