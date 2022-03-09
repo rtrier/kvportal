@@ -3,37 +3,42 @@
 }
 
 .home-icon {
-    background-color: #005E90;    
+    background-color: #005E90;
     /* border: 2px solid #afafaf;*/
-    background-image: url("./icons/Allgemein/Haus.svg");
+    /* xbackground-image: url("./icons/Allgemein/Haus.svg"); */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500.09 500'><path fill='white' d='M486.53,217.47h0l-204-204a46,46,0,0,0-65.08,0h0L13.58,217.32l-.21.21A46,46,0,0,0,44,296h9.54v150.1a54,54,0,0,0,53.87,53.86h79.81a14.64,14.64,0,0,0,14.65-14.64V367.68a24.6,24.6,0,0,1,24.57-24.57h47.05a24.6,24.6,0,0,1,24.57,24.57V485.35A14.65,14.65,0,0,0,312.71,500h79.78a53.94,53.94,0,0,0,53.89-53.86V296h7.54a46,46,0,0,0,32.66-78.56Z' transform='translate(0.05 0)'/></svg>");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 65%,65%;
+    background-size: 65%, 65%;
     cursor: pointer;
     width: 40px;
     height: 40px;
 }
 
 .ctrl-fontsize {
-    display:flex;
+    display: flex;
+    gap: 0.3rem;
 }
 
+/*
 .font-plus {
     margin-right: 0.5rem;
 }
+*/
 
 .font-plus, .font-minus {
-    background-color: #005E90;    
+    background-color: #005E90;
     color: white;
     /* border: 2px solid #afafaf; */
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 65%,65%;
+    background-size: 65%, 65%;
     cursor: pointer;
     width: 40px;
     height: 40px;
     text-align: center;
     user-select: none;
+    position: relative;
 }
 
 .font-plus.disabled, .font-minus.disabled {
@@ -46,8 +51,9 @@
 
     cursor: default;
     background-color: #f4f4f4;
-    color: #888888; 
+    color: #888888;
 }
+
 /*
 .font-plus > span, .font-minus >span {
     font-size: 1.9rem;
@@ -55,16 +61,20 @@
     
     letter-spacing: -0.25rem;
 }*/
+/*
 .font-plus > span, .font-minus >span {
     font-size: 2.0rem;
     line-height: 2.2rem;
     letter-spacing: -0.35rem;
 }
+*/
 /*
 .font-plus sup {
     position: relative;
     top: -0.2rem;
 }*/
+
+/*
 
 .font-plus sup {
     position: relative;
@@ -76,4 +86,21 @@
     top: -0.8rem;
     vertical-align: baseline;
 }
+*/
+.font-plus::after {
+    content: "+";
+    position: absolute;
+    bottom: 1em;
+    right: 0.2em;
+    font-size: 0.6em;
+    line-height: 1;
+}
 
+.font-minus::after {
+    content: "-";
+    position: absolute;
+    bottom: 1em;
+    right: 0.3em;
+    font-size: 0.6em;
+    line-height: 1;
+}

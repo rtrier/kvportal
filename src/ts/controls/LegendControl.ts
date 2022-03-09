@@ -1,11 +1,10 @@
-import * as L from 'leaflet';
-import * as svg from '../svg/svg'
-import { getMapDescription, LayerClass, LayerDescription, PathOptions, StandardCircleMarkerOptions, StandardPathOptions } from '../conf/MapDescription';
-import { createCloseButton, createHtmlElement } from '../Util';
-import { LayerEvent, LayerWrapper, MapControl, MapDispatcher } from './MapControl';
+import * as L from "leaflet";
+import * as svg from "../svg/svg";
+import { getMapDescription, LayerClass, LayerDescription, PathOptions, StandardCircleMarkerOptions, StandardPathOptions } from "../conf/MapDescription";
+import { createCloseButton, createHtmlElement } from "../Util";
+import { LayerEvent, LayerWrapper, MapControl, MapDispatcher } from "./MapControl";
 
 export class LegendControl extends L.Control {
-
     _map: L.Map;
     dom: HTMLElement;
 
@@ -16,8 +15,8 @@ export class LegendControl extends L.Control {
     fctHideLegend: (ev: MouseEvent) => void;
 
     constructor(options: L.ControlOptions) {
-        super(options); 
-        const f = (sender:MapControl, layerSelectEvt:LayerEvent) => this._onLayerChanged(sender, layerSelectEvt);   
+        super(options);
+        const f = (sender: MapControl, layerSelectEvt: LayerEvent) => this._onLayerChanged(sender, layerSelectEvt);
         MapDispatcher.onLayerAdded.subscribe(f);
         MapDispatcher.onLayerRemoved.subscribe(f);
     }
@@ -31,16 +30,16 @@ export class LegendControl extends L.Control {
             if (idx >= 0) {
                 this.layers.splice(idx, 1);
             }
-        } 
+        }
         this._updateLegend();
     }
 
     onAdd(map: L.Map): HTMLElement {
         this._map = map;
         if (!this.dom) {
-            const div = createHtmlElement('div', undefined, "legendctrl ctrl-icon");
+            const div = createHtmlElement("div", undefined, "legendctrl ctrl-icon");
             // const icon = createHtmlElement('div', div, "legendctrl-icon");
-            const span = createHtmlElement('span', div);
+            const span = createHtmlElement("span", div);
             div.title = "Legende";
             span.innerText = "Legende";
             div.addEventListener("click", (ev) => {
@@ -51,9 +50,9 @@ export class LegendControl extends L.Control {
             });
             this.dom = div;
 
-            this.fctHideLegend = (ev:MouseEvent)=>{
+            this.fctHideLegend = (ev: MouseEvent) => {
                 this.toggleLegend();
-            }
+            };
         }
         return this.dom;
     }
@@ -62,53 +61,53 @@ export class LegendControl extends L.Control {
         if (!this.domLegend) {
             this.showLegend();
         } else {
-            this.domLegend.classList.toggle('closed');
+            this.domLegend.classList.toggle("closed");
         }
     }
 
-    _createLegendContent():HTMLElement {
-        console.info('_createLegendContent');
-        const div = document.createElement('div');
-        div.className = 'legendctrl-legend-content';
-        const table = createHtmlElement('div', div, 'legend-layer-entry'); 
-        if (this.layers?.length>0) {
+    _createLegendContent(): HTMLElement {
+        console.info("_createLegendContent");
+        const div = document.createElement("div");
+        div.className = "legendctrl-legend-content";
+        const table = createHtmlElement("div", div, "legend-layer-entry");
+        if (this.layers?.length > 0) {
             this.layers.forEach((layer, idx) => {
                 console.info(`layer ${idx}`, layer);
                 appendLegendLayerEntry(layer.layerDescription, table);
             });
         } else {
             createHtmlElement("p", div, undefined, {
-                'innerHTML' : "Es wurden keine Themen gewählt."
-            })
+                innerHTML: "Es wurden keine Themen gewählt.",
+            });
         }
         return div;
     }
 
-    _createLegendDom():HTMLDivElement {
-        const dom = createHtmlElement('div', undefined, 'legendctrl-legend');
-        const headArea = this.navigationArea = createHtmlElement('div', dom, 'legendctrl-legend-head');               
-        const headSpan = createHtmlElement('span', headArea);
+    _createLegendDom(): HTMLDivElement {
+        const dom = createHtmlElement("div", undefined, "legendctrl-legend");
+        const headArea = (this.navigationArea = createHtmlElement("div", dom, "legendctrl-legend-head"));
+        const headSpan = createHtmlElement("span", headArea);
         headSpan.innerText = "Legende";
-        const anchorBack = createHtmlElement('a', headArea, 'close') ;        
-        anchorBack.addEventListener('click', (ev)=>this._closeBttnClicked());
-        const table = this.innerLegend = this._createLegendContent(); 
+        const anchorBack = createHtmlElement("a", headArea, "close");
+        anchorBack.addEventListener("click", (ev) => this._closeBttnClicked());
+        const table = (this.innerLegend = this._createLegendContent());
         dom.appendChild(table);
-        dom.appendChild(createCloseButton(this.fctHideLegend))
+        dom.appendChild(createCloseButton(this.fctHideLegend));
         return dom;
     }
 
     _updateLegend() {
         if (this.innerLegend) {
-            const table = this._createLegendContent(); 
+            const table = this._createLegendContent();
             this.innerLegend.replaceWith(table);
             this.innerLegend = table;
         }
     }
 
     showLegend() {
-        console.info("showLegend", this.layers);        
-        const dom = this.domLegend = this._createLegendDom();
-        dom.classList.remove('closed');
+        console.info("showLegend", this.layers);
+        const dom = (this.domLegend = this._createLegendDom());
+        dom.classList.remove("closed");
         L.DomEvent.disableClickPropagation(dom);
         L.DomEvent.disableScrollPropagation(dom);
         this._map.getContainer().appendChild(dom);
@@ -119,7 +118,7 @@ export class LegendControl extends L.Control {
         if (this.domLegend && this._map) {
             // this._map.getContainer().removeChild(this.domLegend);
             // this.domLegend = undefined;
-            this.domLegend.classList.add('closed')
+            this.domLegend.classList.add("closed");
         }
     }
 
@@ -128,59 +127,62 @@ export class LegendControl extends L.Control {
     }
 }
 
-export function appendLegendLayerEntry(lDescr:LayerDescription, div:HTMLDivElement) {
-    console.info('appendLegendLayerEntry', lDescr)
+export function appendLegendLayerEntry(lDescr: LayerDescription, div: HTMLDivElement) {
+    console.info("appendLegendLayerEntry", lDescr);
     createHtmlElement("h1", div, undefined, {
-        'innerHTML' : lDescr.label
+        innerHTML: lDescr.label,
     });
     try {
-        if (lDescr.type === 'GeoJSON') {
+        if (lDescr.type === "GeoJSON") {
             if (lDescr.classes) {
-                lDescr.classes.forEach(layerClass=>{
-                    const row = createHtmlElement("div", div, 'subelement');                
-                    const spanClassIcon = createHtmlElement('span', row, 'icon');
+                lDescr.classes.forEach((layerClass) => {
+                    const row = createHtmlElement("div", div, "subelement");
+                    const spanClassIcon = createHtmlElement("span", row, "icon");
                     // console.info('layer', layer, layer.geomType);
                     // const legendItem = createLegendCircle(layerClass.style);
                     let legendItem = undefined;
-                    if (lDescr.geomType === 'Point') {
+                    if (lDescr.geomType === "Point") {
                         // legendItem = createLegendCircle(layerClass.style);
                         legendItem = createLegendOfPoint(layerClass);
-                    } else if (lDescr.geomType === 'Polygon') {
+                    } else if (lDescr.geomType === "Polygon") {
                         legendItem = createLegendPolygon(layerClass.style);
-                    } else if (lDescr.geomType === 'Linestring') {
+                    } else if (lDescr.geomType === "Linestring") {
                         legendItem = createLegendLinestring(layerClass.style);
                     }
                     if (legendItem) {
                         spanClassIcon.appendChild(legendItem);
-                    }  
-                    const spanClassName = createHtmlElement('span', row);
-                    spanClassName.innerHTML = layerClass.name;      
+                    }
+                    const spanClassName = createHtmlElement("span", row);
+                    spanClassName.innerHTML = layerClass.name;
                 });
-            }
-            else {
-                let legendItem:Element
-                if (lDescr.geomType === 'Point') {
-                    legendItem  = createLegendOfPoint(lDescr);        
-                } else if (lDescr.geomType === 'Polygon') {
-                    legendItem  = createLegendPolygon(lDescr.style);
-                } else if (lDescr.geomType === 'Linestring') {
-                    legendItem  = createLegendLinestring(lDescr.style);
+            } else {
+                let legendItem: Element;
+                if (lDescr.geomType === "Point") {
+                    if (lDescr.style?.piechart) {
+                        createLegendPiechart(div, lDescr);
+                    } else {
+                        legendItem = createLegendOfPoint(lDescr);
+                    }
+                } else if (lDescr.geomType === "Polygon") {
+                    legendItem = createLegendPolygon(lDescr.style);
+                } else if (lDescr.geomType === "Linestring") {
+                    legendItem = createLegendLinestring(lDescr.style);
                 }
                 if (legendItem) {
-                    const row = createHtmlElement("div", div, 'subelement');                
-                    const spanClassIcon = createHtmlElement('span', row, 'icon');
+                    const row = createHtmlElement("div", div, "subelement");
+                    const spanClassIcon = createHtmlElement("span", row, "icon");
                     spanClassIcon.appendChild(legendItem);
                     // const symbol = createHtmlElement('div', div);
                     // symbol.appendChild(legendItem);
                 }
             }
-        } else if (lDescr.type === 'WMS') {
-            const row = createHtmlElement("div", div, 'subelement');        
+        } else if (lDescr.type === "WMS") {
+            const row = createHtmlElement("div", div, "subelement");
             const legendUrl = createLegendUrl(lDescr);
-            const img = document.createElement('img');    
-            img.addEventListener('error', evt=>{
-                const msg = document.createElement('span');
-                msg.innerHTML = 'Der Dienst stellt keine Legende zur Verfügung.';
+            const img = document.createElement("img");
+            img.addEventListener("error", (evt) => {
+                const msg = document.createElement("span");
+                msg.innerHTML = "Der Dienst stellt keine Legende zur Verfügung.";
                 img.parentElement.removeChild(img);
                 row.appendChild(msg);
             });
@@ -189,9 +191,9 @@ export function appendLegendLayerEntry(lDescr:LayerDescription, div:HTMLDivEleme
         }
     } catch (ex) {
         console.error(ex);
-        const row = createHtmlElement("div", div, 'subelement');
-        const msg = createHtmlElement('span', row);
-        msg.innerHTML = 'Fehler beim Erzeugen der Legende.';
+        const row = createHtmlElement("div", div, "subelement");
+        const msg = createHtmlElement("span", row);
+        msg.innerHTML = "Fehler beim Erzeugen der Legende.";
     }
 }
 
@@ -245,39 +247,33 @@ function appendLegendEntryTable(layer:LayerDescription, table:HTMLTableElement) 
 }
 */
 
-
-
-
-
-
-
-// export function createLegendItem(Descr:LayerDescription):Element|undefined {    
+// export function createLegendItem(Descr:LayerDescription):Element|undefined {
 //     if (Descr.type ===  'GeoJSON') {
 //         if (Descr.geomType === 'Point') {
-//             return createLegendOfPoint(Descr);        
+//             return createLegendOfPoint(Descr);
 //         } else if (Descr.geomType === 'Polygon') {
 //             return createLegendOfPolygon(Descr);
 //         } else if (Descr.geomType === 'Linestring') {
 //             return createLegendOfLinestring(Descr);
 //         }
 //     } else if (Descr.type === 'WMS') {
-//         return createWMSLegendItem(Descr);            
+//         return createWMSLegendItem(Descr);
 //     }
 //     return undefined;
 // }
 
-export function createLegendOfPoint(layer:LayerDescription|LayerClass):Element|undefined {
+export function createLegendOfPoint(layer: LayerDescription | LayerClass): Element | undefined {
     // if (layer.classes) {
     //     return createLegendClasses(layer);
     // }
-    console.error("createLegendOfPoint", layer);
-    if (layer.icon && layer.icon.iconUrl) {                    
-        const img = document.createElement('img');
+    console.info("createLegendOfPoint", layer);
+    if (layer.icon && layer.icon.iconUrl) {
+        const img = document.createElement("img");
         img.src = layer.icon.iconUrl;
         img.width = layer.icon.iconSize[0];
         img.height = layer.icon.iconSize[1];
         return img;
-    }    
+    }
     const style = layer.style ? layer.style : layer;
     return createLegendCircle(style);
 }
@@ -292,8 +288,8 @@ export function createLegendOfPoint(layer:LayerDescription|LayerClass):Element|u
 //     return img;
 // }
 
-function createWMSLegendItem(layer:LayerDescription):Element|undefined {
-    let legendItem:Element = undefined;
+function createWMSLegendItem(layer: LayerDescription): Element | undefined {
+    let legendItem: Element = undefined;
     const symbol = getMapDescription().default_wms_legend_icon;
     const legendUrl = createLegendUrl(layer);
     // if (!legendUrl) {
@@ -302,37 +298,35 @@ function createWMSLegendItem(layer:LayerDescription):Element|undefined {
     if (symbol && legendUrl) {
         // const item = document.createElement('div');
         // const img = createHtmlElement('img', item);
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.src = symbol;
-        img.addEventListener('click', evt=>{
+        img.addEventListener("click", (evt) => {
             showLegendUrl(evt, legendUrl);
         });
-        img.style.position='relative';
-        img.style.width ='20px';
+        img.style.position = "relative";
+        img.style.width = "20px";
         img.title = "Legende anzeigen.";
         // addTooltip(item, "Legende anzeigen");
         legendItem = img;
-        
     }
     return legendItem;
 }
 
-function createLegendUrl(layer:LayerDescription):string|undefined {
-
+function createLegendUrl(layer: LayerDescription): string | undefined {
     let url = undefined;
     if (layer.url_legend) {
         return layer.url_legend;
     }
     if (layer.url) {
-        if (layer.url.endsWith('&')) {
-            url = layer.url + "SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER="+layer.options["layers"]+"&FORMAT=image/png&SLD_VERSION=1.1.0";
+        if (layer.url.endsWith("&")) {
+            url = layer.url + "SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layer.options["layers"] + "&FORMAT=image/png&SLD_VERSION=1.1.0";
             return url;
         }
-        if (layer.url.indexOf('?')>0) {
-            url = layer.url + "&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER="+layer.options["layers"]+"&FORMAT=image/png&SLD_VERSION=1.1.0";
+        if (layer.url.indexOf("?") > 0) {
+            url = layer.url + "&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layer.options["layers"] + "&FORMAT=image/png&SLD_VERSION=1.1.0";
             return url;
         }
-        url = layer.url + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER="+layer.options["layers"]+"&FORMAT=image/png&SLD_VERSION=1.1.0";
+        url = layer.url + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layer.options["layers"] + "&FORMAT=image/png&SLD_VERSION=1.1.0";
         return url;
     }
 }
@@ -341,13 +335,13 @@ function createLegendUrl(layer:LayerDescription):string|undefined {
 //     appendLegendLayerEntry(layerDescr, content);
 //     showContent(evt, content);
 // }
-function showLegendUrl(evt:MouseEvent, url:string) {
-    const content = document.createElement('div');
-    const img = document.createElement('img');
-    
-    img.addEventListener('error', evt=>{
-        const msg = document.createElement('span');
-        msg.innerHTML = 'Der Dienst stellt keine Legende zur Verfügung.';
+function showLegendUrl(evt: MouseEvent, url: string) {
+    const content = document.createElement("div");
+    const img = document.createElement("img");
+
+    img.addEventListener("error", (evt) => {
+        const msg = document.createElement("span");
+        msg.innerHTML = "Der Dienst stellt keine Legende zur Verfügung.";
         img.parentElement.removeChild(img);
         content.appendChild(msg);
     });
@@ -356,36 +350,29 @@ function showLegendUrl(evt:MouseEvent, url:string) {
     showContent(evt, content);
 }
 
-
-function createSvgStyle(style:PathOptions):svg.SvgStyle {
-    console.info('createStyle', style, style.stroke);
-    const st:svg.SvgStyle = {};
+function createSvgStyle(style: PathOptions): svg.SvgStyle {
+    console.info("createStyle", style, style.stroke);
+    const st: svg.SvgStyle = {};
     if (style.stroke) {
         st.stroke = style.color;
         st.strokeOpacity = (style.opacity || 1).toString();
         st.strokeWidth = (style.weight || 3).toString();
-        st.strokeLinecap = style.lineCap ;
-        st.strokeLinejoin = style.lineJoin;
-
-        if (style.dashArray) {
-            st.strokeDasharray = style.dashArray;
-        }
-
-        if (style.dashOffset) {
-            st.strokeDashoffset = style.dashOffset;
-        }
+        st.strokeLinecap = style.lineCap || "";
+        st.strokeLinejoin = style.lineJoin || "";
+        st.strokeDasharray = style.dashArray || "";
+        st.strokeDashoffset = style.dashOffset || "";
     } else {
-        st.stroke = 'none';
+        st.stroke = "none";
     }
 
     if (style.fill) {
         st.fill = style.fillColor || style.color;
         if (style.fillOpacity) {
-            st.fillOpacity = style.fillOpacity.toString();
+            st.opacity = style.fillOpacity.toString();
         }
-        st.fillRule = style.fillRule || 'evenodd';
+        st.fillRule = style.fillRule || "evenodd";
     } else {
-        st.fill = 'none';
+        st.fill = "none";
     }
 
     return st;
@@ -395,8 +382,8 @@ function createSvgStyle(style:PathOptions):svg.SvgStyle {
 //     console.info('createLegendOfLinestring');
 //     // if (layer.classes) {
 //     //     return createLegendClasses(layer);
-//     // } 
-//     const style = {...StandardPathOptions, ...layer.style};    
+//     // }
+//     const style = {...StandardPathOptions, ...layer.style};
 //     const svgEl = new svg.SVG({x:0, y:0, width:20, height:20});
 
 //     const st = createSvgStyle(style);
@@ -404,10 +391,10 @@ function createSvgStyle(style:PathOptions):svg.SvgStyle {
 //     return svgEl.svg;
 // }
 
-function createLegendLinestring(style:any):Element {    
+function createLegendLinestring(style: any): Element {
     console.info("createLegendLinestring", style);
-    const svgEl = new svg.SVG({x:0, y:0, width:20, height:20});
-    const st = createSvgStyle({...StandardPathOptions, ...style});
+    const svgEl = new svg.SVG({ x: 0, y: 0, width: 20, height: 20 });
+    const st = createSvgStyle({ ...StandardPathOptions, ...style });
     svgEl.addLine(0, 10, 20, 10, st);
     return svgEl.svg;
 }
@@ -415,75 +402,93 @@ function createLegendLinestring(style:any):Element {
 // function createLegendOfPolygon(layer:LayerDescription):Element {
 //     // if (layer.classes) {
 //     //     return createLegendClasses(layer);
-//     // } 
+//     // }
 //     const style = layer.style;
 //     const svgEl = new svg.SVG({x:0, y:0, width:20, height:20});
 //     const st = {
-//         stroke: style && style.color ? style.color : "#3388ff", 
-//         strokeOpacity: "1", 
+//         stroke: style && style.color ? style.color : "#3388ff",
+//         strokeOpacity: "1",
 //         strokeWidth: style && style.weight ? style.weight : "3",
-//         strokeLinecap: "round", 
-//         strokeLinejoin: "round", 
+//         strokeLinecap: "round",
+//         strokeLinejoin: "round",
 //         fill: style && style.color ? style.color : "#3388ff",
 //         fillOpacity: "0.2",
-//         fillRule: "evenodd" 
+//         fillRule: "evenodd"
 //     }
 //     svgEl.addPolygGon("1,1 19,1 19,19 1,19", st);
 //     svgEl.svg.style.width = '2rem';
 //     return svgEl.svg;
 // }
 
-function createLegendPolygon(style:any):Element {    
+function createLegendPolygon(style: any): Element {
     console.info("createLegendPolygon", style);
-    const svgEl = new svg.SVG({x:0, y:0, width:20, height:20});
+    const svgEl = new svg.SVG({ x: 0, y: 0, width: 20, height: 20 });
     const st = {
-        stroke: style && style.color ? style.color : "#3388ff", 
-        strokeOpacity: "1", 
+        stroke: style && style.color ? style.color : "#3388ff",
+        strokeOpacity: "1",
         strokeWidth: style && style.weight ? style.weight : "3",
-        strokeLinecap: "round", 
-        strokeLinejoin: "round", 
-        fill: style && style.fillColor ? style.fillColor : "#3388ff",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        // fill: style && style.fillColor ? style.fillColor : "#3388ff",
+        fill: style?.fillColor,
         fillOpacity: style && style.fillOpacity ? style.fillOpacity : "0.2",
-        fillRule: "evenodd" 
-    }
+        fillRule: "evenodd",
+    };
     svgEl.addPolygGon("1,1 19,1 19,19 1,19", st);
     return svgEl.svg;
 }
 
-function createLegendCircle(style:any):Element {
-    const svgEl = new svg.SVG({x:-3, y:-3, width:26, height:26});
-    console.info("createLegendCircle",style);
-    const st = createSvgStyle({...StandardCircleMarkerOptions, ...style});
-    // const st = {
-    //     stroke: style && style.color ? style.color : "#3388ff", 
-    //     strokeOpacity: "1", 
-    //     strokeWidth: style && style.weight ? style.weight : "3",
-    //     strokeLinecap: "round", 
-    //     strokeLinejoin: "round", 
-    //     fill: style && style.fillColor ? style.fillColor : "#3388ff",
-    //     fillOpacity: style && style.fillOpacity ? style.fillOpacity : "1",
-    //     fillRule: "evenodd" 
-    // }
-    console.info(st);
-    svgEl.addCircle(10, 10, 10, st);
+function createLegendPiechart(div: HTMLElement, lDescr: LayerDescription) {
+    /*
+    "style": {
+        "radius": 15,
+        "fillOpacity": 0.6,
+        "strokeOpacity": 0.2,
+        "strokeWeight": 3,
+        "piechart": {
+          "casa_ev_qm_kl1": "rgb(162 203 255)",
+          "casa_ev_qm_kl2": "rgb(182 247 255)",
+          "casa_ev_qm_kl3": "rgb(168 255 188)",
+          "casa_ev_qm_kl4": "rgb(240 255 175)",
+          "casa_ev_qm_kl5": "rgb(255 215 165)",
+          "casa_ev_qm_kl98": "rgb(255 194 186)",
+          "casa_ev_qm_kl99": "rgb(255 154 230)"
+        }
+      },
+      */
+    for (let k in lDescr.style.piechart) {
+        const row = createHtmlElement("div", div, "subelement");
+        const spanClassIcon = createHtmlElement("span", row, "icon");
+        const legendItem = createLegendPolygon({ fillColor: lDescr.style.piechart[k], color: "#000", weight: 1 });
+        spanClassIcon.appendChild(legendItem);
+        const spanClassName = createHtmlElement("span", row);
+        spanClassName.innerHTML = lDescr.layerAttributes?.[k] ?? k;
+    }
+}
+
+function createLegendCircle(style: any): Element {
+    const svgEl = new svg.SVG({ x: 0, y: 0, width: 24, height: 24 });
+    console.info("createLegendCircle", style);
+    const st = createSvgStyle({ ...StandardCircleMarkerOptions, ...style });
+    svgEl.addCircle(12, 12, 10, st);
     return svgEl.svg;
 }
 
-function showContent(evt:MouseEvent, content:HTMLElement) {    
-    const dom = createHtmlElement('div', undefined, 'legendctrl-legend');
-    const headArea = createHtmlElement('div', dom, 'legendctrl-legend-head');               
-    const headSpan = createHtmlElement('span', headArea);
+function showContent(evt: MouseEvent, content: HTMLElement) {
+    const dom = createHtmlElement("div", undefined, "legendctrl-legend");
+    const headArea = createHtmlElement("div", dom, "legendctrl-legend-head");
+    const headSpan = createHtmlElement("span", headArea);
     headSpan.innerText = "Legende";
-    const anchorBack = createHtmlElement('a', headArea, 'close') ;        
-    anchorBack.addEventListener('click', (ev)=>{
+    const anchorBack = createHtmlElement("a", headArea, "close");
+    anchorBack.addEventListener("click", (ev) => {
         if (dom.parentElement) {
             dom.parentElement.removeChild(dom);
         }
     });
     dom.appendChild(content);
 
-    dom.style.position = 'absolute';
-    dom.style.left = evt.clientX+'px';
-    dom.style.top = evt.clientY+'px';
+    dom.style.position = "absolute";
+    dom.style.left = evt.clientX + "px";
+    dom.style.top = evt.clientY + "px";
     document.body.appendChild(dom);
 }

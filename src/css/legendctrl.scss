@@ -1,0 +1,115 @@
+/* LegendControl */
+
+
+.legendctrl {
+    background-color: #005E90;
+    background-image: url("./icons/Allgemein/Legende.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 65%,65%;
+    cursor: pointer;    
+}
+
+
+.legendctrl>span {
+    display: none;
+}
+
+.legendctrl:hover {
+    background-color: #0c9fd9;
+    color: white;
+}
+.legendctrl-legend {
+    font-size: 1.2rem;
+    background-color: white;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    display: flex;
+    z-index: 9999;
+    flex-direction: column;
+    overflow: auto;
+    width: (350rem/16);
+    padding-left: (27rem/16);
+    padding-right: (27rem/16);
+} 
+
+.legendctrl-legend .close-button {
+    font-size: 2rem;
+}
+
+
+.legendctrl-legend.closed {
+    transform: translateX(100%);
+}
+
+.legendctrl1-legend {
+    font-size: 1.2rem;
+    border: 2px solid #afafaf;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    z-index: 9999;
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+    max-height: 80%;
+    overflow: hidden;
+} 
+
+.legendctrl-legend-head {
+    font-size: 1.8rem;
+    display: flex;
+}
+.legendctrl-legend-head>span {
+    padding-top: (69rem/16);
+    flex-grow: 1;
+    color: #005e90;
+    font-size: (18rem/16);
+    @include Macho-SemiBold();
+}
+.legendctrl-legend-head>a {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.legendctrl-legend-content {
+    height: 100%;
+    overflow: auto;
+    padding: 0.0rem
+}
+
+.legendctrl-legend-content h1 {
+    @include Macho-SemiBold();
+    font-size: (16rem/16);
+    color: #005e90;
+}
+
+.legendctrl-legend-content table {
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+.legendctrl-legend svg {
+    width: 100%;
+    height: 100%;
+}
+
+.legendctrl-legend .subelement {
+    font-size: (14rem/16);
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.legendctrl-legend .subelement .icon {
+    height: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+
+.legendctrl-legend .subelement td:first-child {
+    padding-left: 2rem;      
+}

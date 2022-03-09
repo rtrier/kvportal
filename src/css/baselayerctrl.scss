@@ -4,25 +4,17 @@
 
 .baselayerctrl-iconcontainer {
     display: flex;
- }
-
-.baselayerctrl-bttn {
-    background-color: #005E90;    
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    font-size: 0.8rem;
-    color:white;
     align-items: center;
-    transition: all 500ms;
-    border-radius: (3rem/16);
+}
+
+.baselayerctrl:hover .baselayerctrl-iconcontainer,
+.open .baselayerctrl-iconcontainer {
+    gap: 0.125rem;
 }
 
 .baselayerctrl-item {
-    background-color: #005E90; 
+    background-color: #005e90;
     font-size: 2rem;
-    padding:(10rem/16);
     cursor: pointer;
     background-image: url("./icons/Allgemein/Karte.svg");
     background-position: center;
@@ -31,32 +23,84 @@
     height: 100%;
 }
 
+@keyframes delayed_open {
+    0% {
+        width: 0px;
+        border-width: 0px;
+        padding: 0px;
+    }
+    30% {
+        width: 0px;
+        border-width: 0px;
+        padding: 0px;
+    }
+    60% {
+        width: 0px;
+        border-width: 0px;
+        padding: 0px;
+    }
+}
+
+@keyframes delayed_close {
+    0% {
+        width: (85rem/16);
+        height: (86rem/16);
+        padding: (4rem/16);
+        padding-bottom: 0px;
+    }
+    100% {
+        width: 0px;
+        height: (86rem/16);
+        border-width: 0px;
+        padding: 0px;
+    }
+}
+
+.baselayerctrl-bttn {
+    background-color: #005e90;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    color: white;
+    align-items: center;
+    /* transition: width 300ms;*/
+    border-radius: (3rem/16);
+    animation: delayed_close 500ms;
+}
+
 .baselayerctrl-bttn {
     width: 0px;
 }
 
 .baselayerctrl-bttn.selected {
     width: (85rem/16);
-    padding:(4rem/16);
-    padding-bottom: 0px;    
+    height: (86rem/16);
+    padding: (4rem/16);
+    padding-bottom: 0px;
+    animation: none !important;
 }
 
+.baselayerctrl:hover .baselayerctrl-bttn,
 .open .baselayerctrl-bttn {
     width: (85rem/16);
-    margin: (2rem/16);
-    padding:(4rem/16);
+    height: (86rem/16);
+    padding: (4rem/16);
     padding-bottom: 0px;
+    /* border: 0.125rem solid transparent;*/
+    animation: delayed_open 1s;
 }
 
-.open .baselayerctrl-bttn.selected {
+.baselayerctrl:hover .baselayerctrl-bttn.current,
+.open .baselayerctrl-bttn.current {
     border: (2rem/16) solid #000;
-    margin: 0;
 }
 
 .baselayerctrl-close-bttn {
-    overflow:hidden;
+    overflow: hidden;
     position: relative;
-    background-color: #005E90;
+    background-color: #005e90;
     border-radius: (3rem/16);
     width: 0px;
     height: (86rem/16);
@@ -64,9 +108,9 @@
 }
 .open .baselayerctrl-close-bttn {
     width: (60rem/16);
-    border: (2rem/16) solid #afafaf;
+    /* border: (2rem/16) solid #afafaf; */
 }
-.baselayerctrl-close-bttn::after {    
+.baselayerctrl-close-bttn::after {
     content: "\f101";
     color: #fff;
     position: absolute;

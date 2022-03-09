@@ -1,0 +1,48 @@
+/* fonts */
+@mixin Macho-Bold {
+    font-family: macho, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  @mixin Macho-Bold-Italic {
+    font-family: macho, sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+  
+  @mixin Macho-Medium {
+    font-family: macho, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  @mixin Macho-Medium-Italic {
+    font-family: macho, sans-serif;
+    font-weight: 500;
+    font-style: italic;
+  }
+  
+  @mixin Macho-Regular {
+    font-family: macho, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @mixin Macho-Regular-Italic {
+    font-family: macho, sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  @mixin Macho-SemiBold {
+    font-family: macho, sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  @mixin Macho-SemiBold-Italic {
+    font-family: macho, sans-serif;
+    font-weight: 600;
+    font-style: italic;
+  }

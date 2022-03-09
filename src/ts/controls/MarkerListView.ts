@@ -1,19 +1,16 @@
 import { CategorieLayer, CategoryMapObject, InteractiveLayer } from "./CategorieLayer";
 import { MapDispatcher } from "./MapControl";
 import { View, ViewControl } from "./ViewControl";
-import { createHtmlElement, createRow } from '../Util';
+import { createHtmlElement, createRow } from "../Util";
 import { LayerDescription } from "../conf/MapDescription";
-
+import { PiechartMarker } from "../PiechartLayer";
 
 export type ListEntry<T> = {
     item: T;
     dom: HTMLElement;
-}
-
-
+};
 
 export class MarkerView implements View {
-
     layer: InteractiveLayer;
     marker: CategoryMapObject<any>;
 
@@ -33,8 +30,7 @@ export class MarkerView implements View {
         if (!this.dom) {
             if (this.layer?.popupFactory) {
                 this.dom = this.layer.popupFactory.renderDataView(this.layer, this.marker);
-            }
-            else {
+            } else {
                 this.dom = this.renderDataView();
             }
         }
@@ -42,12 +38,12 @@ export class MarkerView implements View {
     }
 
     renderDataView() {
-        console.info('renderdataView', this);
-        const dom = createHtmlElement('div', undefined, "data-view");
-        createHtmlElement('h1', dom, 'datainfo-title', {
-            'innerHTML': this.layer["LayerDescription"]?.label
+        console.info("renderdataView", this);
+        const dom = createHtmlElement("div", undefined, "data-view");
+        createHtmlElement("h1", dom, "datainfo-title", {
+            innerHTML: this.layer["LayerDescription"]?.label,
         });
-        this.layer["LayerDescription"]?.label;
+        console.info(this.layer["LayerDescription"]?.label);
         // const table = createHtmlElement('table', dom);
 
         const data = this.marker.data ? this.marker.data : (<any>this.marker)?.feature?.properties;
@@ -58,31 +54,35 @@ export class MarkerView implements View {
             for (let k in layerDes.layerAttributes) {
                 const v = data[k];
                 if (v || !layerDes.hideEmptyLayerAttributes) {
-                    const p = createHtmlElement('p', dom, 'datainfo-row');                
-                    createHtmlElement('span', p, 'datainfo-row-head', {
-                        'innerHTML': layerDes.layerAttributes[k]
+                    const p = createHtmlElement("p", dom, "datainfo-row");
+                    createHtmlElement("span", p, "datainfo-row-head", {
+                        innerHTML: layerDes.layerAttributes[k],
                     });
-                    createHtmlElement('span', p, 'datainfo-row-content', {
-                        'innerHTML': v
+                    createHtmlElement("span", p, "datainfo-row-content", {
+                        innerHTML: v,
                     });
                     i++;
                     // createRow(layerDes.layerAttributes[k], v, table);
-                }                                
+                }
             }
-            if (i===0) {
-                createHtmlElement('p', dom, 'datainfo-row-head', {
-                    'innerHTML': "Es liegen keine weiteren Daten vor."
+            if (i === 0) {
+                createHtmlElement("p", dom, "datainfo-row-head", {
+                    innerHTML: "Es liegen keine weiteren Daten vor.",
                 });
             }
+            // if (layerDes?.geomType === "Chart") {
+            //     const m = <PiechartMarker<any>>this.marker;
+            //     const div = createHtmlElement("div", dom);
+            //     div.appendChild(m.getPiechart());
+            // }
         } else {
             // createRow(k, data[k], table);
-            createHtmlElement('p', dom, 'datainfo-row-head', {
-                'innerHTML': "Es liegen keine weiteren Daten vor."
+            createHtmlElement("p", dom, "datainfo-row-head", {
+                innerHTML: "Es liegen keine weiteren Daten vor.",
             });
         }
         return dom;
     }
-
 }
 
 export class MarkerListView implements View {
@@ -101,20 +101,19 @@ export class MarkerListView implements View {
 
     getDom(): HTMLElement {
         if (!this.dom) {
-            const divList = document.createElement('div');
-            divList.className = 'list-item-view';
+            const divList = document.createElement("div");
+            divList.className = "list-item-view";
             const markers = this.markers;
             const pop = this.layer.popupFactory;
 
             if (markers && markers.length > 0) {
-                markers.forEach(marker => {
-                    const itemDom = pop.renderListItem(this.layer, marker)
+                markers.forEach((marker) => {
+                    const itemDom = pop.renderListItem(this.layer, marker);
                     divList.appendChild(itemDom);
-                    itemDom.className = 'list-item';
-                    itemDom.addEventListener('click', (ev) => this.listEntryClicked({ dom: <HTMLElement>ev.target, item: marker }));
+                    itemDom.className = "list-item";
+                    itemDom.addEventListener("click", (ev) => this.listEntryClicked({ dom: <HTMLElement>ev.target, item: marker }));
                 });
-            }
-            else {
+            } else {
                 createHtmlElement("p", divList).innerHTML = "Es wurde nichts gefunden";
             }
             this.dom = divList;
@@ -124,7 +123,7 @@ export class MarkerListView implements View {
 
     listEntryClicked(entry: ListEntry<any>): any {
         if (this.selectedListEntry) {
-            this.selectedListEntry.dom.classList.remove('selected');
+            this.selectedListEntry.dom.classList.remove("selected");
             if (this.selectedListEntry === entry) {
                 this.selectedListEntry = undefined;
                 MapDispatcher.onListViewItemSelection.dispatch(this, undefined);
@@ -132,18 +131,16 @@ export class MarkerListView implements View {
         }
         this.selectedListEntry = entry;
         MapDispatcher.onListViewItemSelection.dispatch(this, entry.item);
-        console.info('listEntryClicked', entry);
+        console.info("listEntryClicked", entry);
     }
 
-
     onAdd(parent: ViewControl) {
-        console.info('MarkerListView.onAdd');
+        console.info("MarkerListView.onAdd");
     }
     onRemove() {
         if (this.geoJson) {
             this.geoJson.remove();
         }
-        console.info('MarkerListView.onRemove');
+        console.info("MarkerListView.onRemove");
     }
-
 }

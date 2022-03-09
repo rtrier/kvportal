@@ -7,6 +7,10 @@
 		<script src="svgtest.js"></script>
 
         <style>
+            body {
+                display: flex;
+                flex-direction: column;
+            }
             #testarea {    
                 align-items: center;
                 justify-content: center;
@@ -28,10 +32,15 @@
                 background-color: antiquewhite;
                 border: this solid black;
             }
+            #bttnarea {
+                background-color: brown;
+                height: 150px;
+            }
         </style>
 	</head>
 	<body>
 		<div id="testarea"></div>
+        <div id="bttnarea"></div>
 		<div id="message" class="center" style="display: none">Lade Karte ...</div>
 	</body>	
 </html>

@@ -4,13 +4,16 @@
 	background-color: transparent;
 	border-bottom-right-radius: 3px;
 }
+
 .control-attribution.open {
 	background-color: rgba(255, 255, 255, 0.7);
 }
+
 .div-attribution {
 	display: none;
 
 }
+
 .open>.div-attribution {
 	display: inline-block;
 	padding-right: 3px;
@@ -19,19 +22,29 @@
 
 
 .control-attribution>button, .control-search>button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	align-self: flex-end;
-	background-color:#005e90;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
+	background-color: #005e90;
+	/* display: inline-block; */
+	cursor: pointer;
+	color: #ffffff;
 	font-size: 2.2rem;
 	padding: 0px 0px;
-	text-decoration:none;
+	text-decoration: none;
 	/* text-shadow:0px 1px 0px #263666;	*/
 }
+
+.control-attribution>button:hover, .control-search>button:hover {
+	display: flex !important;
+}
+
+/*
 .control-search>button {
 	font-size: 20px;
 }
+*/
 /*
 .control-attribution>button:hover, .control-search>button:hover {
 	background-color:#005e90;
