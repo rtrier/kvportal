@@ -24,4 +24,9 @@ dist/images/marker-icon.png
 dist/map copy.html
 jsdoc
 *.7z
-dist/*
+dist/svgtest.html
+dist/svgtest.js
+dist/test.html
+dist/test2.html
+dist/test3.html
+src/css/main_old.scss

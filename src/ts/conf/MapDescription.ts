@@ -16,6 +16,9 @@ export async function getConf(url: string): Promise<MapDescription> {
         };
         const mapThemes: { [id: string]: Theme } = {};
         const parse = function (themes: Theme[]) {
+            if (!themes) {
+                return;
+            }
             for (let i = 0; i < themes.length; i++) {
                 const theme = themes[i];
                 theme.layers = [];

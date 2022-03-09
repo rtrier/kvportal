@@ -1,81 +1,125 @@
 {
-  "baseLayers": [
+  "mapOptions": {
+    "center": {
+      "lat": 53.53195,
+      "lng": 10.59963
+    },
+    "zoom": "8",
+    "maxBounds": [
+      [
+        50,
+        2.19926
+      ],
+      [
+        57.0639,
+        19
+      ]
+    ],
+    "minZoom": "8"
+  },
+  "default_wms_legend_icon": "img/noun_Globe.svg",
+  "themes": [
     {
-      "label": "OpenStreeMap",
-      "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      "options": {
-        "attribution": "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"
-      }
+      "thema": "Windenergie",
+      "icon": "kreisicons/Windenergie.svg",
+      "themes": [
+        {
+          "thema": "Windenergie|Offshore",
+          "icon": "icons/Windenergie/Offshore/EA-Icons_Offshore.svg"
+        },
+        {
+          "thema": "Windenergie|Onshore",
+          "icon": "icons/Windenergie/Onshore/EA-Icons_Onshore.svg"
+        }
+      ]
     },
     {
-      "label": "webatlas",     
-      "url": "https://sgx.geodatenzentrum.de/wmts_webatlasde.light/tile/1.0.0/webatlasde.light/default/DE_EPSG_3857_LIGHT/{z}/{y}/{x}.png",
-      "options": {          
-        "id": "webatlasde.light",
-        "minZoom": 5,
-		    "maxZoom": 15,		      
-		    "zoomOffset": -5,
-        "attribution": "&copy; <a href=\"http://www.bkg.bund.de/\" target=\"_blank\">Bundesamt für Kartographie und Geodäsie</a> 2020, <a href=\"http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf\" target=\"_blank\">Datenquellen</a>"
-      }
+      "thema": "Solarenergie",
+      "icon": "kreisicons/Solarenergie.svg"
+    },
+    {
+      "thema": "Mobilität",
+      "icon": "kreisicons/Mobilitaet.svg",
+      "themes": [
+        {
+          "thema": "Mobilität|Ladeinfrastruktur",
+          "icon": "icons/Mobilitaet/Ladeinfrastruktur/EA-Icons_Ladeinfrastrucktur.svg"
+        },
+        {
+          "thema": "Mobilität|Verkehr",
+          "icon": "icons/Mobilitaet/Verkehr/EA-Icons_Verkehr.svg"
+        }
+      ]
+    }
+  ],
+  "baseLayers": [
+    {
+      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/topoplus.png",
+      "label": "TopPlusOpen",
+      "options": {
+        "attribution": "TopPlusOpenKartendarstellung und Präsentationsgraphiken: © Bundesamt für Kartographie und Geodäsie (aktuelles Jahr), Datenquellen: https://sgx.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf "
+      },
+      "shortLabel": "TopPlusOpen",
+      "url": "https://sgx.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web/default/WEBMERCATOR/{z}/{y}/{x}.png"
+    },
+    {
+      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/sat.png",
+      "label": "Luftbild",
+      "options": {
+        "zoomOffset": -5,
+        "attribution": "Luftbilder, Geoportal-MV, © Landesamt für innere Verwaltung M-V, Amt für Geoinformation, Vermessung und Katasterwesen (geodatenservice@laiv-mv.de)"
+      },
+      "shortLabel": "Luftbild",
+      "url": "https://www.geodaten-mv.de/dienste/dop_wmts/wmts/mv_dop/GoogleMapsCompatible/{z}/{x}/{y}.png"
+    },
+    {
+      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/topoplus-gray.png",
+      "label": "TopPlusGrau",
+      "options": {
+        "attribution": "TopPlus (Grau): Kartendarstellung und Präsentationsgraphiken: © Bundesamt für Kartographie und Geodäsie (aktuelles Jahr), Datenquellen: https://sgx.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf "
+      },
+      "shortLabel": "TopPlusGrau",
+      "url": "https://sgx.geodatenzentrum.de/wmts_topplus_web_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png"
+    },
+    {
+      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/orka.png",
+      "label": "ORKa-MV",
+      "options": {
+        "attribution": "ORKa-MV, Kartenbild © Hanse- und Universitätsstadt Rostock (CC BY 4.0) | Kartendaten © OpenStreetMap (ODbL) und LkKfS-MV"
+      },
+      "shortLabel": "ORKa-MV",
+      "url": "https://www.orka-mv.de/geodienste/orkamv/tiles/1.0.0/orkamv/GLOBAL_WEBMERCATOR/{z}/{x}/{y}.png"
+    },
+    {
+      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/osm.png",
+      "label": "OSM",
+      "options": {
+        "attribution": "OSM Terrestris: (c) OpenStreetMap contributors (http://www.openstreetmap.org/copyright) (c) OpenStreetMap Data (http://openstreetmapdata.com) (c) Natural Earth Data (http://www.naturalearthdata.com) (c) GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) (c) SRTM 450m by ViewfinderPanoramas (http://viewfinderpanoramas.org/) (c) Great Lakes Bathymetry by NGDC (http://www.ngdc.noaa.gov/mgg/greatlakes/) (c) SRTM 30m by NASA EOSDIS Land Processes Distributed Active Archive Center (LP DAAC, https://lpdaac.usgs.gov/) by using this service you agree to the privacy policy mentioned at https://www.terrestris.de/en/datenschutzerklaerung/"
+      },
+      "shortLabel": "OSM",
+      "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
     }
   ],
   "overlays": [
-    
     {
-      "thema": "Windenergie",
-      "label": "Windenergieanlagen Onshore",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 126,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "icon": {
-        "iconUrl": "img/wind_power_turbine.svg",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          7,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "Landesamt für Umwelt, Naturschutz und Geologie M-V (LUNG M-V)",
-      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
+      "thema": "Windenergie|Offshore",
+      "label": "Windenergieanlagen Offshore",
+      "abstract": "Deutsche Offshore-Windenergieanlagen in der Ostsee vor der Küste Mecklenburg-Vorpommerns. Die Daten entstammen einer Zusammenführung eines Datensatzes des Landesamtes für Umwelt, Naturschutz und Geologie M-V (LUNG M-V) mit dem Marktstammdatenregister (MaStR) der Bundesnetzagentur.",
+      "contactOrganisation": "• Bundesnetzagentur (2020) Marktstammdatenregister (MaStR), Erweiterte Einheitenübersicht.\r\n• Landesamt für Umwelt, Naturschutz und Geologie M-V (LUNG M-V) (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
       "actuality": "20.11.2020",
-      "actualityCircle": "bei Bedarf",
+      "actualityCircle": "halbjährlich",
       "type": "GeoJSON",
       "geomType": "Point",
-      "options": {
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Windenergieanlagen Offshore",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "id",
       "url": "https://energieatlas-mv.de/fis/index.php",
       "params": {
-        "gast": 2,
+        "gast": 7,
         "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
         "selected_layer_id": 127,
         "export_format": "GeoJSON",
         "browserwidth": 800,
@@ -83,44 +127,126 @@
         "epsg": 4326,
         "all": 1
       },
-      "icon": {
-        "iconUrl": "img/wind_power_turbine.svg",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          7,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "Landesamt für Umwelt, Naturschutz und Geologie M-V (LUNG M-V)",
-      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
-      "actuality": "20.11.2020",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Point",
       "options": {
-        "attribution": "Umweltkarten LUNG"
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https://energieatlas-mv.de/fis/custom/symbols/Windenergie/Offshore/EA-IconsWindenergieanlagen-Offshore.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "id",
+        "mastrid": "mastrid",
+        "mastrnummer": "mastrnummer",
+        "systemstatus": "systemstatus",
+        "betriebsstatus": "betriebsstatus",
+        "einheitentyp": "einheitentyp",
+        "name_der_einheit": "name_der_einheit",
+        "name_des_windparks": "name_des_windparks",
+        "datum_beginn_der_voruebergehenden_stilllegung": "datum_beginn_der_voruebergehenden_stilllegung",
+        "datum_wiederaufnahme_des_betriebs_": "datum_wiederaufnahme_des_betriebs_",
+        "geplantes_inbetriebnahmedatum": "geplantes_inbetriebnahmedatum",
+        "inbetriebnahmedatum": "inbetriebnahmedatum",
+        "datum_der_endgueltigen_stilllegung": "datum_der_endgueltigen_stilllegung",
+        "meldedatum": "meldedatum",
+        "datum_der_letzten_aktualisierung": "datum_der_letzten_aktualisierung",
+        "land": "land",
+        "lage": "lage",
+        "plz_mastr": "plz_mastr",
+        "ort_mastr": "ort_mastr",
+        "art_der_standortangabe": "art_der_standortangabe",
+        "strasse": "strasse",
+        "hausnummer": "hausnummer",
+        "adresszusatz": "adresszusatz",
+        "gemarkung": "gemarkung",
+        "flur_und_flurstueck": "flur_und_flurstueck",
+        "bundesland": "bundesland",
+        "landkreis": "landkreis",
+        "gemeinde_mastr": "gemeinde_mastr",
+        "gemeindeschluessel": "gemeindeschluessel",
+        "seelage": "seelage",
+        "cluster_ostsee": "cluster_ostsee",
+        "cluster_nordsee": "cluster_nordsee",
+        "kuestenentfernung": "kuestenentfernung",
+        "wassertiefe": "wassertiefe",
+        "bruttoleistung": "bruttoleistung",
+        "nettonennleistung": "nettonennleistung",
+        "technologie": "technologie",
+        "nabenhoehe_mastr": "nabenhoehe_mastr",
+        "rotordurchmesser": "rotordurchmesser",
+        "auflagen_abschaltungen_leistungsbegrenzungen": "auflagen_abschaltungen_leistungsbegrenzungen",
+        "hersteller": "hersteller",
+        "typenbezeichnung": "typenbezeichnung",
+        "einsatzverantwortlicher": "einsatzverantwortlicher",
+        "art_der_einspeisung": "art_der_einspeisung",
+        "fernsteuerbarkeit_durch_netzbetreiber": "fernsteuerbarkeit_durch_netzbetreiber",
+        "fernsteuerbarkeit_durch_direktvermarkter": "fernsteuerbarkeit_durch_direktvermarkter",
+        "fernsteuerbarkeit_durch_dritte": "fernsteuerbarkeit_durch_dritte",
+        "an_hoch_hoechstspannung_angeschlossen": "an_hoch_hoechstspannung_angeschlossen",
+        "w_eic": "w_eic",
+        "displayname_w_eic": "displayname_w_eic",
+        "kraftwerksnummer": "kraftwerksnummer",
+        "isnotstromaggregat": "isnotstromaggregat",
+        "nbp_pruefungsdatum": "nbp_pruefungsdatum",
+        "nbp_netzbetreiberpruefungsstatus": "nbp_netzbetreiberpruefungsstatus",
+        "ogc_fid": "ogc_fid",
+        "behoe_name": "behoe_name",
+        "behoe_nr": "behoe_nr",
+        "as_nr": "as_nr",
+        "as_name": "as_name",
+        "gemeinde": "gemeinde",
+        "plz": "plz",
+        "ort": "ort",
+        "ortsteil": "ortsteil",
+        "an_nr": "an_nr",
+        "an_bez": "an_bez",
+        "bimschv4": "bimschv4",
+        "leist_mass": "leist_mass",
+        "altanlan_d": "altanlan_d",
+        "inbetr_dat": "inbetr_dat",
+        "nabenhoehe": "nabenhoehe",
+        "rotor_d": "rotor_d",
+        "geom": "geom"
       }
     },
     {
-      "thema": "Windenergie",
+      "thema": "Windenergie|Offshore",
       "label": "Windparks Offshore",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
+      "abstract": "Windparks in der Ostsee vor der Küste Mecklenburg-Vorpommerns. Gezeigt werden Windparks, die in Betrieb, in Planung, in Ausschreibung (nach Zuschlag), in Realisierung oder als Testfeld geplant sind.",
+      "contactOrganisation": "• Ministerium für Energie, Infrastruktur und Digitalisierung MV (2021)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "20.11.2021",
+      "actualityCircle": "jährlich",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
       "url": "https://energieatlas-mv.de/fis/index.php",
       "params": {
-        "gast": 2,
+        "gast": 7,
         "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
         "selected_layer_id": 55,
         "export_format": "GeoJSON",
         "browserwidth": 800,
@@ -128,1322 +254,535 @@
         "epsg": 4326,
         "all": 1
       },
-      "contactOrganisation": "LUNG",
-      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([stand] = 'Zuschlag BNetzA')",
+          "name": "Zuschlag in der Ausschreibung",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(110 35 0)",
+            "fill": true,
+            "fillColor": "rgb(255 237 26)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([stand] = 'in Betrieb')",
+          "name": "OWP in Betrieb",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(110 35 0)",
+            "fill": true,
+            "fillColor": "rgb(32 84 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([stand] = 'in Planung')",
+          "name": "OWP in Planung",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(110 35 0)",
+            "fill": true,
+            "fillColor": "rgb(217 0 62)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([stand] = 'in Realisierung')",
+          "name": "OWP in Realisierung",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(110 35 0)",
+            "fill": true,
+            "fillColor": "rgb(41 205 0)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([stand] = 'Testfeld')",
+          "name": "Offshore Testfeld",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(110 35 0)",
+            "fill": true,
+            "fillColor": "rgb(255 173 29)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "ID",
+        "name": "Name",
+        "betreiber": "Betreiber",
+        "anzahl_wea": "Anzahl WEA",
+        "leistung": "Leistung [GW]",
+        "bemerkung": "Bemerkung",
+        "stand": "Stand",
+        "the_geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Windenergie|Onshore",
+      "label": "Windenergieanlagen Onshore",
+      "abstract": "Windenergieanlagen auf dem Festland von Mecklenburg-Vorpommern",
+      "contactOrganisation": "• Landesamt für innere Verwaltung M-V (LAiV) (2020)\r\n• Landesamt für Umwelt, Naturschutz und Geologie M-V (LUNG) (2020) Kartenportal Umwelt (https://www.umweltkarten.mv-regierung.de/atlas/script/index.php).\r\n• Bundesnetzagentur (2020) Marktstammdatenregister (MaStR), Erweiterte Einheitenübersicht(https://www.marktstammdatenregister.de/MaStR/Einheit/Einheiten/ErweiterteOeffentlicheEinheitenuebersicht).\r\n\r\nDie Daten entstammen einer Kombination aus den Datensätzen der drei Quellen. Bei Dopplungen innerhalb eines Radius von 100 m wurden, wenn verfügbar, die Koordinaten des LAiV sowie die Sachdaten des LUNG und MaStR bevorzugt verwendet.",
+      "contactPersonName": "Frau Balck-Taege",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588-18305",
       "actuality": "20.11.2020",
-      "actualityCircle": "bei Bedarf",
+      "actualityCircle": "halbjährlich",
       "type": "GeoJSON",
-      "geomType": "Polygon",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Eignungsgebiete für Windenergieanlagen REP Westmecklenburg",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 84,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "contactOrganisation": "Regionaler Planungsverband Westmecklenburg",
-      "abstract": "",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "fill": "#FF3333"
-      }, 
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Eignungsgebiete für Windenergieanlagen REP Mecklenburgische Seenplatte",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 78,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "contactOrganisation": "Regionaler Planungsverband Mecklenburgische Seenplatte",
-      "abstract": "",
-      "contactPersonName": "",
-      "contactEMail": "poststelle@afrlms.mv-regierung.de",
-      "contactPhon": "0395 / 777 551 100",
-      "actuality": "",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "fill": "#FF3333"
-      }, 
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Eignungsgebiete für Windenergieanlagen REP Region Rostock",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 83,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "contactOrganisation": "Geschäftsstelle: Amt für Raumordnung und Landesplanung Region Rostock",
-      "abstract": "",
-      "contactPersonName": "",
-      "contactEMail": "poststelle@afrlrr.mv-regierung.de",
-      "contactPhon": "0381 331 89-450",
-      "actuality": "",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "fill": "#FF3333"
-      }, 
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Eignungsgebiete für Windenergieanlagen REP Vorpommern",
-      "infoAttribute": "info",
-      "img": "wind_power.svg",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 80,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "contactOrganisation": "Regionaler Planungsverband Vorpommern",
-      "abstract": "",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "fill": "#FF3333"
-      }, 
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Windenergie",
-      "label": "Windenergie Potentiale",
-      "infoAttribute": "info",
-      "img": "dummy.png",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://maps.dwd.de/geoserver/dwd/wms",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 43,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      
-      "contactOrganisation": "LUNG",
-      "abstract": "Windenergieanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
-      "actuality": "20.11.2020",
-      "actualityCircle": "bei Bedarf",
-      "type": "WMS",
       "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "id",
+      "url": "https://energieatlas-mv.de/fis/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 126,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https://energieatlas-mv.de/fis/custom/symbols/Windenergie/Onshore/EA-Icons_Windenergieanlagen-Onshore.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "mastrid": "MaStR.-ID",
+        "mastrnummer": "MaStR.-Nr",
+        "systemstatus": "Systemstatus",
+        "betriebsstatus": "Betriebsstatus",
+        "einheitentyp": "Einheitentyp",
+        "name_der_einheit": "Name der Einheit",
+        "name_des_windparks": "Name Des Windparks",
+        "datum_beginn_der_voruebergehenden_stilllegung": "Datum Beginn der Voruebergehenden Stilllegung",
+        "datum_wiederaufnahme_des_betriebs_": "Datum Wiederaufnahme Des Betriebs ",
+        "geplantes_inbetriebnahmedatum": "Geplantes Inbetriebnahmedatum",
+        "inbetriebnahmedatum": "Inbetriebnahmedatum",
+        "datum_der_endgueltigen_stilllegung": "Datum der Endgueltigen Stilllegung",
+        "meldedatum": "Meldedatum",
+        "datum_der_letzten_aktualisierung": "Datum der Letzten Aktualisierung",
+        "land": "Land",
+        "lage": "Lage",
+        "plz_mastr": "Plz Mastr",
+        "ort_mastr": "Ort Mastr",
+        "art_der_standortangabe": "Art der Standortangabe",
+        "strasse": "Strasse",
+        "hausnummer": "Hausnummer",
+        "adresszusatz": "Adresszusatz",
+        "gemarkung": "Gemarkung",
+        "flur_und_flurstueck": "Flur Und Flurstueck",
+        "bundesland": "Bundesland",
+        "landkreis": "Landkreis",
+        "gemeinde_mastr": "Gemeinde Mastr",
+        "gemeindeschluessel": "Gemeindeschluessel",
+        "seelage": "Seelage",
+        "cluster_ostsee": "Cluster Ostsee",
+        "cluster_nordsee": "Cluster Nordsee",
+        "kuestenentfernung": "Kuestenentfernung",
+        "wassertiefe": "Wassertiefe",
+        "bruttoleistung": "Bruttoleistung",
+        "nettonennleistung": "Nettonennleistung",
+        "technologie": "Technologie",
+        "nabenhoehe_mastr": "Nabenhoehe Mastr",
+        "rotordurchmesser": "Rotordurchmesser",
+        "auflagen_abschaltungen_leistungsbegrenzungen": "Auflagen Abschaltungen Leistungsbegrenzungen",
+        "hersteller": "Hersteller",
+        "typenbezeichnung": "Typenbezeichnung",
+        "einsatzverantwortlicher": "Einsatzverantwortlicher",
+        "art_der_einspeisung": "Art der Einspeisung",
+        "fernsteuerbarkeit_durch_netzbetreiber": "Fernsteuerbarkeit Durch Netzbetreiber",
+        "fernsteuerbarkeit_durch_direktvermarkter": "Fernsteuerbarkeit Durch Direktvermarkter",
+        "fernsteuerbarkeit_durch_dritte": "Fernsteuerbarkeit Durch Dritte",
+        "an_hoch_hoechstspannung_angeschlossen": "An Hoch Hoechstspannung Angeschlossen",
+        "w_eic": "W Eic",
+        "displayname_w_eic": "Displayname W Eic",
+        "kraftwerksnummer": "Kraftwerksnummer",
+        "isnotstromaggregat": "Isnotstromaggregat",
+        "nbp_pruefungsdatum": "Nbp Pruefungsdatum",
+        "nbp_netzbetreiberpruefungsstatus": "Nbp Netzbetreiberpruefungsstatus",
+        "ogc_fid": "ogc_fid",
+        "behoe_name": "Behörde",
+        "behoe_nr": "Behörde Nr.",
+        "as_nr": "As Nr",
+        "as_name": "As Name",
+        "gemeinde": "Gemeinde",
+        "plz": "Plz",
+        "ort": "Ort",
+        "ortsteil": "Ortsteil",
+        "an_nr": "Anlagenr",
+        "an_bez": "Anlagenbezeichnung",
+        "bimschv4": "BImSchV4",
+        "leist_mass": "Leistung",
+        "altanlan_d": "Altanlan D",
+        "inbetr_dat": "Inbetriebnamedatum",
+        "nabenhoehe": "Nabenhoehe",
+        "rotor_d": "Rotordurchmesser",
+        "geom": "Geom"
+      }
+    },
+    {
+      "thema": "Windenergie|Onshore",
+      "label": "Windenergie Potentiale",
+      "abstract": "Windenergiepotential",
+      "contactOrganisation": null,
+      "contactPersonName": null,
+      "contactEMail": null,
+      "contactPhon": null,
+      "actuality": null,
+      "actualityCircle": null,
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https://maps.dwd.de/geoserver/dwd/wms",
+      "params": "",
       "options": {
         "crs": "EPSG4326",
         "version": "1.1.0",
         "layers": "BRD_1km_winddaten_80m",
         "format": "image/png",
         "transparent": true,
-        "attribution": "DWD"
-      }
+        "attribution": null,
+        "opacity": 0.8
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+      },
+      "maxScale": 50000
     },
     {
       "thema": "Solarenergie",
-      "label": "Freiflächenanlagen",
-      "infoAttribute": "info",
-      "img": "solar_power.svg",
-      "backgroundColor": "#fcffc1",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 36,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "#FF3333"
-      },
-      "contactOrganisation": "Landkreis NWM",
-      "abstract": "Solaranlagen im Landkreis NordWest-Mecklenburg",
-      "contactPersonName": "Herr Deboldt",
-      "contactEMail": "herr.debuld@lknwm.de",
-      "contactPhon": "039149556789",
-      "actuality": "14.04.2019",
-      "actualityCircle": "Ein mal im Jahr am 15.02",
+      "label": "Solarfreiflächenanlagen",
+      "abstract": "Solarfreiflächenanlagen (Photovoltaik) in Mecklenburg-Vorpommern. Hierbei handelt es sich um Photovoltaik-Anlagen, die auf der \"freien Fläche\" - also nicht an/auf Gebäuden - installiert sind. Die Daten wurden vom Landesamt für innere Verwaltung (LAiV) zur Verfügung gestellt.",
+      "contactOrganisation": "• Landesamt für innere Verwaltung (LAiV) (2021).",
+      "contactPersonName": "Landesamt für innere Verwaltung (LAiV)",
+      "contactEMail": null,
+      "contactPhon": null,
+      "actuality": "13.04.2021",
+      "actualityCircle": "jährlich",
       "type": "GeoJSON",
       "geomType": "Polygon",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Solarenergie",
-      "label": "Freiflächenanlagen ATKIS",
-      "infoAttribute": "info",
-      "img": "solar_power.svg",
-      "backgroundColor": "#fcffc1",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
       "url": "https://energieatlas-mv.de/fis/index.php",
       "params": {
-        "gast": 2,
+        "gast": 7,
         "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 53,
+        "Stelle_ID": 7,
+        "selected_layer_id": 163,
         "export_format": "GeoJSON",
         "browserwidth": 800,
         "browserheight": 600,
         "epsg": 4326,
         "all": 1
       },
-      "icon": {
-        "iconUrl2": "img/solar_power.svg",
-		"iconUrl": "img/sun.svg",
-        "iconSize": [
-          25,
-          25
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
+      "options": {
+        "transparent": true,
+        "attribution": "Landesamt für innere Verwaltung (LAiV)"
       },
-      "contactOrganisation": "LAiV",
-      "abstract": "Solaranlagen in Mecklenburg Vorpommern aus dem ATKIS Bestand",
-      "contactPersonName": "Herr Zehner",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(212 140 0)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "ID",
+        "objid": "Objekt ID",
+        "flaeche": "Fläche",
+        "the_geom": "The Geom"
+      }
+    },
+    {
+      "thema": "Mobilität|Ladeinfrastruktur",
+      "label": "Ladestationen 2021",
+      "abstract": "Kartografische Darstellung von öffentlich zugänglichen Standorten mit Schnell- und Normalladepunkten in Mecklenburg-Vorpommern. Die Daten ergeben sich aus einer in 2017 durchgeführten  Bestandsanalyse der Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) und den aktuelleren Daten des Ladesäulenregisters der Bundesnetzagentur.",
+      "contactOrganisation": "• Ministerium für Energie, Infrastruktur und Digitalisierung MV (2021)\r\n• Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) (2017) Bestandsanalyse der Ladesäuleninfrastruktur in M-V (https://www.regierung-mv.de/Landesregierung/em/Infrastruktur/Elektromobilit%C3%A4t/Ladeinfrastruktur/; Zugriff am 31.08.2021).\r\n• Bundesnetzagentur (2021) Ladesäulenregister (https://www.bundesnetzagentur.de/DE/Sachgebiete/ElektrizitaetundGas/Unternehmen_Institutionen/E-Mobilitaet/Ladesaeulenkarte/start.html; Zugriff am 31.08.2021)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "07/2021",
+      "actualityCircle": "halbjährlich",
       "type": "GeoJSON",
       "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Geoportal-MV"
-      }
-    },
-    {
-      "thema": "Solarenergie",
-      "label": "Anlagen (alles außer Freiflächenanlagen)",
-      "infoAttribute": "info",
-      "img": "solar_power.svg",
-      "backgroundColor": "#fcffc1",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "betr",
       "url": "https://energieatlas-mv.de/fis/index.php",
       "params": {
-        "gast": 2,
+        "gast": 7,
         "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 36,
+        "Stelle_ID": 7,
+        "selected_layer_id": 23,
         "export_format": "GeoJSON",
         "browserwidth": 800,
         "browserheight": 600,
         "epsg": 4326,
         "all": 1
       },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "#FF3333"
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)"
       },
-      "contactOrganisation": "Landkreis NWM",
-      "abstract": "Solaranlagen im Landkreis NordWest-Mecklenburg",
-      "contactPersonName": "Herr Deboldt",
-      "contactEMail": "herr.debuld@lknwm.de",
-      "contactPhon": "039149556789",
-      "actuality": "14.04.2019",
-      "actualityCircle": "Ein mal im Jahr am 15.02",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
+      "classes": [
+        {
+          "def": "([art_laden] = 'Normalladeeinrichtung')",
+          "name": "Normalladepunkte",
+          "style": {
+            "symbolname": "circle",
+            "size": "10",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(0 178 132)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([art_laden] = 'Schnellladeeinrichtung')",
+          "name": "Schnellladepunkte",
+          "style": {
+            "symbolname": "circle",
+            "size": "10",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(254 255 25)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "fid_": "Fid ",
+        "geom": "Geom",
+        "shape__": "Shape  ",
+        "betr": "Betr",
+        "adr": "Adr",
+        "plz_ort": "Plz Ort",
+        "bl": "Bl",
+        "hw": "Hw",
+        "rw": "Rw",
+        "inbetr": "Inbetr",
+        "an_leist": "An Leist",
+        "art_laden": "Art Laden",
+        "ladepunkte": "Ladepunkte",
+        "p1_typ": "P1 Typ",
+        "p1_kw": "P1 Kw",
+        "pk1": "Pk1",
+        "p2_typ": "P2 Typ",
+        "p2_kw": "P2 Kw",
+        "pk2": "Pk2",
+        "p3_typ": "P3 Typ",
+        "p3_kw": "P3 Kw",
+        "pk3": "Pk3",
+        "p4_typ": "P4 Typ",
+        "p4_kw": "P4 Kw",
+        "pk4": "Pk4",
+        "p5_typ": "P5 Typ",
+        "p5_kw": "P5 Kw",
+        "p6_typ": "P6 Typ",
+        "p6_kw": "P6 Kw",
+        "anz_s_lp": "Anz S Lp",
+        "anz_lp_eff": "Anz Lp Eff",
+        "zug": "Zug",
+        "adresse": "Adresse",
+        "emp_prov": "Emp Prov",
+        "freischalt": "Freischalt",
+        "online_sta": "Online Sta",
+        "anz_parkpl": "Anz Parkpl",
+        "zugangs_t": "Zugangs T",
+        "kosten": "Kosten",
+        "service": "Service",
+        "jahr_2021": "2021",
+        "freischa_s": "Freischa S",
+        "reparatur": "Reparatur",
+        "e_bike": "E Bike",
+        "ladefach": "Ladefach",
+        "info": "Info",
+        "p_region": "P Region",
+        "lsv_konfor": "Lsv Konfor"
       }
     },
     {
-      "thema": "Solarenergie",
-      "label": "Erträge im Jahr",
-      "infoAttribute": "info",
-      "img": "dummy.png",
-      "backgroundColor": "#fcffc1",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 36,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "#FF3333"
-      },
-      "contactOrganisation": "Landkreis NWM",
-      "abstract": "Solaranlagen im Landkreis NordWest-Mecklenburg",
-      "contactPersonName": "Herr Deboldt",
-      "contactEMail": "herr.debuld@lknwm.de",
-      "contactPhon": "039149556789",
-      "actuality": "14.04.2019",
-      "actualityCircle": "Ein mal im Jahr am 15.02",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Solarenergie",
-      "label": "Potentiale",
-      "infoAttribute": "info",
-      "img": "dummy.png",
-      "backgroundColor": "#fcffc1",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 36,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "#FF3333"
-      },
-      "contactOrganisation": "Landkreis NWM",
-      "abstract": "Solaranlagen im Landkreis NordWest-Mecklenburg",
-      "contactPersonName": "Herr Deboldt",
-      "contactEMail": "herr.debuld@lknwm.de",
-      "contactPhon": "039149556789",
-      "actuality": "14.04.2019",
-      "actualityCircle": "Ein mal im Jahr am 15.02",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Bioenergie",
-      "label": "Biogasanlagen",
-      "infoAttribute": "info",
-      "img": "biogas_power.svg",
-      "backgroundColor": "#55ff55",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 54,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "icon": {
-        "iconUrl": "img/biogas_power.svg",
-        "iconSize": [
-          25,
-          25
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "LUNG",
-      "abstract": "Biogasanlagen in MV",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "GeoJSON",
-      "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Bioenergie",
-      "label": "Bioenergie: Jährliche Erträge",
-      "img": "dummy.png",
-      "backgroundColor": "#55ff55",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "JährlicheBioenergie-Erträge",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Bioenergie",
-      "label": "Bioenergie: Potentiale",
-      "img": "dummy.png",
-      "backgroundColor": "#55ff55",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "Bioenergie:Potentiale",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Geothermie",
-      "label": "Geothermieanlagen",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
-      "url": "https://www.umweltkarten.mv-regierung.de/script/mv_a5_wea_wms.php?VERSION=1.1.1&LAYERS=t5_bio&STYLES=&FORMAT=image/png&TRANSPARENCE=true",
-      "contactOrganisation": "LUNG",
-      "abstract": "Biogasanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
-      "actuality": "14.10.2019",
-      "actualityCircle": "Ein mal im Jahr am 30.06",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Geothermie",
-      "label": "Geothermie: Jährliche Erträge",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "JährlicheBioenergie-Erträge",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Geothermie",
-      "label": "Geothermie: Potentiale",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "Bioenergie:Potentiale",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Wasserenergie",
-      "label": "Wasserenergieanlagen",
-      "img": "dummy.png",
-      "backgroundColor": "#2df7f7",
-      "url": "https://www.umweltkarten.mv-regierung.de/script/mv_a5_wea_wms.php?VERSION=1.1.1&LAYERS=t5_bio&STYLES=&FORMAT=image/png&TRANSPARENCE=true",
-      "contactOrganisation": "LUNG",
-      "abstract": "Biogasanlagen in Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Neumann",
-      "contactEMail": "herr.neumann@lung-mv.de",
-      "contactPhon": "0381456789",
-      "actuality": "14.10.2019",
-      "actualityCircle": "Ein mal im Jahr am 30.06",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Wasserenergie",
-      "label": "Wasserenergie: Jährliche Erträge",
-      "img": "dummy.png",
-      "backgroundColor": "#2df7f7",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "JährlicheBioenergie-Erträge",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Wasserenergie",
-      "label": "Wasserenergie: Potentiale",
-      "img": "dummy.png",
-      "backgroundColor": "#2df7f7",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "JährlicheBioenergie-Erträge",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Fossile Energien",
-      "label": "Fossile Energien: Anlagen",
-      "img": "dummy.png",
-      "backgroundColor": "#ffc3c1",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "Bioenergie:Potentiale",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Fossile Energien",
-      "label": "Fossile Energien: Jährliche Erträge",
-      "img": "dummy.png",
-      "backgroundColor": "#ffc3c1",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "JährlicheBioenergie-Erträge",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Fossile Energien",
-      "label": "Fossile Energien: Potentiale",
-      "img": "dummy.png",
-      "backgroundColor": "#ffc3c1",
-      "url": "",
-      "contactOrganisation": "LUNG",
-      "abstract": "Bioenergie:Potentiale",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "t5_bio",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Mobilit&auml;t",
-      "label": "Schienennetz",
-      "img": "noun_train.svg",
-      "backgroundColor": "#55ff55",
-      "url": "https://www.geodaten-mv.de/dienste/lepmv_wms",
-      "contactOrganisation": "MEID",
-      "abstract": "Schienennetz in Mecklenburg-Vorpommern. Die Daten sind dem aktullen Landesentwicklungsplan MV (LEP) entnommen.",
-      "contactPersonName": "Herr Hollenbach",
-      "contactEMail": "joern.hollenbach@em.mv-regierung.de",
-      "contactPhon": "0049 (0)385 588 837",
-      "actuality": "21.11.2019",
-      "actualityCircle": "Bei Fortführung des LEP",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "lepmv_i_en",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "MEID"
-      }
-    },
-    {
-      "thema": "Mobilit&auml;t",
-      "label": "Strassennetz",
-	  "infoAttribute": "info",
-      "img": "solar_power.svg",
-      "backgroundColor": "#c1d8ff",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 82,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "#cccc55"
-      },
-      "contactOrganisation": "Landesamt für Straßenbau und Verkehr",
-      "abstract": "Klassifiziertes Straßennetz Land M-V",
-      "contactPersonName": "Dez. Vermessung und Datenverarbeitung",
+      "thema": "Mobilität|Verkehr",
+      "label": "Straßennetz: Europastraßen",
+      "abstract": "Straßennetz von Mecklenburg-Vorpommern: Europastraßen, Bundesautobahnen, Bundesstraßen, Landesstraßen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt für Straßenbau und Verkehr bereit gestellt.",
+      "contactOrganisation": "• Landesamt für Straßenbau und Verkehr Mecklenburg-Vorpommern (2021) (https://www.strassen-mv.de/).",
+      "contactPersonName": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung",
       "contactEMail": "lsmv@sbv.mv-regierung.de",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
+      "contactPhon": "+49 381 12237",
+      "actuality": "11/2021",
+      "actualityCircle": "bei Bedarf",
       "type": "GeoJSON",
       "geomType": "Linestring",
-      "options": {
-        "transparent": true,
-        "attribution": "Geoportal-MV"
-      }
-    },
-    {
-      "thema": "Mobilit&auml;t",
-      "label": "Verkehrsmengen",
-      "img": "traffic.svg",
-      "backgroundColor": "#ffc3c1",
-      "url": "https://www.geodaten-mv.de/dienste/verkehrsmengen_lsbv_wms",
-      "contactOrganisation": "LSBV",
-      "abstract": "Verkehrsmengen in Mecklenburg-Vorpommern. Die Mengen wurden an Hand von Zählungen ermittelt und werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Strassen kartographisch dargestellt.",
-      "contactPersonName": "Herr Scheuer",
-      "contactEMail": "herr.scheuer@lsbv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "verkehrsmengen_lsbv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LSBV"
-      }
-    },
-    {
-      "thema": "Mobilit&auml;t",
-      "label": "Ladestationen",
-      "infoAttribute": "info",
-      "img": "noun_electro_gas_station.svg",
-      "backgroundColor": "#b7ff85",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
       "url": "https://energieatlas-mv.de/fis/index.php",
       "params": {
-        "gast": 2,
+        "gast": 7,
         "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 37,
+        "Stelle_ID": 7,
+        "selected_layer_id": 167,
         "export_format": "GeoJSON",
         "browserwidth": 800,
         "browserheight": 600,
         "epsg": 4326,
         "all": 1
       },
-      "icon": {
-        "iconUrl": "img/car_charging_station.svg",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
+      "options": {
+        "transparent": true,
+        "attribution": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung"
       },
-      "contactOrganisation": "Hanse- und Universitätsstadt Rostock",
-      "abstract": "Elektrotankstellen in Rostock",
-      "contactPersonName": "Herr Neitz",
-      "contactEMail": "geodienste@rostock.de",
-      "contactPhon": "+49 381 381-6281",
-      "actuality": "14.11.2019",
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "weight": "7",
+            "color": "rgb(0 201 12)"
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "geometry": "geometry",
+        "teilnetzklasse": "teilnetzklasse",
+        "nummer_in_teilnetz": "nummer_in_teilnetz",
+        "name_in_teilnetz": "name_in_teilnetz"
+      }
+    },
+    {
+      "thema": "Mobilität|Verkehr",
+      "label": "Straßennetz: Bundesautobahnen",
+      "abstract": "Straßennetz von Mecklenburg-Vorpommern: Europastraßen, Bundesautobahnen, Bundesstraßen, Landesstraßen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt für Straßenbau und Verkehr bereit gestellt.",
+      "contactOrganisation": "• Landesamt für Straßenbau und Verkehr Mecklenburg-Vorpommern (2021) (https://www.strassen-mv.de/).",
+      "contactPersonName": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung",
+      "contactEMail": "lsmv@sbv.mv-regierung.de",
+      "contactPhon": "+49 381 12237",
+      "actuality": "11/2021",
       "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Opendata HRO"
-      }
-    },
-    {
-      "thema": "Mobilit&auml;t",
-      "label": "Tankstellen für Wasserstoff, Biodiesel, Bioethanol",
-      "infoAttribute": "info",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 37,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "icon": {
-        "iconUrl": "img/car_charging_station.svg",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "Hanse- und Universitätsstadt Rostock",
-      "abstract": "Elektrotankstellen in Rostock",
-      "contactPersonName": "Herr Neitz",
-      "contactEMail": "geodienste@rostock.de",
-      "contactPhon": "+49 381 381-6281",
-      "actuality": "14.11.2019",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Opendata HRO"
-      }
-    },
-    {
-      "thema": "Mobilit&auml;t",
-      "label": "KFZ nach Zulassungsbezirken",
-      "infoAttribute": "info",
-      "img": "dummy.png",
-      "backgroundColor": "#fcffc1",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 37,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "icon": {
-        "iconUrl": "img/car_charging_station.svg",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "Hanse- und Universitätsstadt Rostock",
-      "abstract": "Elektrotankstellen in Rostock",
-      "contactPersonName": "Herr Neitz",
-      "contactEMail": "geodienste@rostock.de",
-      "contactPhon": "+49 381 381-6281",
-      "actuality": "14.11.2019",
-      "actualityCircle": "bei Bedarf",
-      "type": "GeoJSON",
-      "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Opendata HRO"
-      }
-    },{
-      "thema": "Planungsgrundlagen", 
-      "label": "Ländliche Gestaltungsräume",
-        "img": "dummy.png",
-         "backgroundColor": "#ffc3c1",
-         "url": "https://www.geodaten-mv.de/dienste/lepmv_wms",
-         "contactOrganisation": "",
-         "abstract": "",
-         "contactPersonName": "",
-         "contactEMail": "",
-         "contactPhon": "",
-         "actuality": "",
-         "actualityCircle": "",
-         "type": "WMS",
-         "options": {
-           "crs": "EPSG4326",
-           "version": "1.1.0",
-           "layers": "lepmv_laendliche_gestaltungsraeume",
-           "format": "image/png",
-           "transparent": true,
-           "attribution": "LSBV"
-         }
-   
-   }, {
-      "thema": "Planungsgrundlagen",
-      "label": "Erneuerbare Energie in der Raumordnung",
-      "infoAttribute": "info",
-      "img": "noun_blueprint.svg",
-      "backgroundColor": "#b7ff85",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 38,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "#378835"
-      },
-      "contactOrganisation": "LUNG",
-      "abstract": "Flächen für erneuerbare Energie im Raumordnungskataster von Mecklenburg-Vorpommern",
-      "contactPersonName": "Herr Hollenbach",
-      "contactEMail": "Joern.Hollenbach@em.mv-regierung.de",
-      "contactPhon": "0049 (0)385 588 8372",
-      "actuality": "20.11.2020",
-      "actualityCircle": "Neuaufstellung oder Änderung des Landesentwicklungsplanes LEP M-V",
-      "type": "GeoJSON",
-      "geomType": "Polygon",
-      "options": {
-        "transparent": true,
-        "attribution": "Umweltkarten LUNG"
-      }
-    },
-    {
-      "thema": "Sektorenkopplung",
-      "label": "Speicheranlagen",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "gast": 2,
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 96,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "icon": {
-        "iconUrl": "img/estorage.svg",
-        "iconSize": [
-          25,
-          25
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "",
-      "abstract": "",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-	  "type": "GeoJSON",
-	  "geomType": "Point",	  
-      "options": {
-        "transparent": true,
-        "attribution": "Opendata HRO"
-      }
-    },
-    {
-      "thema": "Sektorenkopplung",
-      "label": "Power-to-Heat Anlagen",
-      "img": "dummy.png",
-      "backgroundColor": "#ffc3c1",
-      "url": "https://www.geodaten-mv.de/dienste/verkehrsmengen_lsbv_wms",
-      "contactOrganisation": "LSBV",
-      "abstract": "Verkehrsmengen in Mecklenburg-Vorpommern. Die Mengen wurden an Hand von Zählungen ermittelt und werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Strassen kartographisch dargestellt.",
-      "contactPersonName": "Herr Scheuer",
-      "contactEMail": "herr.scheuer@lsbv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "verkehrsmengen_lsbv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LSBV"
-      }
-    },
-    {
-      "thema": "Klimaschutz / Energiewende",
-      "label": "Förderprojekte",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
-      "url": "https://www.geodaten-mv.de/dienste/verkehrsmengen_lsbv_wms",
-      "contactOrganisation": "LSBV",
-      "abstract": "Verkehrsmengen in Mecklenburg-Vorpommern. Die Mengen wurden an Hand von Zählungen ermittelt und werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Strassen kartographisch dargestellt.",
-      "contactPersonName": "Herr Scheuer",
-      "contactEMail": "herr.scheuer@lsbv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "verkehrsmengen_lsbv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LSBV"
-      }
-    },
-    {
-      "thema": "Klimaschutz / Energiewende",
-      "label": "Tag der Erneuerbaren Energien",
-      "img": "dummy.png",
-      "backgroundColor": "#55ff55",
-      "url": "https://www.geodaten-mv.de/dienste/verkehrsmengen_lsbv_wms",
-      "contactOrganisation": "LSBV",
-      "abstract": "Verkehrsmengen in Mecklenburg-Vorpommern. Die Mengen wurden an Hand von Zählungen ermittelt und werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Strassen kartographisch dargestellt.",
-      "contactPersonName": "Herr Scheuer",
-      "contactEMail": "herr.scheuer@lsbv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "verkehrsmengen_lsbv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LSBV"
-      }
-    },
-    {
-      "thema": "Klimaschutz / Energiewende",
-      "label": "Klimaschutzmanager MV",
-      "img": "dummy.png",
-      "backgroundColor": "#61d8ff",
-      "url": "https://www.geodaten-mv.de/dienste/verkehrsmengen_lsbv_wms",
-      "contactOrganisation": "LSBV",
-      "abstract": "Verkehrsmengen in Mecklenburg-Vorpommern. Die Mengen wurden an Hand von Zählungen ermittelt und werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Strassen kartographisch dargestellt.",
-      "contactPersonName": "Herr Scheuer",
-      "contactEMail": "herr.scheuer@lsbv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "verkehrsmengen_lsbv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LSBV"
-      }
-    },
-    {
-      "thema": "Klimaschutz / Energiewende",
-      "label": "Coaching Energiekommunen",
-      "img": "dummy.png",
-      "backgroundColor": "#fcffc1",
-      "url": "https://www.geodaten-mv.de/dienste/verkehrsmengen_lsbv_wms",
-      "contactOrganisation": "LSBV",
-      "abstract": "Verkehrsmengen in Mecklenburg-Vorpommern. Die Mengen wurden an Hand von Zählungen ermittelt und werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Strassen kartographisch dargestellt.",
-      "contactPersonName": "Herr Scheuer",
-      "contactEMail": "herr.scheuer@lsbv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "verkehrsmengen_lsbv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LSBV"
-      }
-    },
-    {
-      "thema": "Infrastruktur",
-      "label": "Freileitungen ab 110kV",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
-      "url": "https://energieatlas-mv.de/fis/index.php",
-      "params": {
-        "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 51,
-        "export_format": "GeoJSON",
-        "browserwidth": 800,
-        "browserheight": 600,
-        "epsg": 4326,
-        "all": 1
-      },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "red"
-      },
-      "contactOrganisation": "",
-      "abstract": "",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
       "type": "GeoJSON",
       "geomType": "Linestring",
-      "options": {
-        "transparent": true,
-        "attribution": "Geoportal-MV"
-      }
-    },
-    {
-      "thema": "Infrastruktur",
-      "label": "Umspannwerke",
-      "img": "dummy.png",
-      "backgroundColor": "#ffd168",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
       "url": "https://energieatlas-mv.de/fis/index.php",
       "params": {
+        "gast": 7,
         "go": "Daten_Export_Exportieren",
-        "selected_layer_id": 48,
+        "Stelle_ID": 7,
+        "selected_layer_id": 166,
         "export_format": "GeoJSON",
         "browserwidth": 800,
         "browserheight": 600,
         "epsg": 4326,
         "all": 1
       },
-      "style": {
-        "stroke": true,
-        "weight": 3,
-        "color": "red"
+      "options": {
+        "transparent": true,
+        "attribution": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung"
       },
-      "icon": {
-        "iconUrl": "img/umspannwerk.svg",
-        "iconSize": [
-          15,
-          15
-        ],
-        "iconAnchor": [
-          0,
-          0
-        ],
-        "popupAnchor": [
-          0,
-          0
-        ]
-      },
-      "contactOrganisation": "",
-      "abstract": "",
-      "contactPersonName": "",
-      "contactEMail": "",
-      "contactPhon": "",
-      "actuality": "",
-      "actualityCircle": "",
-      "type": "GeoJSON",
-      "geomType": "Point",
-      "options": {
-        "transparent": true,
-        "attribution": "Geoportal-MV"
-      }
-    }, {
-      "thema": "Infrastruktur",
-      "label": "Straßenverkehrsnetz",
-      "img": "dummy.png",
-      "backgroundColor": "#55ff55",
-      "url": "https://www.geodaten-mv.de/dienste/verkehrsmengen_lsbv_wms",
-      "contactOrganisation": "LSBV",
-      "abstract": "Verkehrsmengen in Mecklenburg-Vorpommern. Die Mengen wurden an Hand von Zählungen ermittelt und werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Strassen kartographisch dargestellt.",
-      "contactPersonName": "Herr Scheuer",
-      "contactEMail": "herr.scheuer@lsbv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "verkehrsmengen_lsbv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LSBV"
-      }
-    },
-    {
-      "thema": "Raumbezug",
-      "label": "Digitale Verwaltungsgrenzen",
-      "img": "digitale_verwaltungsgrenzen.svg",
-      "backgroundColor": "#ffd168",
-      "url": "https://www.geodaten-mv.de/dienste/dvg_laiv_wms?language=ger&",
-      "contactOrganisation": "Landesamt für innere Verwaltung M-V, Amt für Geoinformation, Vermessung und Katasterwesen",
-      "abstract": "Die GDI-MV ist Bestandteil der Geodateninfrastruktur Deutschland (GDI-DE) und gliedert sich mit dieser in die europäische Geodateninfrastruktur (INSPIRE) ein. Dieser Dienst dient der Darstellung der Digitalen Verwaltungsgrenzen (DVG). Er wird durch das Land Mecklenburg-Vorpommern, Landesamt für innere Verwaltung betrieben.",
-      "contactPersonName": "0385 - 588 56264",
-      "contactEMail": "geodatenservice@laiv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "dvg_laiv_wms",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LAiV"
-      }
-    },
-    {
-      "thema": "Raumbezug",
-      "label": "Landkreise",
-      "img": "digitale_verwaltungsgrenzen.svg",
-      "backgroundColor": "#ffd168",
-      "url": "https://www.geodaten-mv.de/dienste/dvg_laiv_wms?language=ger&",
-      "contactOrganisation": "Landesamt für innere Verwaltung M-V, Amt für Geoinformation, Vermessung und Katasterwesen",
-      "abstract": "Die GDI-MV ist Bestandteil der Geodateninfrastruktur Deutschland (GDI-DE) und gliedert sich mit dieser in die europäische Geodateninfrastruktur (INSPIRE) ein. Dieser Dienst dient der Darstellung der Digitalen Verwaltungsgrenzen (DVG). Er wird durch das Land Mecklenburg-Vorpommern, Landesamt für innere Verwaltung betrieben.",
-      "contactPersonName": "0385 - 588 56264",
-      "contactEMail": "geodatenservice@laiv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "kreise",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LAiV"
-      }
-    },
-    {
-      "thema": "Raumbezug",
-      "label": "Ämter",
-      "img": "digitale_verwaltungsgrenzen.svg",
-      "backgroundColor": "#ffd168",
-      "url": "https://www.geodaten-mv.de/dienste/dvg_laiv_wms?language=ger&",
-      "contactOrganisation": "Landesamt für innere Verwaltung M-V, Amt für Geoinformation, Vermessung und Katasterwesen",
-      "abstract": "Die GDI-MV ist Bestandteil der Geodateninfrastruktur Deutschland (GDI-DE) und gliedert sich mit dieser in die europäische Geodateninfrastruktur (INSPIRE) ein. Dieser Dienst dient der Darstellung der Digitalen Verwaltungsgrenzen (DVG). Er wird durch das Land Mecklenburg-Vorpommern, Landesamt für innere Verwaltung betrieben.",
-      "contactPersonName": "0385 - 588 56264",
-      "contactEMail": "geodatenservice@laiv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "aemter",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LAiV"
-      }
-    },
-    {
-      "thema": "Raumbezug",
-      "label": "Gemeinden",
-      "img": "digitale_verwaltungsgrenzen.svg",
-      "backgroundColor": "#ffd168",
-      "url": "https://www.geodaten-mv.de/dienste/dvg_laiv_wms?language=ger&",
-      "contactOrganisation": "Landesamt für innere Verwaltung M-V, Amt für Geoinformation, Vermessung und Katasterwesen",
-      "abstract": "Die GDI-MV ist Bestandteil der Geodateninfrastruktur Deutschland (GDI-DE) und gliedert sich mit dieser in die europäische Geodateninfrastruktur (INSPIRE) ein. Dieser Dienst dient der Darstellung der Digitalen Verwaltungsgrenzen (DVG). Er wird durch das Land Mecklenburg-Vorpommern, Landesamt für innere Verwaltung betrieben.",
-      "contactPersonName": "0385 - 588 56264",
-      "contactEMail": "geodatenservice@laiv-mv.de",
-      "contactPhon": "037143426789",
-      "actuality": "04.06.2019",
-      "actualityCircle": "Monatlich zum Begin des Monats",
-      "type": "WMS",
-      "options": {
-        "crs": "EPSG4326",
-        "version": "1.3.0",
-        "layers": "gemeinden",
-        "format": "image/png",
-        "transparent": true,
-        "attribution": "LAiV"
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "weight": "5",
+            "color": "rgb(80 143 255)"
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "geometry": "geometry",
+        "abs": "abs",
+        "strassenart": "strassenart",
+        "strassennummer": "strassennummer",
+        "strasse": "strasse",
+        "strassenname": "strassenname",
+        "abschnitts_astnummer": "abschnitts_astnummer",
+        "abschnittslaenge": "abschnittslaenge",
+        "laengenherkunft": "laengenherkunft",
+        "ast": "ast",
+        "europastrasse": "europastrasse"
       }
     }
   ]
