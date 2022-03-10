@@ -1169,7 +1169,7 @@ xinput[type="range"] {
     margin: 0 2rem 0 24px;
     overflow: hidden;
     -webkit-appearance: none;
-    background-image: linear-gradient(90grad, #ffffff80, #fff), url(/dist/images/transparancy.svg);
+    background-image: linear-gradient(90grad, #ffffff80, #fff), url("./images/transparancy.svg");
     transition: all 200ms;
 }
 .opacity-slider::-moz-range-thumb,
