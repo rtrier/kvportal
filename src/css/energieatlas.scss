@@ -1,21 +1,11 @@
-@import './mixin';
-@import '../../node_modules/leaflet/dist/leaflet.css';
+@import "mixin";
 
 @import "../../node_modules/leaflet/dist/leaflet.css";
 
 @import "../../node_modules/@glartek/leaflet.markercluster/dist/MarkerCluster.css";
 @import "../../node_modules/@glartek/leaflet.markercluster/dist/MarkerCluster.Default.css";
 
-@import './attribution.css';
-
-@import './legendctrl';
-@import './baselayerctrl';
-@import './searchctrl.css';
-
-@import './accordion.scss';
-
-@import './commonctrls.css';
-
+@import "./fontawesome.css";
 
 @import "./mapctrl.css";
 /* @import './layerctrl.scss'; */
@@ -640,13 +630,41 @@ body {
     width: calc(100% - 1rem);
 }
 
+.row-wrapper-0 {
+    width: calc(352rem/16) !important;
+}
+*/
+.layer-title {
+    background-color: white;
+    display: inline-block !important;
+    /* width: ($sidebar-width-large - 0.9rem - 2rem - 1rem - 0.25rem - 0.1875rem - 1.25rem - 1rem);*/
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 1rem;
+    white-space: nowrap;
+    /* height: 1.3rem;
+    line-height: 1rem;*/
+    flex-grow: 1;
+    position: relative;
+}
 
+.row-wrapper-2 > .treerow > .layer-title {
+    /* xxxx 
+  width: (
+    $sidebar-width-large - 0.9rem - 2rem - 2rem - 0.25rem - 0.1875rem - 1.25rem -
+      1rem
+  );
+  */
+    flex-shrink: 1;
+    flex-grow: 1;
+}
 
-
-/* Close Button */
-.back, .close {
-    background-color: #287da8;
-    text-align: center;
+.info-icon1 {
+    background-color: white;
+    border: #000 thin solid;
+    border-radius: (3rem/16);
+    width: 1rem;
+    display: inline-block !important;
     vertical-align: middle;
     text-align: center;
 }
@@ -1151,7 +1169,7 @@ xinput[type="range"] {
     margin: 0 2rem 0 24px;
     overflow: hidden;
     -webkit-appearance: none;
-    background-image: linear-gradient(90grad, #ffffff80, #fff), url(images/transparancy.svg);
+    background-image: linear-gradient(90grad, #ffffff80, #fff), url(/dist/images/transparancy.svg);
     transition: all 200ms;
 }
 .opacity-slider::-moz-range-thumb,
