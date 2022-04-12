@@ -3,7 +3,37 @@ import { MapDispatcher } from "./MapControl";
 import { View, ViewControl } from "./ViewControl";
 import { createHtmlElement, createRow } from "../Util";
 import { LayerDescription } from "../conf/MapDescription";
-import { PiechartMarker } from "../PiechartLayer";
+
+function prepareLinks(s: string): string {
+    let result = "";
+    if (s) {
+        if (s.split(/[>]/).length > 1 && s.split(/[>]/).length > 1) {
+            // vielleicht HTML keine Änderung
+            // console.log(`/[><]+/g.exec(s).length='${/[><]+/g.exec(s)?.length}'`);
+            // console.log(`s.split(/[><]/).length='${s.split(/[><]/).length}'`);
+            // console.log(s.split(/[><]/));
+            result = s;
+        } else {
+            const sA = s.split(/[\s]+/);
+            for (let i = 0, count = sA.length; i < count; i++) {
+                const part = sA[i];
+                if (i > 0) {
+                    result += " ";
+                }
+                if (part.indexOf("http") === 0) {
+                    result += '<a href="';
+                    result += part;
+                    result += '">';
+                    result += part;
+                    result += "</a>";
+                } else {
+                    result += part;
+                }
+            }
+        }
+    }
+    return result;
+}
 
 export type ListEntry<T> = {
     item: T;
@@ -52,12 +82,16 @@ export class MarkerView implements View {
         if (layerDes?.layerAttributes) {
             let i = 0;
             for (let k in layerDes.layerAttributes) {
-                const v = data[k];
+                let v = data[k];
                 if (v || !layerDes.hideEmptyLayerAttributes) {
                     const p = createHtmlElement("p", dom, "datainfo-row");
                     createHtmlElement("span", p, "datainfo-row-head", {
                         innerHTML: layerDes.layerAttributes[k],
                     });
+
+                    if (typeof v === "string" && v.indexOf("http") >= 0) {
+                        v = prepareLinks(v);
+                    }
                     createHtmlElement("span", p, "datainfo-row-content", {
                         innerHTML: v,
                     });
