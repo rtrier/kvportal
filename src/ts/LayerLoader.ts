@@ -233,6 +233,7 @@ export class LayerLoader {
     }
 
     async createWMSLayer(layerDescr: MapDescription.LayerDescription): Promise<L.Layer> {
+        // console.error(`createWMSLayer`, layerDescr);
         const doc: any = await getCapabilities(layerDescr.url, <L.WMSOptions>layerDescr.options);
         if (doc) {
             console.info("sddsjhak");

@@ -299,7 +299,7 @@ export class LayerControl extends L.Control {
         return dom;
     }
     onRemove(map: L.Map) {
-        console.error("LayerControl.onRemove");
+        console.info("LayerControl.onRemove");
     }
 
     // remove() {

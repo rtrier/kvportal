@@ -291,7 +291,7 @@ export class MapControl extends L.Control {
     }
 
     onMapFeatureClick(sender: any, evt: LeafletMouseEvent) {
-        console.error("onMapFeatureClick", evt);
+        console.info("onMapFeatureClick", evt);
         const layer = evt.propagatedFrom;
         const geoJsonL = evt.target;
         let isOtherItem = true;

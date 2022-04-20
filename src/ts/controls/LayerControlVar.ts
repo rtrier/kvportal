@@ -276,24 +276,14 @@ class LayerNode extends TreeNode {
                         layer.layerDescription.options["opacity"] = v;
                     }
                 };
-                const v = layer.layer?.["options"]?.opacity || layer.layerDescription?.options?.["opacity"] || 1;
+                // const v = layer.layer?.["options"].opacity ?? layer.layerDescription?.options?.["opacity"] || 1;
+                const v = layer.layerDescription?.options?.["opacity"] ?? 1;
                 const dV = 100 * parseFloat(v);
 
                 const slider = createSlider("0", "100", dV.toString(), f, "opacity-slider");
                 // console.info("slider", layer.layerDescription.label, v, dV);
                 // layerTitle.appendChild(slider);
                 dom.appendChild(slider);
-
-                // dom.addEventListener("mouseenter", (evt) => {
-                //     slider.style.display = "block";
-                //     // layerTitle.style.height = "2.2rem";
-                //     slider.style.height = "1rem";
-                // });
-                // dom.addEventListener("mouseleave", (evt) => {
-                //     //slider.style.display = "none";
-                //     layerTitle.style.height = "";
-                //     slider.style.height = "0";
-                // });
             }
 
             if (layer.layerDescription.minScale || layer.layerDescription.maxScale) {

@@ -155,7 +155,7 @@ export class MapApp {
         map.addControl(new LegendControl({ position: "bottomright" }));
         map.addControl(new L.Control.Zoom({ position: "bottomright" }));
         map.on("click", (ev) => {
-            console.error("zoomLevel=" + map.getZoom());
+            console.info("zoomLevel=" + map.getZoom());
         });
         this.initLayer(mapDescr);
         // window.setTimeout(()=>this.initLayer(mapDescr), 10);
