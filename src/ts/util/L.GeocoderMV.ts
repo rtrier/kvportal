@@ -1,52 +1,49 @@
-import * as L from 'leaflet';
-import { RadioGroupTreeNode } from '../../../../treecomponent/src/ts/TreeNode';
-import *  as Util from "../Util";
-import { CancelablePromise } from '../Util';
+import * as L from "leaflet";
+import { RadioGroupTreeNode } from "../../../../treecomponent/src/ts/TreeNode";
+import * as Util from "../Util";
+import { CancelablePromise } from "../Util";
 
-export interface GeocoderGeocodingQueryParams {
+export interface GeocoderGeocodingQueryParams {}
 
-}
-
-export interface GeocoderReverseQueryParams {
-}
+export interface GeocoderReverseQueryParams {}
 
 export interface GeocoderParam {
-    serviceUrl: string,
-    nameProperties?: ['_title_'],
-    geocodingQueryParams: any,
-    reverseQueryParams: any,
-    htmlTemplate?:any
+    serviceUrl: string;
+    nameProperties?: ["_title_"];
+    geocodingQueryParams: any;
+    reverseQueryParams: any;
+    htmlTemplate?: any;
 }
 
-
 export class Geocoder {
-    options:GeocoderParam = {
+    options: GeocoderParam = {
         serviceUrl: undefined,
-        nameProperties: ['_title_'],
+        nameProperties: ["_title_"],
         geocodingQueryParams: undefined,
         reverseQueryParams: undefined,
-    }
+    };
     _key: string;
     _activeRequest: XMLHttpRequest;
 
-    constructor(key: string, options:GeocoderParam) {
+    constructor(key: string, options: GeocoderParam) {
         this.options = { ...this.options, ...options };
         this._key = key;
     }
 
-    geocode(query:string):Promise<any> {
+    geocode(query: string): Promise<any> {
+        console.error("jsdhsdjk");
         if (this._activeRequest) {
             console.info("cancel last");
             this._activeRequest.abort();
-        } 
+        }
         const params = {
-            type: 'search',
+            type: "search",
             key: this._key,
             query: query.toLowerCase(),
-            ...this.options.geocodingQueryParams
-        }
-        const url = this.options.serviceUrl + Util.getParamString(params);   
-        const xhr = this._activeRequest = new XMLHttpRequest();	
+            ...this.options.geocodingQueryParams,
+        };
+        const url = this.options.serviceUrl + Util.getParamString(params);
+        const xhr = (this._activeRequest = new XMLHttpRequest());
         const promise = new Promise((resolve, reject) => {
             xhr.onloadend = () => {
                 if (xhr.status === 200) {
@@ -54,11 +51,10 @@ export class Geocoder {
                     const data = this._decodeFeatures(json, params);
                     console.info(`resolved`);
                     resolve(data);
-                } 
-                else {
+                } else {
                     reject({
                         status: xhr.status,
-                        statusText: xhr.statusText
+                        statusText: xhr.statusText,
                     });
                 }
             };
@@ -66,17 +62,17 @@ export class Geocoder {
                 reject({
                     status: this.status,
                     statusText: xhr.statusText,
-                    event: ev
+                    event: ev,
                 });
             };
-            xhr.open('GET', url);              
+            xhr.open("GET", url);
             console.info(`run request "${url}"`);
             xhr.send();
         });
         promise["cancel"] = () => {
             xhr.abort();
             console.info("xhr.canceled");
-        }
+        };
         return promise;
     }
     /*
@@ -113,26 +109,24 @@ export class Geocoder {
         // )
     }
 */
-    suggest(query:string):Promise<any> {
+    suggest(query: string): Promise<any> {
         return this.geocode(query);
     }
 
-    reverse(latLng:L.LatLng, scale, cb:Function, context:any) {
+    reverse(latLng: L.LatLng, scale, cb: Function, context: any) {
         const bb = latLng.toBounds(200);
         let params = {
-            type: 'reverse',
+            type: "reverse",
             key: this._key,
-            query: latLng.lng + ',' + latLng.lat,
-            bbox: bb.getWest() + ',' + bb.getNorth() + ',' + bb.getEast() + ',' + bb.getSouth(),
-            bbox_epsg: '4326'
+            query: latLng.lng + "," + latLng.lat,
+            bbox: bb.getWest() + "," + bb.getNorth() + "," + bb.getEast() + "," + bb.getSouth(),
+            bbox_epsg: "4326",
         };
         params = { ...this.options.reverseQueryParams, ...params };
 
-        Util.loadJson(this.options.serviceUrl, params).then(
-            data => { 
-                cb.call(context, this._decodeReverseFeatures(data));
-            }
-        );
+        Util.loadJson(this.options.serviceUrl, params).then((data) => {
+            cb.call(context, this._decodeReverseFeatures(data));
+        });
 
         // getJSON(
         //     this.options.serviceUrl,
@@ -142,7 +136,6 @@ export class Geocoder {
     }
 
     _decodeFeatures(data, query) {
-
         // console.info(`decodeFeatures ${query.class}`, query, data);
         const results = [];
         const group = query.class;
@@ -213,7 +206,7 @@ export class Geocoder {
                         html: this.options.htmlTemplate ? this.options.htmlTemplate(f) : undefined,
                         feature: f,
                         properties: f.properties,
-                        center: new L.LatLng(f.geometry.coordinates[1], f.geometry.coordinates[0])
+                        center: new L.LatLng(f.geometry.coordinates[1], f.geometry.coordinates[0]),
                     });
                 }
             }
@@ -222,17 +215,17 @@ export class Geocoder {
     }
 
     _deocodeFeatureNameGemeinde(f) {
-        const name = f.properties['gemeinde_name'];
-        const idx = name.indexOf(',');
-        return (idx > 0) ? name.substring(0, idx) : name;
+        const name = f.properties["gemeinde_name"];
+        const idx = name.indexOf(",");
+        return idx > 0 ? name.substring(0, idx) : name;
     }
 
     _deocodeFeatureNameGemeindeteil(f) {
-        const gemeinde_name = f.properties['gemeinde_name'];
-        const gemeindeteil_name = f.properties['gemeindeteil_name'];
+        const gemeinde_name = f.properties["gemeinde_name"];
+        const gemeindeteil_name = f.properties["gemeindeteil_name"];
 
-        const idx = gemeinde_name.indexOf(',');
-        let name = (idx > 0) ? gemeinde_name.substring(0, idx) : gemeinde_name;
+        const idx = gemeinde_name.indexOf(",");
+        let name = idx > 0 ? gemeinde_name.substring(0, idx) : gemeinde_name;
         if (gemeindeteil_name && name !== gemeindeteil_name) {
             name += ", " + gemeindeteil_name;
         }
@@ -240,12 +233,12 @@ export class Geocoder {
     }
 
     _deocodeFeatureNameStrasse(f) {
-        const gemeinde_name = f.properties['gemeinde_name'];
-        const gemeindeteil_name = f.properties['gemeindeteil_name'];
-        const strasse_name = f.properties['strasse_name'];
-        const idx = gemeinde_name.indexOf(',');
+        const gemeinde_name = f.properties["gemeinde_name"];
+        const gemeindeteil_name = f.properties["gemeindeteil_name"];
+        const strasse_name = f.properties["strasse_name"];
+        const idx = gemeinde_name.indexOf(",");
         // console.info(gemeinde_name + " " + idx);
-        let name = (idx > 0) ? gemeinde_name.substring(0, idx) : gemeinde_name;
+        let name = idx > 0 ? gemeinde_name.substring(0, idx) : gemeinde_name;
 
         if (gemeindeteil_name && name !== gemeindeteil_name) {
             name += ", " + gemeindeteil_name;
@@ -255,19 +248,19 @@ export class Geocoder {
     }
 
     _deocodeFeatureNameAdresse(f) {
-        const gemeinde_name = f.properties['gemeinde_name'];
-        const gemeindeteil_name = f.properties['gemeindeteil_name'];
-        const strasse_name = f.properties['strasse_name'];
-        const idx = gemeinde_name.indexOf(',');
-        let name = (idx > 0) ? gemeinde_name.substring(0, idx) : gemeinde_name;
+        const gemeinde_name = f.properties["gemeinde_name"];
+        const gemeindeteil_name = f.properties["gemeindeteil_name"];
+        const strasse_name = f.properties["strasse_name"];
+        const idx = gemeinde_name.indexOf(",");
+        let name = idx > 0 ? gemeinde_name.substring(0, idx) : gemeinde_name;
 
         if (gemeindeteil_name && name !== gemeindeteil_name) {
             name += ", " + gemeindeteil_name;
         }
         name += ", " + strasse_name;
 
-        const hausnummer = f.properties['hausnummer'];
-        const hausnummer_zusatz = f.properties['hausnummer_zusatz'];
+        const hausnummer = f.properties["hausnummer"];
+        const hausnummer_zusatz = f.properties["hausnummer_zusatz"];
         if (hausnummer) {
             name += " " + hausnummer;
         }
@@ -279,15 +272,14 @@ export class Geocoder {
     }
 
     _deocodeFeatureName(f) {
-        let name:string;
+        let name: string;
         for (let j = 0; !name && j < this.options.nameProperties.length; j++) {
             name = f.properties[this.options.nameProperties[j]];
         }
         if (f.properties.objektgruppe === "Gemeindeteil" || f.properties.objektgruppe === "Gemeinde") {
-            let idx = f.properties['_title_'].indexOf(',');
-            name = (idx > 0) ? f.properties['_title_'].substring(0, idx) : f.properties['_title_'];
+            let idx = f.properties["_title_"].indexOf(",");
+            name = idx > 0 ? f.properties["_title_"].substring(0, idx) : f.properties["_title_"];
         }
         return name;
     }
 }
-

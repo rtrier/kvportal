@@ -17,6 +17,7 @@ import { ChangeFontSizeCtrl, IconActionCtrl } from "./IconAction";
 export class MenuControlOptions implements L.ControlOptions {
     position?: L.ControlPosition;
     parentNode?: HTMLElement;
+    searchfieldplaceholder?: string;
     searchFct?: (s: string) => Promise<any[]>;
     resetMap?: () => void;
 }
@@ -110,6 +111,7 @@ export class MapControl extends L.Control {
 
     searchFct: (s: string) => Promise<any[]>;
     resetMap: () => void;
+    searchfieldplaceholder: string;
 
     closed: boolean = true;
     categorieLayers: { [id: string]: CategorieLayer<any, any> } = {};
@@ -156,6 +158,7 @@ export class MapControl extends L.Control {
 
         this.searchFct = options.searchFct;
         this.resetMap = options.resetMap;
+        this.searchfieldplaceholder = options.searchfieldplaceholder;
         this._subscribe();
     }
     private _subscribe() {
@@ -516,6 +519,7 @@ export class MapControl extends L.Control {
                     onSelect: (item: any, input: HTMLInputElement) => this._found(item, input),
                     onSearchStart: (input: HTMLInputElement) => this._searchStart(input),
                     fetch: this.searchFct,
+                    searchfieldplaceholder: this.searchfieldplaceholder,
                     minLength: 3,
                     showOnFocus: true,
                     labelAttr: "name",
