@@ -16,7 +16,6 @@ dist/edit.js.LICENSE.txt
 dist/index.html
 dist/map.css
 dist/map.html
-dist/map.js
 dist/map.js.LICENSE.txt
 dist/images/layers-2x.png
 dist/images/layers.png
@@ -501,3 +500,4 @@ dist/icons--/Windenergie/EA-Icons_Offshore.svg
 dist/icons--/Windenergie/EA-Icons_Onshore.svg
 dist/icons--/Windenergie/EA-Icons_Windenergie.svg
 dist/icons--/Windenergie/EA-Icons_Windenergieanlage-Onshore.svg
+.vscode/launch.json
