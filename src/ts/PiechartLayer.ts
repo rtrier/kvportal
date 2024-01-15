@@ -44,6 +44,9 @@ export class PiechartIcon extends Icon<PiechartMarkerOptions> {
                 param.segments.push({ value: parseFloat(this.data[k]), style: this.options.piechart[k] });
             }
             this.piechart = createPiechart(param);
+            if (this.options.className) {
+                this.piechart.classList.add(this.options.className);
+            }
         }
         return <any>this.piechart;
     }
@@ -82,8 +85,14 @@ export class PiechartMarker<T extends L.LatLngExpression> extends Marker {
         if (this._icon) {
             if (highlight) {
                 this._icon.classList.add("icon-highlighted");
+                for (let i = 0; i < this._icon.children.length; i++) {
+                    (<HTMLElement>this._icon.children[i]).style.opacity = "1";
+                }
             } else {
                 this._icon.classList.remove("icon-highlighted");
+                for (let i = 0; i < this._icon.children.length; i++) {
+                    (<HTMLElement>this._icon.children[i]).style.opacity = "";
+                }
             }
         }
         console.info("this", this);
@@ -124,11 +133,16 @@ export class PiechartLayer extends FeatureGroup implements InteractiveLayer {
 
     getPiechartMarkerOptions(): PiechartMarkerOptions {
         if (!this.piechartMarkerOptions) {
+            let radius = this.layerDescription?.processing?.style?.radius;
+            if (typeof radius === "string") {
+                radius = parseFloat(radius);
+            }
             const options = (this.piechartMarkerOptions = {
-                radius: this.layerDescription.processing.style.radius ?? 15,
+                radius: radius ?? 15,
                 color: this.layerDescription.processing.style.color ?? "darkgray",
                 strokeOpacity: this.layerDescription.processing.style.strokeOpacity ?? 1,
                 strokeWeight: this.layerDescription.processing.style.strokeWeight ?? 1,
+                className: "svground",
                 piechart: {},
             });
             const lDescrClasses = this.layerDescription.classes;

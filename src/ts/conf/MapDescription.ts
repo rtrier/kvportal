@@ -155,7 +155,7 @@ export type LayerClass = {
 export type ProcessingInstruction = {
     chart_type: "pie";
     style: {
-        radius?: number;
+        radius?: number | string;
         color?: string;
         strokeOpacity?: number;
         strokeWeight?: number;

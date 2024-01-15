@@ -160,6 +160,8 @@ function createZoomScale() {
 
     </svg>
     `;*/
+
+        /*
         const s = `
     <svg width="248" height="80" version="1.1" preserveAspectRatio="none" viewBox="10 0 223 60" xmlns="http://www.w3.org/2000/svg">
     <g font-family="sans-serif" font-size="8px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px">
@@ -168,18 +170,33 @@ function createZoomScale() {
         <text class="p07" x="140" y="12">7</text><text class="p08" x="160" y="12">8</text><text class="p09" x="180" y="12">9</text>
         <text class="p10" x="200" y="12">10</text><text class="p11" x="220" y="12">11</text>
     </g>
-    <path class="p01" d="M  12 35 l 20 0 l 0  -6 l -20 0 l 0  6" stroke="gray" fill="lightgray" />
-    <path class="p02" d="M  32 36 l 20 0 l 0  -8 l -20 0 l 0  8" stroke="gray" fill="lightgray" />
-    <path class="p03" d="M  52 37 l 20 0 l 0 -10 l -20 0 l 0 10" stroke="gray" fill="lightgray" />
-    <path class="p04" d="M  72 38 l 20 0 l 0 -12 l -20 0 l 0 12" stroke="gray" fill="lightgray" />
-    <path class="p05" d="M  92 39 l 20 0 l 0 -14 l -20 0 l 0 14" stroke="gray" fill="lightgray" />
-    <path class="p06" d="M 112 40 l 20 0 l 0 -16 l -20 0 l 0 16" stroke="gray" fill="lightgray" />
-    <path class="p07" d="M 132 41 l 20 0 l 0 -18 l -20 0 l 0 18" stroke="gray" fill="lightgray" />
-    <path class="p08" d="M 152 42 l 20 0 l 0 -20 l -20 0 l 0 20" stroke="gray" fill="lightgray" />
-    <path class="p09" d="M 172 43 l 20 0 l 0 -22 l -20 0 l 0 22" stroke="gray" fill="lightgray" />
-    <path class="p10" d="M 192 44 l 20 0 l 0 -24 l -20 0 l 0 24" stroke="gray" fill="lightgray" />
-    <path class="p11" d="M 212 45 l 20 0 l 0 -26 l -20 0 l 0 26" stroke="gray" fill="lightgray" />
-
+    <g>
+    <path class="p01" d="M  12 35 l 20 0 l 0  -6 l -20 0 l 0  6" stroke="lightgray" fill="white" />
+    <path class="p02" d="M  32 36 l 20 0 l 0  -8 l -20 0 l 0  8" stroke="lightgray" fill="white" />
+    <path class="p03" d="M  52 37 l 20 0 l 0 -10 l -20 0 l 0 10" stroke="lightgray" fill="white" />
+    <path class="p04" d="M  72 38 l 20 0 l 0 -12 l -20 0 l 0 12" stroke="lightgray" fill="white" />
+    <path class="p05" d="M  92 39 l 20 0 l 0 -14 l -20 0 l 0 14" stroke="lightgray" fill="white" />
+    <path class="p06" d="M 112 40 l 20 0 l 0 -16 l -20 0 l 0 16" stroke="lightgray" fill="white" />
+    <path class="p07" d="M 132 41 l 20 0 l 0 -18 l -20 0 l 0 18" stroke="lightgray" fill="white" />
+    <path class="p08" d="M 152 42 l 20 0 l 0 -20 l -20 0 l 0 20" stroke="lightgray" fill="white" />
+    <path class="p09" d="M 172 43 l 20 0 l 0 -22 l -20 0 l 0 22" stroke="lightgray" fill="white" />
+    <path class="p10" d="M 192 44 l 20 0 l 0 -24 l -20 0 l 0 24" stroke="lightgray" fill="white" />
+    <path class="p11" d="M 212 45 l 20 0 l 0 -26 l -20 0 l 0 26" stroke="lightgray" fill="white" />
+    </g>    
+    <g>
+    <path class="p01" d="M  12 35 l 20 0 l 0  -6 l -20 0 l 0  6" stroke-width="2" stroke="black" fill="white" />
+    <path class="p02" d="M  32 36 l 20 0 l 0  -8 l -20 0 l 0  8" stroke-width="2" stroke="black" fill="white" />
+    <path class="p03" d="M  52 37 l 20 0 l 0 -10 l -20 0 l 0 10" stroke-width="2" stroke="black" fill="white" />
+    <path class="p04" d="M  72 38 l 20 0 l 0 -12 l -20 0 l 0 12" stroke-width="2" stroke="black" fill="white" />
+    <path class="p05" d="M  92 39 l 20 0 l 0 -14 l -20 0 l 0 14" stroke-width="2" stroke="black" fill="white" />
+    <path class="p06" d="M 112 40 l 20 0 l 0 -16 l -20 0 l 0 16" stroke-width="2" stroke="black" fill="white" />
+    <path class="p07" d="M 132 41 l 20 0 l 0 -18 l -20 0 l 0 18" stroke-width="2" stroke="black" fill="white" />
+    <path class="p08" d="M 152 42 l 20 0 l 0 -20 l -20 0 l 0 20" stroke-width="2" stroke="black" fill="white" />
+    <path class="p09" d="M 172 43 l 20 0 l 0 -22 l -20 0 l 0 22" stroke-width="2" stroke="black" fill="white" />
+    <path class="p10" d="M 192 44 l 20 0 l 0 -24 l -20 0 l 0 24" stroke-width="2" stroke="black" fill="white" />
+    <path class="p11" d="M 212 45 l 20 0 l 0 -26 l -20 0 l 0 26" stroke-width="2" stroke="black" fill="white" />
+    </g>
+    <g>
     <path class="z01" d="M  12 35 l 20 0 l 0  -6 l -20 0 l 0  6" visibility="hidden" />
     <path class="z02" d="M  32 36 l 20 0 l 0  -8 l -20 0 l 0  8" visibility="hidden" />
     <path class="z03" d="M  52 37 l 20 0 l 0 -10 l -20 0 l 0 10" visibility="hidden" />
@@ -191,6 +208,43 @@ function createZoomScale() {
     <path class="z09" d="M 172 43 l 20 0 l 0 -22 l -20 0 l 0 22" visibility="hidden" />
     <path class="z10" d="M 192 44 l 20 0 l 0 -24 l -20 0 l 0 24" visibility="hidden" />
     <path class="z11" d="M 212 45 l 20 0 l 0 -26 l -20 0 l 0 26" visibility="hidden" />
+        </g>
+
+
+</svg>
+`; */
+
+        const s = `
+<svg width="248" height="80" version="1.1" preserveAspectRatio="none" viewBox="10 0 223 60" xmlns="http://www.w3.org/2000/svg">
+<g font-family="sans-serif" font-size="8px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px">
+    <text class="p01" x="20" y="12">1</text><text class="p02" x="40" y="12">2</text><text class="p03" x="60" y="12">3</text>
+    <text class="p04" x="80" y="12">4</text><text class="p05" x="100" y="12">5</text><text class="p06" x="120" y="12">6</text>
+    <text class="p07" x="140" y="12">7</text><text class="p08" x="160" y="12">8</text><text class="p09" x="180" y="12">9</text>
+    <text class="p10" x="200" y="12">10</text><text class="p11" x="220" y="12">11</text>
+</g>
+<path class="p01" d="M  12 35 l 20 0 l 0  -6 l -20 0 l 0  6" stroke="gray" fill="lightgray" />
+<path class="p02" d="M  32 36 l 20 0 l 0  -8 l -20 0 l 0  8" stroke="gray" fill="lightgray" />
+<path class="p03" d="M  52 37 l 20 0 l 0 -10 l -20 0 l 0 10" stroke="gray" fill="lightgray" />
+<path class="p04" d="M  72 38 l 20 0 l 0 -12 l -20 0 l 0 12" stroke="gray" fill="lightgray" />
+<path class="p05" d="M  92 39 l 20 0 l 0 -14 l -20 0 l 0 14" stroke="gray" fill="lightgray" />
+<path class="p06" d="M 112 40 l 20 0 l 0 -16 l -20 0 l 0 16" stroke="gray" fill="lightgray" />
+<path class="p07" d="M 132 41 l 20 0 l 0 -18 l -20 0 l 0 18" stroke="gray" fill="lightgray" />
+<path class="p08" d="M 152 42 l 20 0 l 0 -20 l -20 0 l 0 20" stroke="gray" fill="lightgray" />
+<path class="p09" d="M 172 43 l 20 0 l 0 -22 l -20 0 l 0 22" stroke="gray" fill="lightgray" />
+<path class="p10" d="M 192 44 l 20 0 l 0 -24 l -20 0 l 0 24" stroke="gray" fill="lightgray" />
+<path class="p11" d="M 212 45 l 20 0 l 0 -26 l -20 0 l 0 26" stroke="gray" fill="lightgray" />
+
+<path class="z01" d="M  12 35 l 20 0 l 0  -6 l -20 0 l 0  6" visibility="hidden" />
+<path class="z02" d="M  32 36 l 20 0 l 0  -8 l -20 0 l 0  8" visibility="hidden" />
+<path class="z03" d="M  52 37 l 20 0 l 0 -10 l -20 0 l 0 10" visibility="hidden" />
+<path class="z04" d="M  72 38 l 20 0 l 0 -12 l -20 0 l 0 12" visibility="hidden" />
+<path class="z05" d="M  92 39 l 20 0 l 0 -14 l -20 0 l 0 14" visibility="hidden" />
+<path class="z06" d="M 112 40 l 20 0 l 0 -16 l -20 0 l 0 16" visibility="hidden" />
+<path class="z07" d="M 132 41 l 20 0 l 0 -18 l -20 0 l 0 18" visibility="hidden" />
+<path class="z08" d="M 152 42 l 20 0 l 0 -20 l -20 0 l 0 20" visibility="hidden" />
+<path class="z09" d="M 172 43 l 20 0 l 0 -22 l -20 0 l 0 22" visibility="hidden" />
+<path class="z10" d="M 192 44 l 20 0 l 0 -24 l -20 0 l 0 24" visibility="hidden" />
+<path class="z11" d="M 212 45 l 20 0 l 0 -26 l -20 0 l 0 26" visibility="hidden" />
 
 </svg>
 `;
@@ -204,7 +258,7 @@ function createZoomScale() {
     return scaleDom.cloneNode(true);
 }
 
-const SCALES =
+export const SCALES =
     // [591657550.5, 295828775.3, 147914387.6, 73957193.82, 36978596.91, 18489298.45, 9244649.227, 4622324.614, 2311162.307, 1155581.153, 577790.5767, 288895.2884, 144447.6442, 72223.82209, 36111.91104, 18055.95552, 9027.977761, 4513.98888, 2256.99444, 1128.49722];
     [0, 0, 0, 0, 0, 17471320.7509, 8735660.37545, 4367830.18772, 2183915.09386, 1091957.54693, 545978.773466, 272989.386733, 136494.693366, 68247.3466832, 34123.6733414, 17061.8366707, 8530.91833536, 4265.45916786, 2132.72958393, 1066.36479179];
 
@@ -234,8 +288,8 @@ class LayerNode extends TreeNode {
             const cb = document.createElement("div");
             cb.className = "cb_layer";
 
-            let chBox: HTMLInputElement;
-            chBox = this.chBox = document.createElement("input");
+            // let chBox: HTMLInputElement;
+            const chBox = (this.chBox = document.createElement("input"));
             chBox.type = "checkbox";
             chBox.id = "cb" + this.data.id;
             // chBox.className = "regular-checkbox";
