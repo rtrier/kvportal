@@ -14,10 +14,24 @@
 
 }
 
+
+
 .open>.div-attribution {
 	display: inline-block;
 	padding-right: 3px;
 	padding-left: 3px;
+}
+
+.open>.div-attribution {
+	/* display: inline-block; */
+	padding-right: 3px;
+	padding-left: 3px;
+	display: block;
+	position: absolute;
+	background-color: aliceblue;
+	right: 41px;
+	bottom: 0px;
+	white-space: nowrap;
 }
 
 

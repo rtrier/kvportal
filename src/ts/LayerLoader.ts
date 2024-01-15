@@ -236,7 +236,7 @@ export class LayerLoader {
         // console.error(`createWMSLayer`, layerDescr);
         const doc: any = await getCapabilities(layerDescr.url, <L.WMSOptions>layerDescr.options);
         if (doc) {
-            console.info("sddsjhak");
+            console.info("requested " + layerDescr.id, doc, layerDescr);
             console.info(doc);
             const l = new L.TileLayer.WMS(layerDescr.url, {
                 ...(<L.WMSOptions>layerDescr.options),
@@ -248,7 +248,7 @@ export class LayerLoader {
 
     async createGeoJSONLayer(layerDescr: MapDescription.LayerDescription): Promise<L.Layer> {
         // console.debug(`createJsonLayer ${layerDescr.label}`);
-
+        console.info("requested " + layerDescr.id, layerDescr);
         const json: any = await loadJson(layerDescr.url, layerDescr.params);
 
         const fFeatureClicked = (evt: L.LeafletMouseEvent) => {
@@ -264,6 +264,7 @@ export class LayerLoader {
             const layer = new L.GeoJSON(json, <any>{
                 style: styleFct,
                 pane: this._createPane(),
+                attribution: layerDescr.options.attribution,
             });
 
             if (layerDescr.popup) {
