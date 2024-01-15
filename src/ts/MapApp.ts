@@ -6,6 +6,7 @@ import { AttributionCtrl } from "./controls/AttributionCtrl";
 import { LegendControl } from "./controls/LegendControl";
 import { getConf, MapDescription, Theme } from "./conf/MapDescription";
 import Fuse from "fuse.js";
+import { Nominatim } from "./util/L.GeocoderNomatim";
 // import { mv } from "./MV";
 
 function createGeoCoder(objclass: "parcel" | "address" | "address,parcel", limit: number): Geocoder {
@@ -27,6 +28,12 @@ function createGeoCoder(objclass: "parcel" | "address" | "address,parcel", limit
     });
 }
 
+// function createGeoCoderNomatim(viewbox: L.LatLngBoundsExpression | undefined): Nominatim {
+//     return new Nominatim({ viewbox: viewbox });
+// }
+function createGeoCoderNomatim(params: Record<string, unknown>): Nominatim {
+    return new Nominatim({ geocodingQueryParams: params });
+}
 /**
  *
  * @param mapDescriptionUrl initialized the map with the map description file (Standard: layerdef.json) see:{@link MapDescription}
@@ -45,7 +52,7 @@ export class MapApp {
     selectedLayerIds: string[];
     currentLayers: L.Layer[] = [];
     mapCtrl: MapControl;
-    geocoderAdress: Geocoder;
+    geocoderAdress: Geocoder | Nominatim;
     geocoderParcel: Geocoder;
 
     fuseSearch: Fuse<any>;
@@ -74,12 +81,13 @@ export class MapApp {
             this.selectedLayerIds = selL.split(",");
         }
 
-        this.mapCtrl = new MapControl({
-            position: "topleft",
-            parentNode: document.getElementById("sidebar-mapctrl"),
-            searchFct: (s) => this._search(s),
-            resetMap: () => this._resetMap(),
-        });
+        // this.mapCtrl = new MapControl({
+        //     position: "topleft",
+        //     searchfieldplaceholder: this.mapDescription.searchfieldplaceholder,
+        //     parentNode: document.getElementById("sidebar-mapctrl"),
+        //     searchFct: (s) => this._search(s),
+        //     resetMap: () => this._resetMap(),
+        // });
     }
 
     _resetMap() {
@@ -147,6 +155,15 @@ export class MapApp {
 
     _init(mapDescr: MapDescription) {
         this.mapDescription = mapDescr;
+
+        this.mapCtrl = new MapControl({
+            position: "topleft",
+            searchfieldplaceholder: this.mapDescription.searchfieldplaceholder,
+            parentNode: document.getElementById("sidebar-mapctrl"),
+            searchFct: (s) => this._search(s),
+            resetMap: () => this._resetMap(),
+        });
+
         console.info("mapoptions", mapDescr.mapOptions);
         const mapOptions: L.MapOptions = {
             ...mapDescr.mapOptions,
@@ -183,9 +200,13 @@ export class MapApp {
     }
 
     private _search(s: string): Promise<any[]> {
-        console.info("MapApp._search");
+        console.info("MapApp._search " + this.mapDescription);
         if (!this.geocoderAdress) {
-            this.geocoderAdress = createGeoCoder("address,parcel", 30);
+            if (this.mapDescription?.geocoder?.type === "nominatim") {
+                this.geocoderAdress = createGeoCoderNomatim(this.mapDescription.geocoder?.params);
+            } else {
+                this.geocoderAdress = createGeoCoder("address,parcel", 30);
+            }
             const overlays = this.getOverlays(this.mapDescription.themes);
             console.info("overlays.length", overlays.length);
             this.fuseSearch = new Fuse(overlays, {

@@ -70,6 +70,8 @@ export class MarkerView implements View {
     renderDataView() {
         console.info("renderdataView", this);
         const dom = createHtmlElement("div", undefined, "data-view");
+        // createHtmlElement("div", dom, "data-view-scrolltop");
+        // createHtmlElement("div", dom, "data-view-scrollbottom");
         createHtmlElement("h1", dom, "datainfo-title", {
             innerHTML: this.layer["LayerDescription"]?.label,
         });

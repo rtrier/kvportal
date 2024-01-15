@@ -12,6 +12,8 @@ export async function getConf(url: string): Promise<MapDescription> {
             default_wms_legend_icon: json.default_wms_legend_icon,
             mapOptions: json.mapOptions,
             baseLayers: json.baseLayers,
+            searchfieldplaceholder: json.searchfieldplaceholder,
+            geocoder: json.geocoder,
             themes: [],
         };
         const mapThemes: { [id: string]: Theme } = {};
@@ -115,6 +117,11 @@ export function getMapDescription(): MapDescription {
 export type MapDescription = {
     default_wms_legend_icon: string;
     mapOptions: MapOptions;
+    geocoder?: {
+        type: string;
+        params: Record<string, unknown>;
+    };
+    searchfieldplaceholder?: string;
     baseLayers: LayerDescription[];
     themes: Theme[];
 };
@@ -148,7 +155,7 @@ export type LayerClass = {
 export type ProcessingInstruction = {
     chart_type: "pie";
     style: {
-        radius?: number;
+        radius?: number | string;
         color?: string;
         strokeOpacity?: number;
         strokeWeight?: number;

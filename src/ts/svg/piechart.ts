@@ -26,13 +26,14 @@ export function createPiechart(param: PieChartParam): SVGSVGElement {
 
     // calculate sum of values
     let sum = 0;
-    let radius = param.radius;
+    const radius = param.radius;
     for (let e = 0; e < param.segments.length; e++) {
         sum += param.segments[e].value;
     }
     // generate proportional pie for all segments
     let startAngle = 0,
         endAngle = 0;
+
     for (let i = 0; i < param.segments.length; i++) {
         const element = param.segments[i];
         const angle = (element.value * 2 * Math.PI) / sum;
@@ -46,6 +47,7 @@ export function createPiechart(param: PieChartParam): SVGSVGElement {
             strokeOpacity: param.strokeOpacity,
             strokeWidth: param.strokeWeight,
         });
+
         svg.append(svgLine);
         const pathStr = "M " + radius + "," + radius + " " + "L " + (Math.cos(startAngle) * radius + radius) + "," + (Math.sin(startAngle) * radius + radius) + " " + "A " + radius + "," + radius + " 0 " + (angle < Math.PI ? "0" : "1") + " 1 " + (Math.cos(endAngle) * radius + radius) + "," + (Math.sin(endAngle) * radius + radius) + " " + "Z";
         const svgPath = makeSVG("path", {

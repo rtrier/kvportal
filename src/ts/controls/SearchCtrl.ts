@@ -6,6 +6,7 @@ import autocomplete, { AutocompleteItem, AutocompleteSettings } from "../util/Au
 
 export interface SearchControlOptions<T extends AutocompleteItem> extends AutocompleteSettings<T> {
     position?: L.ControlPosition;
+    searchfieldplaceholder?: string;
 }
 
 export class SearchControl extends Control {
@@ -91,7 +92,7 @@ export class SearchControl extends Control {
         searchWrapper.appendChild(searchBox);
         searchBox.type = "text";
 
-        searchBox.placeholder = "Ort, Adresse, Thema..";
+        searchBox.placeholder = this.params?.searchfieldplaceholder ?? "Ort, Adresse, Thema..";
 
         const searchBoxClear = document.createElement("i");
         searchBoxClear.className = "search-input-clear";
@@ -114,6 +115,7 @@ export class SearchControl extends Control {
 
     clearClicked() {
         this.inputField.value = "";
+        this.inputField.focus();
         this.params.onSelect(undefined, this.inputField);
     }
 }

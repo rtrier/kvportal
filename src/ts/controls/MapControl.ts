@@ -10,13 +10,14 @@ import { LayerDescription } from "../conf/MapDescription";
 import { LayerLoader } from "../LayerLoader";
 import { LeafletMouseEvent } from "leaflet";
 import { BaseLayerSelectorCtrl } from "./BaselayerSelectorCtrl";
-import { LayerControlVar } from "./LayerControlVar";
+import { LayerControlVar, SCALES } from "./LayerControlVar";
 import { SearchControl } from "./SearchCtrl";
 import { ChangeFontSizeCtrl, IconActionCtrl } from "./IconAction";
 
 export class MenuControlOptions implements L.ControlOptions {
     position?: L.ControlPosition;
     parentNode?: HTMLElement;
+    searchfieldplaceholder?: string;
     searchFct?: (s: string) => Promise<any[]>;
     resetMap?: () => void;
 }
@@ -110,6 +111,7 @@ export class MapControl extends L.Control {
 
     searchFct: (s: string) => Promise<any[]>;
     resetMap: () => void;
+    searchfieldplaceholder: string;
 
     closed: boolean = true;
     categorieLayers: { [id: string]: CategorieLayer<any, any> } = {};
@@ -156,6 +158,7 @@ export class MapControl extends L.Control {
 
         this.searchFct = options.searchFct;
         this.resetMap = options.resetMap;
+        this.searchfieldplaceholder = options.searchfieldplaceholder;
         this._subscribe();
     }
     private _subscribe() {
@@ -340,9 +343,45 @@ export class MapControl extends L.Control {
 
     addOverlayToMap(lw: LayerWrapper): void {
         console.info("MapControl.addOverlayToMap");
-        this.map.addLayer(lw.layer);
+
         lw.idx = this.layerOnMapList.length;
         this.layerOnMapList.push(lw);
+
+        if (lw.layerDescription.minScale || lw.layerDescription.maxScale) {
+            console.debug("jshsdhidhakdhaks");
+
+            const minScale = lw.layerDescription.minScale || 0;
+            const maxScale = lw.layerDescription.maxScale || 20000000;
+
+            const f = (ev) => {
+                const zoomL = ev.target.getZoom();
+                const currScale = SCALES[zoomL];
+                if (currScale <= minScale || currScale >= maxScale) {
+                    if (lw["visible"]) {
+                        lw["visible"] = false;
+                        this.map.removeLayer(lw.layer);
+                    }
+                } else {
+                    if (!lw["visible"]) {
+                        lw["visible"] = true;
+                        this.map.addLayer(lw.layer);
+                    }
+                }
+            };
+            lw["zoomFct"] = f;
+            this.map.on("zoom", f);
+
+            const currScale = SCALES[this.map.getZoom()];
+            if (currScale >= minScale && currScale <= maxScale) {
+                this.map.addLayer(lw.layer);
+                lw["visible"] = true;
+            } else {
+                lw["visible"] = false;
+            }
+        } else {
+            this.map.addLayer(lw.layer);
+        }
+
         MapDispatcher.onLayerAdded.dispatch(this, {
             type: "added-to-map",
             layer: lw,
@@ -359,6 +398,9 @@ export class MapControl extends L.Control {
 
     removeLayerFromMap(lw: LayerWrapper) {
         this.map.removeLayer(lw.layer);
+        if (lw["zoomFct"]) {
+            this.map.off("zoom", lw["zoomFct"]);
+        }
         MapDispatcher.onLayerRemoved.dispatch(this, {
             type: "removed-from-map",
             layer: lw,
@@ -516,6 +558,7 @@ export class MapControl extends L.Control {
                     onSelect: (item: any, input: HTMLInputElement) => this._found(item, input),
                     onSearchStart: (input: HTMLInputElement) => this._searchStart(input),
                     fetch: this.searchFct,
+                    searchfieldplaceholder: this.searchfieldplaceholder,
                     minLength: 3,
                     showOnFocus: true,
                     labelAttr: "name",
@@ -559,6 +602,7 @@ export class MapControl extends L.Control {
 
         return this.dom;
     }
+
     showHome(ctrl: L.Control) {
         console.info("showHome", this);
         document.getElementById("home-overlay").style.display = "";

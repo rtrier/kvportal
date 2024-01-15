@@ -17,105 +17,166 @@
     ],
     "minZoom": "8"
   },
-  "default_wms_legend_icon": "img/noun_Globe.svg",
+  "searchfieldplaceholder": "Ort, Adresse",
+  "geocoder": {
+    "type": "nominatim",
+    "params": {
+      "viewbox": "10.19926,52,15.16822,55"
+    }
+  },
+  "default_wms_legend_icon": "img\/noun_Globe.svg",
   "themes": [
     {
       "thema": "Windenergie",
-      "icon": "kreisicons/Windenergie.svg",
+      "icon": "kreisicons\/Windenergie.svg",
       "themes": [
         {
           "thema": "Windenergie|Offshore",
-          "icon": "icons/Windenergie/Offshore/EA-Icons_Offshore.svg"
+          "icon": "icons\/Windenergie\/Offshore\/EA-Icons_Offshore.svg"
         },
         {
           "thema": "Windenergie|Onshore",
-          "icon": "icons/Windenergie/Onshore/EA-Icons_Onshore.svg"
+          "icon": "icons\/Windenergie\/Onshore\/EA-Icons_Onshore.svg"
         }
       ]
     },
     {
       "thema": "Solarenergie",
-      "icon": "kreisicons/Solarenergie.svg"
+      "icon": "kreisicons\/Solarenergie.svg"
     },
     {
-      "thema": "Mobilität",
-      "icon": "kreisicons/Mobilitaet.svg",
+      "thema": "Bioenergie",
+      "icon": "kreisicons\/Bioenergie.svg"
+    },
+    {
+      "thema": "Mobilit\u00e4t",
+      "icon": "kreisicons\/Mobilitaet.svg",
       "themes": [
         {
-          "thema": "Mobilität|Ladeinfrastruktur",
-          "icon": "icons/Mobilitaet/Ladeinfrastruktur/EA-Icons_Ladeinfrastrucktur.svg"
+          "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
+          "icon": "icons\/Mobilitaet\/Ladeinfrastruktur\/EA-Icons_Ladeinfrastrucktur.svg"
         },
         {
-          "thema": "Mobilität|Verkehr",
-          "icon": "icons/Mobilitaet/Verkehr/EA-Icons_Verkehr.svg"
+          "thema": "Mobilit\u00e4t|Tankstellen",
+          "icon": "icons\/Mobilitaet\/Tankstellen\/EA-Icons_Tankstellen.svg"
+        },
+        {
+          "thema": "Mobilit\u00e4t|Verkehr",
+          "icon": "icons\/Mobilitaet\/Verkehr\/EA-Icons_Verkehr.svg"
         }
       ]
+    },
+    {
+      "thema": "Netze und Versorgung",
+      "icon": "kreisicons\/Netze.svg",
+      "themes": [
+        {
+          "thema": "Netze und Versorgung|Strom",
+          "icon": ""
+        },
+        {
+          "thema": "Netze und Versorgung|Breitband-Internet",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "thema": "W\u00e4rme",
+      "icon": "kreisicons\/W\u00e4rme.svg"
+    },
+    {
+      "thema": "Geothermie",
+      "icon": "kreisicons\/Geothermie.svg"
+    },
+    {
+      "thema": "Wasserkraft",
+      "icon": "kreisicons\/Wasserkraft.svg"
+    },
+    {
+      "thema": "Planungsgrundlagen",
+      "icon": "kreisicons\/Planungsgrundlagen.svg"
+    },
+    {
+      "thema": "Sektorenkopplung",
+      "icon": "kreisicons\/Sektorenkopplung.svg"
+    },
+    {
+      "thema": "Klimaschutz \/ Energiewende",
+      "icon": "kreisicons\/Klimaschutz-Energiewende.svg"
+    },
+    {
+      "thema": "Raumbezug",
+      "icon": "kreisicons\/Raumbezug.svg"
+    },
+    {
+      "thema": "Liegenschaftskataster",
+      "icon": "kreisicons\/Liegenschaftskataster.svg"
     }
   ],
   "baseLayers": [
     {
-      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/topoplus.png",
+      "img": "https:\/\/energieatlas-mv.de\/fis\/custom\/graphics\/mapicons\/topoplus.png",
       "label": "TopPlusOpen",
       "options": {
-        "attribution": "TopPlusOpenKartendarstellung und Präsentationsgraphiken: © Bundesamt für Kartographie und Geodäsie (aktuelles Jahr), Datenquellen: https://sgx.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf "
+        "attribution": "TopPlusOpenKartendarstellung und Pr\u00e4sentationsgraphiken: \u00a9 Bundesamt f\u00fcr Kartographie und Geod\u00e4sie (aktuelles Jahr), Datenquellen: https:\/\/sgx.geodatenzentrum.de\/web_public\/Datenquellen_TopPlus_Open.pdf "
       },
       "shortLabel": "TopPlusOpen",
-      "url": "https://sgx.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web/default/WEBMERCATOR/{z}/{y}/{x}.png"
+      "url": "https:\/\/sgx.geodatenzentrum.de\/wmts_topplus_open\/tile\/1.0.0\/web\/default\/WEBMERCATOR\/{z}\/{y}\/{x}.png"
     },
     {
-      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/sat.png",
+      "img": "https:\/\/energieatlas-mv.de\/fis\/custom\/graphics\/mapicons\/sat.png",
       "label": "Luftbild",
       "options": {
         "zoomOffset": -5,
-        "attribution": "Luftbilder, Geoportal-MV, © Landesamt für innere Verwaltung M-V, Amt für Geoinformation, Vermessung und Katasterwesen (geodatenservice@laiv-mv.de)"
+        "attribution": "Luftbilder, Geoportal-MV, \u00a9 Landesamt f\u00fcr innere Verwaltung M-V, Amt f\u00fcr Geoinformation, Vermessung und Katasterwesen (geodatenservice@laiv-mv.de)"
       },
       "shortLabel": "Luftbild",
-      "url": "https://www.geodaten-mv.de/dienste/dop_wmts/wmts/mv_dop/GoogleMapsCompatible/{z}/{x}/{y}.png"
+      "url": "https:\/\/www.geodaten-mv.de\/dienste\/dop_wmts\/wmts\/mv_dop\/GoogleMapsCompatible\/{z}\/{x}\/{y}.png"
     },
     {
-      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/topoplus-gray.png",
+      "img": "https:\/\/energieatlas-mv.de\/fis\/custom\/graphics\/mapicons\/topoplus-gray.png",
       "label": "TopPlusGrau",
       "options": {
-        "attribution": "TopPlus (Grau): Kartendarstellung und Präsentationsgraphiken: © Bundesamt für Kartographie und Geodäsie (aktuelles Jahr), Datenquellen: https://sgx.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf "
+        "attribution": "TopPlus (Grau): Kartendarstellung und Pr\u00e4sentationsgraphiken: \u00a9 Bundesamt f\u00fcr Kartographie und Geod\u00e4sie (aktuelles Jahr), Datenquellen: https:\/\/sgx.geodatenzentrum.de\/web_public\/Datenquellen_TopPlus_Open.pdf "
       },
       "shortLabel": "TopPlusGrau",
-      "url": "https://sgx.geodatenzentrum.de/wmts_topplus_web_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png"
+      "url": "https:\/\/sgx.geodatenzentrum.de\/wmts_topplus_web_open\/tile\/1.0.0\/web_grau\/default\/WEBMERCATOR\/{z}\/{y}\/{x}.png"
     },
     {
-      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/orka.png",
+      "img": "https:\/\/energieatlas-mv.de\/fis\/custom\/graphics\/mapicons\/orka.png",
       "label": "ORKa-MV",
       "options": {
-        "attribution": "ORKa-MV, Kartenbild © Hanse- und Universitätsstadt Rostock (CC BY 4.0) | Kartendaten © OpenStreetMap (ODbL) und LkKfS-MV"
+        "attribution": "ORKa-MV, Kartenbild \u00a9 Hanse- und Universit\u00e4tsstadt Rostock (CC BY 4.0) | Kartendaten \u00a9 OpenStreetMap (ODbL) und LkKfS-MV"
       },
       "shortLabel": "ORKa-MV",
-      "url": "https://www.orka-mv.de/geodienste/orkamv/tiles/1.0.0/orkamv/GLOBAL_WEBMERCATOR/{z}/{x}/{y}.png"
+      "url": "https:\/\/www.orka-mv.de\/geodienste\/orkamv\/tiles\/1.0.0\/orkamv\/GLOBAL_WEBMERCATOR\/{z}\/{x}\/{y}.png"
     },
     {
-      "img": "https://energieatlas-mv.de/fis/custom/graphics/mapicons/osm.png",
+      "img": "https:\/\/energieatlas-mv.de\/fis\/custom\/graphics\/mapicons\/osm.png",
       "label": "OSM",
       "options": {
-        "attribution": "OSM Terrestris: (c) OpenStreetMap contributors (http://www.openstreetmap.org/copyright) (c) OpenStreetMap Data (http://openstreetmapdata.com) (c) Natural Earth Data (http://www.naturalearthdata.com) (c) GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) (c) SRTM 450m by ViewfinderPanoramas (http://viewfinderpanoramas.org/) (c) Great Lakes Bathymetry by NGDC (http://www.ngdc.noaa.gov/mgg/greatlakes/) (c) SRTM 30m by NASA EOSDIS Land Processes Distributed Active Archive Center (LP DAAC, https://lpdaac.usgs.gov/) by using this service you agree to the privacy policy mentioned at https://www.terrestris.de/en/datenschutzerklaerung/"
+        "attribution": "OSM Terrestris: (c) OpenStreetMap contributors (http:\/\/www.openstreetmap.org\/copyright) (c) OpenStreetMap Data (http:\/\/openstreetmapdata.com) (c) Natural Earth Data (http:\/\/www.naturalearthdata.com) (c) GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285\/836f016a-33be-6ddc-e053-6c86abc0788e) (c) SRTM 450m by ViewfinderPanoramas (http:\/\/viewfinderpanoramas.org\/) (c) Great Lakes Bathymetry by NGDC (http:\/\/www.ngdc.noaa.gov\/mgg\/greatlakes\/) (c) SRTM 30m by NASA EOSDIS Land Processes Distributed Active Archive Center (LP DAAC, https:\/\/lpdaac.usgs.gov\/) by using this service you agree to the privacy policy mentioned at https:\/\/www.terrestris.de\/en\/datenschutzerklaerung\/"
       },
       "shortLabel": "OSM",
-      "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+      "url": "https:\/\/tile.openstreetmap.org\/{z}\/{x}\/{y}.png"
     }
   ],
   "overlays": [
     {
       "thema": "Windenergie|Offshore",
       "label": "Windenergieanlagen Offshore",
-      "abstract": "Deutsche Offshore-Windenergieanlagen in der Ostsee vor der Küste Mecklenburg-Vorpommerns. Die Daten entstammen einer Zusammenführung eines Datensatzes des Landesamtes für Umwelt, Naturschutz und Geologie M-V (LUNG M-V) mit dem Marktstammdatenregister (MaStR) der Bundesnetzagentur.",
-      "contactOrganisation": "• Bundesnetzagentur (2020) Marktstammdatenregister (MaStR), Erweiterte Einheitenübersicht.\r\n• Landesamt für Umwelt, Naturschutz und Geologie M-V (LUNG M-V) (2020).",
-      "contactPersonName": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)",
+      "abstract": "Deutsche Offshore-Windenergieanlagen in der Ostsee vor der K\u00fcste Mecklenburg-Vorpommerns. Die Daten entstammen einer Zusammenf\u00fchrung eines Datensatzes des Landesamtes f\u00fcr Umwelt, Naturschutz und Geologie M-V (LUNG M-V) mit dem Marktstammdatenregister (MaStR) der Bundesnetzagentur.",
+      "contactOrganisation": "\u2022 Bundesnetzagentur (2020) Marktstammdatenregister (MaStR), Erweiterte Einheiten\u00fcbersicht.\r\n\u2022 Landesamt f\u00fcr Umwelt, Naturschutz und Geologie M-V (LUNG M-V) (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
       "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
       "contactPhon": "0385 588 18305",
       "actuality": "20.11.2020",
-      "actualityCircle": "halbjährlich",
+      "actualityCircle": "halbj\u00e4hrlich",
       "type": "GeoJSON",
       "geomType": "Point",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "id",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
       "params": {
         "gast": 7,
         "go": "Daten_Export_Exportieren",
@@ -129,14 +190,14 @@
       },
       "options": {
         "transparent": true,
-        "attribution": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)"
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
       },
       "classes": [
         {
           "def": "",
           "name": " ",
           "icon": {
-            "iconUrl": "https://energieatlas-mv.de/fis/custom/symbols/Windenergie/Offshore/EA-IconsWindenergieanlagen-Offshore.svg",
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Windenergie\/Offshore\/EA-IconsWindenergieanlagen-Offshore.svg",
             "iconSize": [
               "30",
               "30"
@@ -231,18 +292,18 @@
     {
       "thema": "Windenergie|Offshore",
       "label": "Windparks Offshore",
-      "abstract": "Windparks in der Ostsee vor der Küste Mecklenburg-Vorpommerns. Gezeigt werden Windparks, die in Betrieb, in Planung, in Ausschreibung (nach Zuschlag), in Realisierung oder als Testfeld geplant sind.",
-      "contactOrganisation": "• Ministerium für Energie, Infrastruktur und Digitalisierung MV (2021)",
-      "contactPersonName": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)",
+      "abstract": "Windparks in der Ostsee vor der K\u00fcste Mecklenburg-Vorpommerns. Gezeigt werden Windparks, die in Betrieb, in Planung, in Ausschreibung (nach Zuschlag), in Realisierung oder als Testfeld geplant sind.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2021)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
       "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
       "contactPhon": "0385 588 18305",
       "actuality": "20.11.2021",
-      "actualityCircle": "jährlich",
+      "actualityCircle": "j\u00e4hrlich",
       "type": "GeoJSON",
       "geomType": "Polygon",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "gid",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
       "params": {
         "gast": 7,
         "go": "Daten_Export_Exportieren",
@@ -256,7 +317,7 @@
       },
       "options": {
         "transparent": true,
-        "attribution": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)"
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
       },
       "classes": [
         {
@@ -346,17 +407,17 @@
       "thema": "Windenergie|Onshore",
       "label": "Windenergieanlagen Onshore",
       "abstract": "Windenergieanlagen auf dem Festland von Mecklenburg-Vorpommern",
-      "contactOrganisation": "• Landesamt für innere Verwaltung M-V (LAiV) (2020)\r\n• Landesamt für Umwelt, Naturschutz und Geologie M-V (LUNG) (2020) Kartenportal Umwelt (https://www.umweltkarten.mv-regierung.de/atlas/script/index.php).\r\n• Bundesnetzagentur (2020) Marktstammdatenregister (MaStR), Erweiterte Einheitenübersicht(https://www.marktstammdatenregister.de/MaStR/Einheit/Einheiten/ErweiterteOeffentlicheEinheitenuebersicht).\r\n\r\nDie Daten entstammen einer Kombination aus den Datensätzen der drei Quellen. Bei Dopplungen innerhalb eines Radius von 100 m wurden, wenn verfügbar, die Koordinaten des LAiV sowie die Sachdaten des LUNG und MaStR bevorzugt verwendet.",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr innere Verwaltung M-V (LAiV) (2020)\r\n\u2022 Landesamt f\u00fcr Umwelt, Naturschutz und Geologie M-V (LUNG) (2020) Kartenportal Umwelt (https:\/\/www.umweltkarten.mv-regierung.de\/atlas\/script\/index.php).\r\n\u2022 Bundesnetzagentur (2020) Marktstammdatenregister (MaStR), Erweiterte Einheiten\u00fcbersicht(https:\/\/www.marktstammdatenregister.de\/MaStR\/Einheit\/Einheiten\/ErweiterteOeffentlicheEinheitenuebersicht).\r\n\r\nDie Daten entstammen einer Kombination aus den Datens\u00e4tzen der drei Quellen. Bei Dopplungen innerhalb eines Radius von 100 m wurden, wenn verf\u00fcgbar, die Koordinaten des LAiV sowie die Sachdaten des LUNG und MaStR bevorzugt verwendet.",
       "contactPersonName": "Frau Balck-Taege",
       "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
       "contactPhon": "0385 588-18305",
       "actuality": "20.11.2020",
-      "actualityCircle": "halbjährlich",
+      "actualityCircle": "halbj\u00e4hrlich",
       "type": "GeoJSON",
       "geomType": "Point",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "id",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
       "params": {
         "gast": 7,
         "go": "Daten_Export_Exportieren",
@@ -377,7 +438,7 @@
           "def": "",
           "name": " ",
           "icon": {
-            "iconUrl": "https://energieatlas-mv.de/fis/custom/symbols/Windenergie/Onshore/EA-Icons_Windenergieanlagen-Onshore.svg",
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Windenergie\/Onshore\/EA-Icons_Windenergieanlagen-Onshore.svg",
             "iconSize": [
               "30",
               "30"
@@ -450,8 +511,8 @@
         "nbp_pruefungsdatum": "Nbp Pruefungsdatum",
         "nbp_netzbetreiberpruefungsstatus": "Nbp Netzbetreiberpruefungsstatus",
         "ogc_fid": "ogc_fid",
-        "behoe_name": "Behörde",
-        "behoe_nr": "Behörde Nr.",
+        "behoe_name": "Beh\u00f6rde",
+        "behoe_nr": "Beh\u00f6rde Nr.",
         "as_nr": "As Nr",
         "as_name": "As Name",
         "gemeinde": "Gemeinde",
@@ -471,6 +532,388 @@
     },
     {
       "thema": "Windenergie|Onshore",
+      "label": "Eignungsgebiete Rostock",
+      "abstract": "Eignungsgebiete f\u00fcr Windenergieanlagen aus dem regionalen Raumentwicklungsprogramm (RREP) der Planungsregion Rostock, Teilfortschreibung 2021.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2021).",
+      "contactPersonName": "Frau Schmidt-Kaden",
+      "contactEMail": "petra.schmidt-kaden@em.mv-regierung.de",
+      "contactPhon": "0385 588-18350",
+      "actuality": "24.08.2021",
+      "actualityCircle": "bei gesetzlichen \u00c4nderungen",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "name",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 199,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Schmidt-Kaden"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(77 51 4)",
+            "fill": true,
+            "fillColor": "rgb(102 157 255)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "Id",
+        "name": "Bezeichnung",
+        "region": "Planungsregion",
+        "gid_in_region": "gid_in_region",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Windenergie|Onshore",
+      "label": "Eignungsgebiete Vorpommern",
+      "abstract": "Eignungsgebiete f\u00fcr Windenergieanlagen aus dem regionalen Raumentwicklungsprogramm (RREP) der Planungsregion Vorpommern, Teilfortschreibung 2021.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2021).",
+      "contactPersonName": "Frau Schmidt-Kaden",
+      "contactEMail": "petra.schmidt-kaden@em.mv-regierung.de",
+      "contactPhon": "0385 588-18350",
+      "actuality": "23.08.2021",
+      "actualityCircle": "bei gesetzlichen \u00c4nderungen",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "name",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 200,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Schmidt-Kaden"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(77 51 4)",
+            "fill": true,
+            "fillColor": "rgb(102 157 255)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "Id",
+        "name": "Bezeichnung",
+        "region": "Planungsregion",
+        "gid_in_region": "gid_in_region",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Windenergie|Onshore",
+      "label": "Eignungsgebiete Westmecklenburg",
+      "abstract": "Eignungsgebiete f\u00fcr Windenergieanlagen aus dem regionalen Raumentwicklungsprogramm (RREP) der Planungsregion Westmecklenburg, Teilfortschreibung 2021.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2021).",
+      "contactPersonName": "Frau Schmidt-Kaden",
+      "contactEMail": "petra.schmidt-kaden@em.mv-regierung.de",
+      "contactPhon": "0385 588-18350",
+      "actuality": "23.08.2021",
+      "actualityCircle": "bei gesetzlichen \u00c4nderungen",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "name",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 197,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Schmidt-Kaden"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(77 51 4)",
+            "fill": true,
+            "fillColor": "rgb(102 157 255)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "Id",
+        "name": "Bezeichnung",
+        "region": "Planungsregion",
+        "gid_in_region": "gid_in_region",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Windenergie|Onshore",
+      "label": "Eignungsgebiete Mecklenburgische Seenplatte",
+      "abstract": "Eignungsgebiete f\u00fcr Windenergieanlagen aus dem regionalen Raumentwicklungsprogramm (RREP) der Planungsregion Mecklenburgische Seenplatte, Teilfortschreibung 2021.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2021).",
+      "contactPersonName": "Frau Schmidt-Kaden",
+      "contactEMail": "petra.schmidt-kaden@em.mv-regierung.de",
+      "contactPhon": "0385 588-18350",
+      "actuality": "23.08.2021",
+      "actualityCircle": "bei gesetzlichen \u00c4nderungen",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "name",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 198,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Schmidt-Kaden"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(77 51 4)",
+            "fill": true,
+            "fillColor": "rgb(102 157 255)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "Id",
+        "name": "Bezeichnung",
+        "region": "Planungsregion",
+        "gid_in_region": "gid_in_region",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Windenergie|Onshore",
+      "label": "F\u00f6rderungsende f\u00fcr Windenergieanlagen",
+      "abstract": "WEA 01\/2021 vom LUNG erg\u00e4nzt mit dem Jahr der Beendigung der EEG F\u00f6rderung",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr Umwelt, Naturschutz und Geologie M-V (LUNG) (2020) Kartenportal Umwelt (https:\/\/www.umweltkarten.mv-regierung.de\/atlas\/script\/index.php).",
+      "contactPersonName": "Frau Balck-Taege",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588-18305",
+      "actuality": "23.11.2021",
+      "actualityCircle": "halbj\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 190,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege"
+      },
+      "classes": [
+        {
+          "def": "([foerderende] = 2021)",
+          "name": "2021",
+          "style": {
+            "symbolname": "circle",
+            "size": "15",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 70 89)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([foerderende] = 2022)",
+          "name": "2022",
+          "style": {
+            "symbolname": "circle",
+            "size": "15",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 143 74)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([foerderende] = 2023)",
+          "name": "2023",
+          "style": {
+            "symbolname": "circle",
+            "size": "15",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 199 64)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([foerderende] = 2024)",
+          "name": "2024",
+          "style": {
+            "symbolname": "circle",
+            "size": "15",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 251 81)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([foerderende] = 2025)",
+          "name": "2025",
+          "style": {
+            "symbolname": "circle",
+            "size": "15",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(168 255 166)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "( [foerderende] > 2025 and [foerderende] < 2031)",
+          "name": "2026 - 2030",
+          "style": {
+            "symbolname": "circle",
+            "size": "15",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(167 255 254)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "( [foerderende] > 2030)",
+          "name": "ab 2030",
+          "style": {
+            "symbolname": "circle",
+            "size": "15",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(167 218 255)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "ID",
+        "bezeichn_": "Bezeichnung",
+        "anl__nr_": "Anlagen Nr.",
+        "bimschv4": "BIMSCH v4",
+        "gemeinde": "Gemeinde",
+        "ort": "Ort",
+        "ortsteil": "Ortsteil",
+        "behoe_name": "Beh\u00f6rde",
+        "plz": "PLZ",
+        "inbetr_dat": "In Betriebnahme",
+        "behoe_nr": "Beh\u00f6rdennummer",
+        "betriebsst": "Betrieb durch",
+        "foerderende": "F\u00f6rderende",
+        "leist_mass": "Leistung",
+        "leist_ein": "Einheit",
+        "leist_bez": "Bezeichnung",
+        "nabenhoehe": "Nachbenh\u00f6he",
+        "rotordmess": "Rotorsurchmesser",
+        "inb_d": "inb_d",
+        "nordwert": "nordwert",
+        "ostwert": "ostwert",
+        "hoehe": "hoehe",
+        "bst_nr_": "bst_nr_",
+        "inbetr_d_1": "inbetr_d_1",
+        "f26": "f26",
+        "altanl_d": "altanl_d",
+        "alt_dat": "alt_dat",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Windenergie|Onshore",
       "label": "Windenergie Potentiale",
       "abstract": "Windenergiepotential",
       "contactOrganisation": null,
@@ -483,13 +926,13 @@
       "geomType": "Raster",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "oid",
-      "url": "https://maps.dwd.de/geoserver/dwd/wms",
+      "url": "https:\/\/maps.dwd.de\/geoserver\/dwd\/wms",
       "params": "",
       "options": {
         "crs": "EPSG4326",
         "version": "1.1.0",
         "layers": "BRD_1km_winddaten_80m",
-        "format": "image/png",
+        "format": "image\/png",
         "transparent": true,
         "attribution": null,
         "opacity": 0.8
@@ -511,25 +954,24 @@
         }
       ],
       "hideEmptyLayerAttributes": true,
-      "layerAttributes": {
-      },
+      "layerAttributes": {},
       "maxScale": 50000
     },
     {
       "thema": "Solarenergie",
-      "label": "Solarfreiflächenanlagen",
-      "abstract": "Solarfreiflächenanlagen (Photovoltaik) in Mecklenburg-Vorpommern. Hierbei handelt es sich um Photovoltaik-Anlagen, die auf der \"freien Fläche\" - also nicht an/auf Gebäuden - installiert sind. Die Daten wurden vom Landesamt für innere Verwaltung (LAiV) zur Verfügung gestellt.",
-      "contactOrganisation": "• Landesamt für innere Verwaltung (LAiV) (2021).",
-      "contactPersonName": "Landesamt für innere Verwaltung (LAiV)",
+      "label": "Solarfreifl\u00e4chenanlagen",
+      "abstract": "Solarfreifl\u00e4chenanlagen (Photovoltaik) in Mecklenburg-Vorpommern. Hierbei handelt es sich um Photovoltaik-Anlagen, die auf der \"freien Fl\u00e4che\" - also nicht an\/auf Geb\u00e4uden - installiert sind. Die Daten wurden vom Landesamt f\u00fcr innere Verwaltung (LAiV) zur Verf\u00fcgung gestellt.",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr innere Verwaltung (LAiV) (2021).",
+      "contactPersonName": "Landesamt f\u00fcr innere Verwaltung (LAiV)",
       "contactEMail": null,
       "contactPhon": null,
       "actuality": "13.04.2021",
-      "actualityCircle": "jährlich",
+      "actualityCircle": "j\u00e4hrlich",
       "type": "GeoJSON",
       "geomType": "Polygon",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "gid",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
       "params": {
         "gast": 7,
         "go": "Daten_Export_Exportieren",
@@ -543,7 +985,7 @@
       },
       "options": {
         "transparent": true,
-        "attribution": "Landesamt für innere Verwaltung (LAiV)"
+        "attribution": "Landesamt f\u00fcr innere Verwaltung (LAiV)"
       },
       "classes": [
         {
@@ -565,25 +1007,124 @@
       "layerAttributes": {
         "gid": "ID",
         "objid": "Objekt ID",
-        "flaeche": "Fläche",
+        "flaeche": "Fl\u00e4che",
         "the_geom": "The Geom"
       }
     },
     {
-      "thema": "Mobilität|Ladeinfrastruktur",
+      "thema": "Bioenergie",
+      "label": "Bioenergieanlagen (MaStR.)",
+      "abstract": "Bioenergieanlagen in Mecklenburg-Vorpommern. Die Daten des Marktstammdatenregisters (MaStR) umfassen Anlagen zur Gaserzeugung (u.a. aus Abf\u00e4llen), Biogasspeicherung sowie Blockheizkraftwerke (BHKW) und Gasaufbereitungsanlagen.",
+      "contactOrganisation": "\u2022 Bundesnetzagentur (2020) Marktstammdatenregister (MaStR), Erweiterte Einheiten\u00fcbersicht (https:\/\/www.marktstammdatenregister.de\/MaStR\/Einheit\/Einheiten\/ErweiterteOeffentlicheEinheitenuebersicht).",
+      "contactPersonName": "Bundesnetzagentur f\u00fcr Elektrizit\u00e4t, Gas, Telekommunikation, Post und Eisenbahnen",
+      "contactEMail": "Kontaktformular auf https:\/\/www.marktstammdatenregister.de\/MaStR\/Startseite\/Kontakt",
+      "contactPhon": "0228 14-3333",
+      "actuality": "02\/2021",
+      "actualityCircle": "J\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "mastrnummer",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 151,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Bundesnetzagentur f\u00fcr Elektrizit\u00e4t, Gas, Telekommunikation, Post und Eisenbahnen"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Bioenergie\/EA-Icons_Bioenergie-Anlagen.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "mastrid": "mastrid",
+        "mastrnummer": "mastrnummer",
+        "systemstatus": "systemstatus",
+        "betriebsstatus": "betriebsstatus",
+        "einheitentyp": "einheitentyp",
+        "name_der_einheit": "name_der_einheit",
+        "datum_beginn_der_voruebergehenden_stilllegung": "datum_beginn_der_voruebergehenden_stilllegung",
+        "datum_wiederaufnahme_des_betriebs": "datum_wiederaufnahme_des_betriebs",
+        "geplantes_inbetriebnahmedatum": "geplantes_inbetriebnahmedatum",
+        "inbetriebnahmedatum": "inbetriebnahmedatum",
+        "datum_der_endgueltigen_stilllegung": "datum_der_endgueltigen_stilllegung",
+        "meldedatum": "meldedatum",
+        "datum_der_letzten_aktualisierung": "datum_der_letzten_aktualisierung",
+        "land": "land",
+        "postleitzahl": "postleitzahl",
+        "ort": "ort",
+        "art_der_standortangabe": "art_der_standortangabe",
+        "strasse": "strasse",
+        "hausnummer": "hausnummer",
+        "adresszusatz": "adresszusatz",
+        "gemarkung": "gemarkung",
+        "flur_und_flurstueck": "flur_und_flurstueck",
+        "bundesland": "bundesland",
+        "landkreis": "landkreis",
+        "gemeinde": "gemeinde",
+        "gemeindeschluessel": "gemeindeschluessel",
+        "bruttoleistung": "bruttoleistung",
+        "nettonennleistung": "nettonennleistung",
+        "technologie": "technologie",
+        "hauptbrennstoff": "hauptbrennstoff",
+        "biomasseart": "biomasseart",
+        "einsatzverantwortlicher": "einsatzverantwortlicher",
+        "art_der_einspeisung": "art_der_einspeisung",
+        "fernsteuerbarkeit_durch_netzbetreiber": "fernsteuerbarkeit_durch_netzbetreiber",
+        "fernsteuerbarkeit_durch_direktvermarkter": "fernsteuerbarkeit_durch_direktvermarkter",
+        "fernsteuerbarkeit_durch_dritte": "fernsteuerbarkeit_durch_dritte",
+        "an_hoch_hoechstspannung_angeschlossen": "an_hoch_hoechstspannung_angeschlossen",
+        "w_eic": "w_eic",
+        "displayname_w_eic": "displayname_w_eic",
+        "kraftwerksnummer": "kraftwerksnummer",
+        "isnotstromaggregat": "isnotstromaggregat",
+        "nbp_pruefungsdatum": "nbp_pruefungsdatum",
+        "nbp_netzbetreiberpruefungsstatus": "nbp_netzbetreiberpruefungsstatus",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
       "label": "Ladestationen 2021",
-      "abstract": "Kartografische Darstellung von öffentlich zugänglichen Standorten mit Schnell- und Normalladepunkten in Mecklenburg-Vorpommern. Die Daten ergeben sich aus einer in 2017 durchgeführten  Bestandsanalyse der Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) und den aktuelleren Daten des Ladesäulenregisters der Bundesnetzagentur.",
-      "contactOrganisation": "• Ministerium für Energie, Infrastruktur und Digitalisierung MV (2021)\r\n• Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) (2017) Bestandsanalyse der Ladesäuleninfrastruktur in M-V (https://www.regierung-mv.de/Landesregierung/em/Infrastruktur/Elektromobilit%C3%A4t/Ladeinfrastruktur/; Zugriff am 31.08.2021).\r\n• Bundesnetzagentur (2021) Ladesäulenregister (https://www.bundesnetzagentur.de/DE/Sachgebiete/ElektrizitaetundGas/Unternehmen_Institutionen/E-Mobilitaet/Ladesaeulenkarte/start.html; Zugriff am 31.08.2021)",
-      "contactPersonName": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)",
+      "abstract": "Kartografische Darstellung von \u00f6ffentlich zug\u00e4nglichen Standorten mit Schnell- und Normalladepunkten in Mecklenburg-Vorpommern. Die Daten ergeben sich aus einer in 2017 durchgef\u00fchrten  Bestandsanalyse der Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) und den aktuelleren Daten des Lades\u00e4ulenregisters der Bundesnetzagentur.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2021)\r\n\u2022 Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) (2017) Bestandsanalyse der Lades\u00e4uleninfrastruktur in M-V (https:\/\/www.regierung-mv.de\/Landesregierung\/em\/Infrastruktur\/Elektromobilit%C3%A4t\/Ladeinfrastruktur\/; Zugriff am 31.08.2021).\r\n\u2022 Bundesnetzagentur (2021) Lades\u00e4ulenregister (https:\/\/www.bundesnetzagentur.de\/DE\/Sachgebiete\/ElektrizitaetundGas\/Unternehmen_Institutionen\/E-Mobilitaet\/Ladesaeulenkarte\/start.html; Zugriff am 31.08.2021)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
       "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
       "contactPhon": "0385 588 18305",
-      "actuality": "07/2021",
-      "actualityCircle": "halbjährlich",
+      "actuality": "07\/2021",
+      "actualityCircle": "halbj\u00e4hrlich",
       "type": "GeoJSON",
       "geomType": "Point",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "betr",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
       "params": {
         "gast": 7,
         "go": "Daten_Export_Exportieren",
@@ -597,7 +1138,7 @@
       },
       "options": {
         "transparent": true,
-        "attribution": "Frau Balck-Taege (Ministerium für Energie, Infrastruktur und Digitalisierung M-V)"
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
       },
       "classes": [
         {
@@ -683,20 +1224,776 @@
       }
     },
     {
-      "thema": "Mobilität|Verkehr",
-      "label": "Straßennetz: Europastraßen",
-      "abstract": "Straßennetz von Mecklenburg-Vorpommern: Europastraßen, Bundesautobahnen, Bundesstraßen, Landesstraßen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt für Straßenbau und Verkehr bereit gestellt.",
-      "contactOrganisation": "• Landesamt für Straßenbau und Verkehr Mecklenburg-Vorpommern (2021) (https://www.strassen-mv.de/).",
-      "contactPersonName": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung",
+      "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
+      "label": "Ladestationen 2020",
+      "abstract": "Kartografische Darstellung von \u00f6ffentlich zug\u00e4nglichen Standorten mit Schnell- und Normalladepunkten in Mecklenburg-Vorpommern. Die Daten ergeben sich aus einer in 2017 durchgef\u00fchrten  Bestandsanalyse der Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) und den aktuelleren Daten des Lades\u00e4ulenregisters der Bundesnetzagentur.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2021)\r\n\u2022 Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) (2017) Bestandsanalyse der Lades\u00e4uleninfrastruktur in M-V (https:\/\/www.regierung-mv.de\/Landesregierung\/em\/Infrastruktur\/Elektromobilit%C3%A4t\/Ladeinfrastruktur\/; Zugriff am 31.08.2021).\r\n\u2022 Bundesnetzagentur (2020) Lades\u00e4ulenregister (https:\/\/www.bundesnetzagentur.de\/DE\/Sachgebiete\/ElektrizitaetundGas\/Unternehmen_Institutionen\/E-Mobilitaet\/Ladesaeulenkarte\/start.html)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "2020",
+      "actualityCircle": "halbj\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 65,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([art_laden] = 'Schnellladeeinrichtung')",
+          "name": "Schnellladeeinrichtung",
+          "style": {
+            "symbolname": "circle",
+            "size": "8",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(13 223 0)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([art_laden] = 'Normalladeeinrichtung')",
+          "name": "Normalladeeinrichtung",
+          "style": {
+            "symbolname": "circle",
+            "size": "8",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 184 159)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "ID",
+        "betr": "Betreiber",
+        "adr": "Adressse",
+        "plz_ort": "PLZ Ort",
+        "bl": "Bl",
+        "inbetr": "Inbetriebnahme",
+        "an_leist": "Leistung",
+        "art_laden": "Art Laden",
+        "ladepunkte": "Ladepunkte",
+        "stecktyp": "Stecktyp",
+        "p1_kw": "P1 Kw",
+        "pk1": "Pk1",
+        "p1_typ": "P1 Typ",
+        "p2_kw": "P2 Kw",
+        "pk2": "Pk2",
+        "p2_typ": "P2 Typ",
+        "p3_kw": "P3 Kw",
+        "pk3": "Pk3",
+        "the_geom": "Geometrie",
+        "p3_typ": "P3 Typ",
+        "p4_kw": "P4 Kw",
+        "pk4": "Pk4",
+        "p5_typ": "P5 Typ",
+        "p5_kw": "P5 Kw",
+        "p6_typ": "P6 Typ",
+        "p6_kw": "P6 Kw",
+        "anz_s_lp": "Anz S Lp",
+        "anz_lp_eff": "Anz Lp Eff",
+        "zug": "Zug",
+        "adresse": "Adresse",
+        "emp_prov": "Emp Prov",
+        "freischalt": "Freischalt",
+        "online_sta": "Online Sta",
+        "anz_parkpl": "Anz Parkpl",
+        "zugangs_t": "Zugangs T",
+        "kosten": "Kosten",
+        "service": "Service",
+        "freischa_s": "Freischa S",
+        "reparatur": "Reparatur",
+        "e_bike": "E Bike",
+        "ladefach": "Ladefach",
+        "p_region": "P Region",
+        "lsv_konfor": "Lsv Konfor"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
+      "label": "Ladestationen 2019",
+      "abstract": "Kartographische Darstellung von \u00f6ffentlich zug\u00e4nglichen Standorten mit Schnell- und Normalladepunkten in Mecklenburg-Vorpommern (Stand 2019). Die Daten ergeben sich aus einer in 2017 durchgef\u00fchrten  Bestandsanalyse der Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) und den aktuelleren Daten des Lades\u00e4ulenregisters der Bundesnetzagentur.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung MV (2020)\r\n\u2022 Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) (2017) Bestandsanalyse der Lades\u00e4uleninfrastruktur in M-V (https:\/\/www.regierung-mv.de\/Landesregierung\/em\/Infrastruktur\/Elektromobilit%C3%A4t\/Ladeinfrastruktur\/; Zugriff am 31.08.2021).\r\n\u2022 Bundesnetzagentur (2020) Lades\u00e4ulenregister (https:\/\/www.bundesnetzagentur.de\/DE\/Sachgebiete\/ElektrizitaetundGas\/Unternehmen_Institutionen\/E-Mobilitaet\/Ladesaeulenkarte\/start.html)",
+      "contactPersonName": "Energieministerium M-V",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "2019",
+      "actualityCircle": "halbj\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 64,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Energieministerium M-V"
+      },
+      "classes": [
+        {
+          "def": "([art_laden] = 'Schnellladeeinrichtung')",
+          "name": " Schnellladeeinrichtung",
+          "style": {
+            "symbolname": "circle",
+            "size": "8",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(13 223 0)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([art_laden] = 'Normalladeeinrichtung')",
+          "name": "Normalladeeinrichtung",
+          "style": {
+            "symbolname": "circle",
+            "size": "8",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 184 159)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "gid",
+        "the_geom": "the_geom",
+        "betr": "betr",
+        "adr": "adr",
+        "plz_ort": "plz_ort",
+        "bl": "bl",
+        "hw": "hw",
+        "rw": "rw",
+        "inbetr": "inbetr",
+        "an_leist": "an_leist",
+        "art_laden": "art_laden",
+        "ladepunkte": "ladepunkte",
+        "stecktyp": "stecktyp",
+        "p1_kw": "p1_kw",
+        "pk1": "pk1",
+        "p1_typ": "p1_typ",
+        "p2_kw": "p2_kw",
+        "pk2": "pk2",
+        "p2_typ": "p2_typ",
+        "p3_kw": "p3_kw",
+        "pk3": "pk3",
+        "p3_typ": "p3_typ",
+        "p4_kw": "p4_kw",
+        "pk4": "pk4",
+        "p5_typ": "p5_typ",
+        "p5_kw": "p5_kw",
+        "p6_typ": "p6_typ",
+        "p6_kw": "p6_kw",
+        "anz_s_lp": "anz_s_lp",
+        "anz_lp_eff": "anz_lp_eff",
+        "zug": "zug",
+        "adresse": "adresse",
+        "emp_prov": "emp_prov",
+        "freischalt": "freischalt",
+        "online_sta": "online_sta",
+        "anz_parkpl": "anz_parkpl",
+        "zugangs_t": "zugangs_t",
+        "kosten": "kosten",
+        "service": "service",
+        "freischa_s": "freischa_s",
+        "reparatur": "reparatur",
+        "e_bike": "e_bike",
+        "ladefach": "ladefach",
+        "p_region": "p_region",
+        "lsv_konfor": "lsv_konfor"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
+      "label": "Ladestationen OpenChargeMap",
+      "abstract": "Ladestationen der Plattform OpenChargeMap",
+      "contactOrganisation": "https:\/\/openchargemap.org\/site\/about",
+      "contactPersonName": "https:\/\/community.openchargemap.org\/",
+      "contactEMail": null,
+      "contactPhon": null,
+      "actuality": null,
+      "actualityCircle": "t\u00e4glich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "label",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 217,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "https:\/\/community.openchargemap.org\/"
+      },
+      "classes": [
+        {
+          "def": "([connections_level_isfastchargecapable] = 'normal')",
+          "name": "nur Normalladepunkte",
+          "style": {
+            "symbolname": "circle",
+            "size": "10",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(0 178 132)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([connections_level_isfastchargecapable] = 'schnell')",
+          "name": "mit Schnellladepunkt",
+          "style": {
+            "symbolname": "circle",
+            "size": "10",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(254 255 25)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "dataprovider_title": "Datenanbieter",
+        "dataprovider_datelastimported": "letzte Aktualisierung",
+        "operatorinfo_title": "Info",
+        "operatorinfo_comments": "Kommentare",
+        "plz": "PLZ",
+        "ort": "Ort",
+        "addressinfo_address": "Addresse",
+        "addressinfo_zusatz": "Addresszusatz",
+        "addressinfo_accesscomments": "Zugansinformationen",
+        "connections_connectiontypes": "Verbindungstypen",
+        "connections_level_comments": "Kommentare zum Anschluss",
+        "connections_level_isfastchargecapable": "mit Schnellladeinrichtung",
+        "connections_amps": "Amper",
+        "connections_volts": "Volt",
+        "connections_kws": "KW",
+        "numberofpoints": "Anzahl der Anschl\u00fcsse",
+        "generalcomments": "Zusatzinfos",
+        "downloadlink": "Download",
+        "geom": "Geom"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
+      "label": "Bundesf\u00f6rdersummen je Landkreis (Gesamt)",
+      "abstract": "Dargestellt sind F\u00f6rdersummen des Bundes in den Landkreisen von M-V  f\u00fcr Schnell-und Normal-Ladepunkte aus den Daten der NOW GmbH, - Nationale Organisation Wasserstoff- und Brennstoffzellentechnologie. Die bewilligten F\u00f6rdersummen entsprechen dem Stand vom 19.10.2019. Die F\u00f6rdermittel k\u00f6nnen sich durch Widerrufe seitens der Zuwendungsempf\u00e4nger*Innen oder der Bewilligungsbeh\u00f6rde auch nachtr\u00e4glich \u00e4ndern oder entfallen. Die F\u00f6rdersummen entsprechen der zum Zeitpunkt der Bewilligung die Summe der maximal m\u00f6glichen Zuwendungsbetr\u00e4ge. Die Auszahlung und finale Festsetzung der F\u00f6rdermittel erfolgt in der Regel erst nach Abschluss des Verwendungsnachweises.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2019).\r\n\u2022 NOW GmbH (Nationale Organisation Wasserstoff- und Brennstoffzellentechnologie GmbH) (2019)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "19.10.2019",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "label",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 125,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([sum] <= 500000)",
+          "name": "bis 500.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 210 210)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([sum] > 1000000)",
+          "name": "> 1 Mio",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 0 0)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([sum] > 500000 AND [sum] <= 1000000)",
+          "name": "\u00fcber 500.000 bis 1 Mio",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 175 175)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "name": "Name",
+        "sum": "F\u00f6rdersumme",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
+      "label": "Bundesf\u00f6rdersummen je Landkreis (Schnellladung)",
+      "abstract": "Dargestellt sind F\u00f6rdersummen des Bundes in den Landkreisen von M-V f\u00fcr Schnell-Ladepunkte aus den Daten der NOW GmbH, - Nationale Organisation Wasserstoff- und Brennstoffzellentechnologie. Die bewilligten F\u00f6rdersummen entsprechen dem Stand vom 19.10.2019. Die F\u00f6rdermittel k\u00f6nnen sich durch Widerrufe seitens der Zuwendungsempf\u00e4nger*Innen oder der Bewilligungsbeh\u00f6rde auch nachtr\u00e4glich \u00e4ndern oder entfallen. Die F\u00f6rdersummen entsprechen der zum Zeitpunkt der Bewilligung die Summe der maximal m\u00f6glichen Zuwendungsbetr\u00e4ge. Die Auszahlung und finale Festsetzung der F\u00f6rdermittel erfolgt in der Regel erst nach Abschluss des Verwendungsnachweises.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2019).\r\n\u2022 NOW GmbH (Nationale Organisation Wasserstoff- und Brennstoffzellentechnologie GmbH) (2019)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "19.10.2019",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "label",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 129,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([sum] <= 250000)",
+          "name": "bis 250.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(210 210 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([sum] > 250000 AND [sum] <= 500000)",
+          "name": "\u00fcber 250.000 bis 500.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(175 175 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([sum] > 500000)",
+          "name": "> 500.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(0 0 255)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "id",
+        "name": "name",
+        "geom": "geom",
+        "art_ladung": "art_ladung",
+        "sum": "sum"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Ladeinfrastruktur",
+      "label": "Bundesf\u00f6rdersummen je Landkreis (Normalladung)",
+      "abstract": "Dargestellt sind F\u00f6rdersummen des Bundes in den Landkreisen von M-V  f\u00fcr Normal-Ladepunkte aus den Daten der NOW GmbH, - Nationale Organisation Wasserstoff- und Brennstoffzellentechnologie. Die bewilligten F\u00f6rdersummen entsprechen dem Stand vom 19.10.2019. Die F\u00f6rdermittel k\u00f6nnen sich durch Widerrufe seitens der Zuwendungsempf\u00e4nger*Innen oder der Bewilligungsbeh\u00f6rde auch nachtr\u00e4glich \u00e4ndern oder entfallen. Die F\u00f6rdersummen entsprechen der zum Zeitpunkt der Bewilligung die Summe der maximal m\u00f6glichen Zuwendungsbetr\u00e4ge. Die Auszahlung und finale Festsetzung der F\u00f6rdermittel erfolgt in der Regel erst nach Abschluss des Verwendungsnachweises.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2019).\r\n\u2022 NOW GmbH (Nationale Organisation Wasserstoff- und Brennstoffzellentechnologie GmbH) (2019)",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "19.10.2019",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "label",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 128,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([sum] <= 250000)",
+          "name": "bis 250.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(210 255 210)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([sum] > 250000 AND [sum] <= 500000)",
+          "name": "\u00fcber 250.000 bis 500.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(175 255 175)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([sum] > 500000)",
+          "name": "> 500.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(0 255 0)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "id",
+        "name": "name",
+        "geom": "geom",
+        "art_ladung": "art_ladung",
+        "sum": "sum"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Tankstellen",
+      "label": "Biogastankstellen ",
+      "abstract": "Bio-Erdgas-Tankstellen (Tankstellen, an denen Biomethan angeboten wird) in  Mecklenburg-Vorpommern.",
+      "contactOrganisation": "BDEW (2021) Interaktive Karte \u201eGas kann gr\u00fcn\u201c | BDEW (https:\/\/www.bdew.de\/energie\/erdgas\/interaktive-karte-gas-kann-gruen\/; Zugriff am 30.11.2021).",
+      "contactPersonName": "Fr. Momberg (BDEW Bundesverband der Energie- und Wasserwirtschaft e.V.)",
+      "contactEMail": "madlen.momberg@bdew.de",
+      "contactPhon": "030 \/ 300 199 1252",
+      "actuality": "11\/2021",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "id",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 176,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Fr. Momberg (BDEW Bundesverband der Energie- und Wasserwirtschaft e.V.)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Mobilitaet\/Tankstellen\/EA-Icons_Tankstellen-Bio-Erdgas.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "name": "Name",
+        "adresse": "Adresse",
+        "plz": "Plz",
+        "ort": "Ort",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Tankstellen",
+      "label": "Wasserstofftankstellen",
+      "abstract": "Kartografische Darstellung der Standorte von Tankstellen f\u00fcr Wasserstoff in Mecklenburg-Vorpommern aus Daten des Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V und der Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV).",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).\r\n\u2022 Landesenergie- und Klimaschutzagentur Mecklenburg-Vorpommern GmbH (LEKA MV) (2017) Bestandsanalyse der Lades\u00e4uleninfrastruktur in M-V (https:\/\/www.regierung-mv.de\/Landesregierung\/em\/Infrastruktur\/Elektromobilit%C3%A4t\/Ladeinfrastruktur\/; Zugriff am 31.08.2021).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "06\/2020",
+      "actualityCircle": "halbj\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 60,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Mobilitaet\/Tankstellen\/EA-Icons_Wasserstofftankstellen-Standorte.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "Gid",
+        "fid_": "Fid ",
+        "nr": "Nr",
+        "betreiber": "Betreiber",
+        "strasse": "Strasse",
+        "hausnr": "Hausnr",
+        "plz": "Plz",
+        "ort": "Ort",
+        "lon": "Lon",
+        "lat": "Lat",
+        "datum": "Datum",
+        "an_p_bar": "An P Bar",
+        "lade_art": "Lade Art",
+        "anz_lp_eff": "Anz Lp Eff",
+        "lp1_typ": "Lp1 Typ",
+        "lp1_p1_bar": "Lp1 P1 Bar",
+        "lp2_typ": "Lp2 Typ",
+        "lp2_p2_bar": "Lp2 P2 Bar",
+        "lp3_typ": "Lp3 Typ",
+        "lp3_p3_bar": "Lp3 P3 Bar",
+        "lp4_typ": "Lp4 Typ",
+        "lp4_p4_bar": "Lp4 P4 Bar",
+        "lp5_typ": "Lp5 Typ",
+        "lp5_p5_bar": "Lp5 P5 Bar",
+        "lp6_typ": "Lp6 Typ",
+        "lp6_p6_bar": "Lp6 P6 Bar",
+        "anz_lp": "Anz Lp",
+        "anz_s_lp": "Anz S Lp",
+        "zugang": "Zugang",
+        "adresse": "Adresse",
+        "emp_prov": "Emp Prov",
+        "freischalt": "Freischalt",
+        "online_sta": "Online Sta",
+        "anz_parkpl": "Anz Parkpl",
+        "zugangs_t": "Zugangs T",
+        "kosten": "Kosten",
+        "serv_ort": "Serv Ort",
+        "service": "Service",
+        "reparatur": "Reparatur",
+        "jahr": "Jahr",
+        "the_geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Verkehr",
+      "label": "Eisenbahnnetz",
+      "abstract": "Eisenbahnnetz Mecklenburg-Vorpommern. Die Daten stammen aus den Regionalen Raumentwicklungsprogrammen (RREP) der Regionalen Planungsverb\u00e4nde.",
+      "contactOrganisation": "\u2022 Regionaler Planungsverband Mecklenburgische Seenplatte\r\n\u2022 Regionaler Planungsverband Region Rostock\r\n\u2022 Regionaler Planungsverband Westmecklenburg\r\n\u2022 Regionaler Planungsverband Vorpommern",
+      "contactPersonName": "Frau Tauber (Landesamt f\u00fcr Umwelt, Naturschutz und Geologie M-V (LUNG))",
+      "contactEMail": "inka.tauber@lung.mv-regierung.de",
+      "contactPhon": "03843 777121",
+      "actuality": "2016-2020",
+      "actualityCircle": "bei gesetzlichen \u00c4nderungen",
+      "type": "GeoJSON",
+      "geomType": "Linestring",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 172,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Tauber (Landesamt f\u00fcr Umwelt, Naturschutz und Geologie M-V (LUNG))"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": "",
+          "style": {
+            "weight": "5",
+            "color": "rgb(0 0 0)"
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "gid",
+        "name": "Name",
+        "layer": "Layer",
+        "quelle": "Quelle",
+        "festlegung": "Festlegung",
+        "typ": "Typ",
+        "the_geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Verkehr",
+      "label": "Stra\u00dfennetz: Europastra\u00dfen",
+      "abstract": "Stra\u00dfennetz von Mecklenburg-Vorpommern: Europastra\u00dfen, Bundesautobahnen, Bundesstra\u00dfen, Landesstra\u00dfen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt f\u00fcr Stra\u00dfenbau und Verkehr bereit gestellt.",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr Stra\u00dfenbau und Verkehr Mecklenburg-Vorpommern (2021) (https:\/\/www.strassen-mv.de\/).",
+      "contactPersonName": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Vermessung und Datenverarbeitung",
       "contactEMail": "lsmv@sbv.mv-regierung.de",
       "contactPhon": "+49 381 12237",
-      "actuality": "11/2021",
+      "actuality": "11\/2021",
       "actualityCircle": "bei Bedarf",
       "type": "GeoJSON",
       "geomType": "Linestring",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
       "params": {
         "gast": 7,
         "go": "Daten_Export_Exportieren",
@@ -710,7 +2007,7 @@
       },
       "options": {
         "transparent": true,
-        "attribution": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung"
+        "attribution": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Vermessung und Datenverarbeitung"
       },
       "classes": [
         {
@@ -731,20 +2028,20 @@
       }
     },
     {
-      "thema": "Mobilität|Verkehr",
-      "label": "Straßennetz: Bundesautobahnen",
-      "abstract": "Straßennetz von Mecklenburg-Vorpommern: Europastraßen, Bundesautobahnen, Bundesstraßen, Landesstraßen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt für Straßenbau und Verkehr bereit gestellt.",
-      "contactOrganisation": "• Landesamt für Straßenbau und Verkehr Mecklenburg-Vorpommern (2021) (https://www.strassen-mv.de/).",
-      "contactPersonName": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung",
+      "thema": "Mobilit\u00e4t|Verkehr",
+      "label": "Stra\u00dfennetz: Bundesautobahnen",
+      "abstract": "Stra\u00dfennetz von Mecklenburg-Vorpommern: Europastra\u00dfen, Bundesautobahnen, Bundesstra\u00dfen, Landesstra\u00dfen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt f\u00fcr Stra\u00dfenbau und Verkehr bereit gestellt.",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr Stra\u00dfenbau und Verkehr Mecklenburg-Vorpommern (2021) (https:\/\/www.strassen-mv.de\/).",
+      "contactPersonName": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Vermessung und Datenverarbeitung",
       "contactEMail": "lsmv@sbv.mv-regierung.de",
       "contactPhon": "+49 381 12237",
-      "actuality": "11/2021",
+      "actuality": "11\/2021",
       "actualityCircle": "bei Bedarf",
       "type": "GeoJSON",
       "geomType": "Linestring",
       "backgroundColor": "#c1ffd8",
       "infoAttribute": "",
-      "url": "https://energieatlas-mv.de/fis/index.php",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
       "params": {
         "gast": 7,
         "go": "Daten_Export_Exportieren",
@@ -758,7 +2055,7 @@
       },
       "options": {
         "transparent": true,
-        "attribution": "Landesamt für Straßenbau und Verkehr, Dez. Vermessung und Datenverarbeitung"
+        "attribution": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Vermessung und Datenverarbeitung"
       },
       "classes": [
         {
@@ -784,6 +2081,3112 @@
         "ast": "ast",
         "europastrasse": "europastrasse"
       }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Verkehr",
+      "label": "Stra\u00dfennetz: Bundesstra\u00dfen",
+      "abstract": "Stra\u00dfennetz von Mecklenburg-Vorpommern: Europastra\u00dfen, Bundesautobahnen, Bundesstra\u00dfen, Landesstra\u00dfen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt f\u00fcr Stra\u00dfenbau und Verkehr bereit gestellt.",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr Stra\u00dfenbau und Verkehr Mecklenburg-Vorpommern (2021) (https:\/\/www.strassen-mv.de\/).",
+      "contactPersonName": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr. Dez. Vermessung und Datenverarbeitung",
+      "contactEMail": "lsmv@sbv.mv-regierung.de",
+      "contactPhon": "+49 381 12237",
+      "actuality": "11\/2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Linestring",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 165,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr. Dez. Vermessung und Datenverarbeitung"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "weight": "3",
+            "color": "rgb(255 134 109)"
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "geometry": "geometry",
+        "abs": "abs",
+        "strassenart": "strassenart",
+        "strassennummer": "strassennummer",
+        "strasse": "strasse",
+        "strassenname": "strassenname",
+        "abschnitts_astnummer": "abschnitts_astnummer",
+        "abschnittslaenge": "abschnittslaenge",
+        "laengenherkunft": "laengenherkunft",
+        "ast": "ast",
+        "europastrasse": "europastrasse"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Verkehr",
+      "label": "Stra\u00dfennetz: Landesstra\u00dfen",
+      "abstract": "Stra\u00dfennetz von Mecklenburg-Vorpommern: Europastra\u00dfen, Bundesautobahnen, Bundesstra\u00dfen, Landesstra\u00dfen. Die Daten werden mittels eines Geowebdienstes durch das Land Mecklenburg-Vorpommern, Landesamt f\u00fcr Stra\u00dfenbau und Verkehr bereit gestellt.",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr Stra\u00dfenbau und Verkehr Mecklenburg-Vorpommern (2021) (https:\/\/www.strassen-mv.de\/).",
+      "contactPersonName": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Vermessung und Datenverarbeitung",
+      "contactEMail": "lsmv@sbv.mv-regierung.de",
+      "contactPhon": "+49 381 12237",
+      "actuality": "11\/2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Linestring",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 164,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Vermessung und Datenverarbeitung"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "weight": "1",
+            "color": "rgb(255 210 95)"
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "geometry": "geometry",
+        "abs": "abs",
+        "strassenart": "strassenart",
+        "strassennummer": "strassennummer",
+        "strasse": "strasse",
+        "strassenname": "strassenname",
+        "abschnitts_astnummer": "abschnitts_astnummer",
+        "abschnittslaenge": "abschnittslaenge",
+        "laengenherkunft": "laengenherkunft",
+        "ast": "ast",
+        "europastrasse": "europastrasse"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Verkehr",
+      "label": "zugelassene KFZ 2020",
+      "abstract": "Diese Karte zeigt die Anzahl der Kraftfahrzeuge nach Zulassungsbezirken in M-V an. Die Zulassungsbezirke entsprechen den Grenzen der Kreise und kreisfreien St\u00e4dte.",
+      "contactOrganisation": "\u2022 Kraftfahrtbundesamt (2021) Bestand nach Zulassungsbezirken und Gemeinden (https:\/\/www.kba.de\/DE\/Statistik\/Fahrzeuge\/Bestand\/ZulassungsbezirkeGemeinden\/b_zulassungsbezirke_inhalt.html?nn=2601598; Zugriff am 22.02.2021).\r\n\u2022 Landesamt f\u00fcr innere Verwaltung M-V (LAiV) (2020) Digitale Verwaltungsgrenzen.",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "20.01.2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "abk",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 175,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([pro_1t] >= 400 AND [pro_1t] < 500)",
+          "name": "400 bis 500",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(251 215 215)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([pro_1t] >= 500 AND [pro_1t] < 600)",
+          "name": "500 bis 600",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(253 141 141)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([pro_1t] >= 600 AND [pro_1t] < 700)",
+          "name": "600 bis 700",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(252 85 85)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([pro_1t] >= 700)",
+          "name": "\u00fcber 700",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(197 2 2)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "kreis_id": "Kreis ID",
+        "gesamt": "KFZ Gesamt",
+        "pro_1t": "KFZ pro 1000 EW",
+        "population": "Einwohner",
+        "name": "Kreis Name",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Mobilit\u00e4t|Verkehr",
+      "label": "Verkehrsmengen",
+      "abstract": "Darstellung von Verkehrsmengen auf Autobahnen, Bundes- und Landesstra\u00dfen in Mecklenburg-Vorpommern auf der Grundlage der Stra\u00dfenverkehrsz\u00e4hlungen. Es handelt sich um durchschnittliche t\u00e4gliche Verkehrsst\u00e4rken im Jahresmittel f\u00fcr den Gesamt- und f\u00fcr den Schwerverkehr. Die Verkehrsmengen werden sowohl farblich als auch hinsichtlich der Breite mit Puffern entlang der Stra\u00dfen kartographisch dargestellt.",
+      "contactOrganisation": "\u2022 Landesamt f\u00fcr Stra\u00dfenbau und Verkehr (2021) GDI-MV (Verkehrsmengen) (URL: https:\/\/www.geoportal-mv.de\/portal\/Geowebdienste\/Beschreibung?curid=2021afd4-b037-4b1a-af66-de4524546e1c; Webmap-Service [WMS]: http:\/\/www.geodaten-mv.de\/dienste\/verkehrsmengen_lsbv_wms?).",
+      "contactPersonName": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Dezernat Stra\u00dfenbetrieb und Stra\u00dfenverkehrstechnik",
+      "contactEMail": "lsmv@sbv.mv-regierung.de",
+      "contactPhon": "+49381 12237",
+      "actuality": "2015",
+      "actualityCircle": "nicht bekannt",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "http:\/\/www.geodaten-mv.de\/dienste\/verkehrsmengen_lsbv_wms",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "verkehrsmengen_lsbv_wms",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Landesamt f\u00fcr Stra\u00dfenbau und Verkehr, Dez. Dezernat Stra\u00dfenbetrieb und Stra\u00dfenverkehrstechnik",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "minScale": 131000
+    },
+    {
+      "thema": "Netze und Versorgung|Strom",
+      "label": "Freileitungen ab 110 kV",
+      "abstract": "Stromnetz ab 110kv in MV",
+      "contactOrganisation": "OSM",
+      "contactPersonName": null,
+      "contactEMail": null,
+      "contactPhon": null,
+      "actuality": null,
+      "actualityCircle": null,
+      "type": "GeoJSON",
+      "geomType": "Linestring",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "label",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 191,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": null
+      },
+      "classes": [
+        {
+          "def": "([voltage] = 220000)",
+          "name": "220 kV",
+          "style": {
+            "weight": "2",
+            "color": "rgb(221 31 0)"
+          }
+        },
+        {
+          "def": "([voltage] >= 400000)",
+          "name": "HG\u00dc >= 400 kV",
+          "style": {
+            "weight": "4",
+            "color": "rgb(232 229 0)"
+          }
+        },
+        {
+          "def": "([voltage] = 380000)",
+          "name": "380 kV",
+          "style": {
+            "weight": "3",
+            "color": "rgb(219 135 0)"
+          }
+        },
+        {
+          "def": "([voltage] >= 110000 AND [voltage] < 220000)",
+          "name": ">= 110 kV",
+          "style": {
+            "weight": "1",
+            "color": "rgb(189 0 96)"
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "id",
+        "geom": "geom",
+        "full_id": "full_id",
+        "osm_id": "osm_id",
+        "osm_type": "osm_type",
+        "cables": "cables",
+        "frequency": "frequency",
+        "name": "name",
+        "operator": "operator",
+        "power": "power",
+        "ref": "ref",
+        "voltage": "voltage",
+        "wires": "wires",
+        "access": "access",
+        "barrier": "barrier",
+        "location": "location",
+        "name_abbre": "name_abbre",
+        "substation": "substation",
+        "circuits": "circuits",
+        "official_n": "official_n",
+        "railway_re": "railway_re",
+        "management": "management",
+        "layer": "layer",
+        "line": "line",
+        "wikidata": "wikidata",
+        "addr_city": "addr_city",
+        "addr_count": "addr_count",
+        "addr_house": "addr_house",
+        "addr_stree": "addr_stree",
+        "descriptio": "descriptio",
+        "maxheight_": "maxheight_",
+        "type": "type",
+        "descript_1": "descript_1",
+        "disused": "disused",
+        "generator_": "generator_",
+        "generato_1": "generato_1",
+        "generato_2": "generato_2",
+        "addr_postc": "addr_postc",
+        "plant_meth": "plant_meth",
+        "plant_outp": "plant_outp",
+        "plant_sour": "plant_sour",
+        "addr_subur": "addr_subur",
+        "name_en": "name_en",
+        "generato_3": "generato_3",
+        "int_name": "int_name",
+        "abandoned": "abandoned",
+        "start_date": "start_date",
+        "generato_4": "generato_4",
+        "compensato": "compensato",
+        "designatio": "designatio",
+        "plant_ou_1": "plant_ou_1",
+        "line_type": "line_type",
+        "seamark_ca": "seamark_ca",
+        "seamark_na": "seamark_na",
+        "seamark_ty": "seamark_ty",
+        "fence_type": "fence_type",
+        "seamark__1": "seamark__1",
+        "generato_5": "generato_5",
+        "man_made": "man_made",
+        "wikipedia": "wikipedia",
+        "fre": "fre",
+        "check_date": "check_date",
+        "est_name": "est_name",
+        "fenced": "fenced",
+        "constructi": "constructi",
+        "contact_we": "contact_we",
+        "source_con": "source_con",
+        "source2": "source2",
+        "website": "website",
+        "plant_type": "plant_type",
+        "generato_6": "generato_6",
+        "survey_dat": "survey_dat",
+        "short_name": "short_name",
+        "historic_p": "historic_p",
+        "mapillary": "mapillary",
+        "plant_ou_2": "plant_ou_2",
+        "street_cab": "street_cab",
+        "roof_colou": "roof_colou",
+        "roof_shape": "roof_shape",
+        "building_p": "building_p",
+        "height": "height",
+        "phone": "phone",
+        "cutline": "cutline",
+        "transforme": "transforme",
+        "image": "image",
+        "width": "width",
+        "removed_po": "removed_po",
+        "generato_7": "generato_7",
+        "devices": "devices",
+        "fence": "fence",
+        "phases": "phases",
+        "note_de": "note_de",
+        "ref_city": "ref_city",
+        "ref_street": "ref_street"
+      }
+    },
+    {
+      "thema": "Netze und Versorgung|Strom",
+      "label": "Stromnetzbetreiber",
+      "abstract": "Kartografische Darstellung der Versorgungsgebiete der verschiedenen Stromnetzbetreiber in M-V. Die Daten entstammen Recherchen des Ministeriums f\u00fcr Energie, Infrastruktur und Digitalisierung M-V.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2020).\r\n\u2022 Webseiten der Stromnetzbetreiber in M-V.",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "12.11.2020",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "netzbetreiber",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 177,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([class] = 'WEMAG Netz GmbH')",
+          "name": "WEMAG Netz GmbH",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(128 128 128)",
+            "fill": true,
+            "fillColor": "rgb(0 168 131)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([class] = 'E.DIS Netz GmbH')",
+          "name": "E.DIS Netz GmbH",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(128 128 128)",
+            "fill": true,
+            "fillColor": "rgb(0 196 254)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([class] = 'andere')",
+          "name": "andere",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(128 128 128)",
+            "fill": true,
+            "fillColor": "rgb(169 102 205)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "objectid": "Objectid",
+        "netzbetreiber": "Netzbetreiber",
+        "class": "Netzbetreiberklasse",
+        "name": "Gemeinde Name",
+        "name_lang": "Gemeindename lang",
+        "schluessel": "Gemeinde Schluessel",
+        "schluessel_2": "Gemeindeschluessel 2",
+        "kennung": "Gemeindekennung",
+        "zugehoerig": "Zugehoerigkeit",
+        "aufnahme": "Datum Aufnahme",
+        "aufhebung": "Datum Aufhebung",
+        "vr_region": "VR-Region",
+        "erledigt": "erledigt",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Netze und Versorgung|Strom",
+      "label": "Stromspeicheranlagen",
+      "abstract": "Kartografische Darstellung von Stromspeicheranlagen in Mecklenburg-Vorpommern, welche bei der Bundesnetzagentur im Marktstammdatenregister registriert und mit Standortdaten ver\u00f6ffentlicht sind.",
+      "contactOrganisation": "\u2022 Bundesnetzagentur (2021) Marktstammdatenregister (MaStR), Erweiterte Einheiten\u00fcbersicht (https:\/\/www.marktstammdatenregister.de\/MaStR\/Einheit\/Einheiten\/ErweiterteOeffentlicheEinheitenuebersicht).",
+      "contactPersonName": "Bundesnetzagentur f\u00fcr Elektrizit\u00e4t, Gas, Telekommunikation, Post und Eisenbahnen",
+      "contactEMail": "Kontaktformular auf https:\/\/www.marktstammdatenregister.de\/MaStR\/Startseite\/Kontakt",
+      "contactPhon": "0228 14-3333",
+      "actuality": "02\/2021",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "label",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 96,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Bundesnetzagentur f\u00fcr Elektrizit\u00e4t, Gas, Telekommunikation, Post und Eisenbahnen"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Netze-und-Versorgung\/Strom\/EA-Icons_Stromspeicheranlagen.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "mastr_nr": "Mastr Nr",
+        "anzeige_name": "Anzeige Name",
+        "betriebs_status": "Betriebs Status",
+        "energietraeger": "Energietraeger",
+        "bruttoleistung": "Bruttoleistung",
+        "nettonennleistung": "Nettonennleistung",
+        "inbetriebnahmedatum": "Inbetriebnahmedatum",
+        "meldedatum": "Meldedatum",
+        "bundesland": "Bundesland",
+        "postleitzahl": "Postleitzahl",
+        "ort": "Ort",
+        "strasse": "Strasse",
+        "hausnummer": "Hausnummer",
+        "gemarkung": "Gemarkung",
+        "flurstueck": "Flurstueck",
+        "gemeindeschluessel": "Gemeindeschluessel",
+        "anzahl_solar_module": "Anzahl Solar Module",
+        "hauptausrichtung_solar_module": "Hauptausrichtung Solar Module",
+        "nabenhoehe_windenergieanlage": "Nabenhoehe Windenergieanlage",
+        "rotordurchmesser_windenergieanlage": "Rotordurchmesser Windenergieanlage",
+        "hersteller_windenergieanlage": "Hersteller Windenergieanlage",
+        "typenbezeichnung": "Typenbezeichnung",
+        "hauptbrennstoff": "Hauptbrennstoff",
+        "nutzbare_speicherkapazitaet_kwh": "Nutzbare Speicherkapazitaet Kwh",
+        "technologie_stromerzeugung": "Technologie Stromerzeugung",
+        "lage_einheit": "Lage Einheit",
+        "letzte_aktualisierung": "Letzte Aktualisierung",
+        "datum_endgueltigen_stilllegung": "Datum Endgueltigen Stilllegung",
+        "datum_geplanten_inbetriebnahme": "Datum Geplanten Inbetriebnahme",
+        "name_anlagenbetreiber": "Name Anlagenbetreiber",
+        "mastr_nr_anlagenbetreiber": "Mastr Nr Anlagenbetreiber",
+        "volleinspeisung_oder_teileinspeisung": "Volleinspeisung Oder Teileinspeisung",
+        "mastr_nr_genehmigung": "Mastr Nr Genehmigung",
+        "name_anschluss_netzbetreiber": "Name Anschluss Netzbetreiber",
+        "mastr_nr_anschluss_netzbetreiber": "Mastr Nr Anschluss Netzbetreiber",
+        "netzbetreiberpruefung": "Netzbetreiberpruefung",
+        "spannungsebene": "Spannungsebene",
+        "mastr_nr_lokation": "Mastr Nr Lokation",
+        "mastr_nr_eeg_anlage": "Mastr Nr Eeg Anlage",
+        "eeg_anlagenschluessel": "Eeg Anlagenschluessel",
+        "inbetriebnahmedatum_eeg_anlage": "Inbetriebnahmedatum Eeg Anlage",
+        "zuschlagnummer_eeg_kwk_ausschreibung": "Zuschlagnummer Eeg Kwk Ausschreibung",
+        "mastr_nr_kwk_anlage": "Mastr Nr Kwk Anlage",
+        "inbetriebnahmedatum_kwk_anlage": "Inbetriebnahmedatum Kwk Anlage",
+        "elektrische_kwk_leistung": "Elektrische Kwk Leistung",
+        "thermische_nutzleistung_kw": "Thermische Nutzleistung Kw",
+        "mastr_nr_zugeordneten_migrationseinheit": "Mastr Nr Zugeordneten Migrationseinheit",
+        "geom": "Geom"
+      }
+    },
+    {
+      "thema": "Netze und Versorgung|Strom",
+      "label": "Umspannwerke ab 110 kV",
+      "abstract": "Kartografische Darstellung von Umspannwerken in Mecklenburg-Vorpommern, welche mit einer Spannung von mindestens 110 kV arbeiten. Die Daten stammen aus dem Amtlichen Topographisch-Kartographischen Informationssystem (ATKIS) mit dem Landesamt f\u00fcr innere Verwaltung M-V (LAiV MV), Amt f\u00fcr Geoinformation, Vermessung und Katasterwesen als ver\u00f6ffentlichende Stelle.",
+      "contactOrganisation": "\u2022 Digitales Landschaftsmodell (Basis-DLM) aus dem Amtlichen Topographisch kartographischen Informationssystem (ATKIS), Ver\u00f6ffentlichende Stelle: Landesamt f\u00fcr innere Verwaltung M-V (LAiV MV), Amt f\u00fcr Geoinformation, Vermessung und Katasterwesen (2021).",
+      "contactPersonName": "Landesamt f\u00fcr innere Verwaltung (LAiV)",
+      "contactEMail": "",
+      "contactPhon": "",
+      "actuality": "09\/2021",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 48,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Landesamt f\u00fcr innere Verwaltung (LAiV)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Netze-und-Versorgung\/Strom\/EA-Icons_Umspannwerke.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "gid",
+        "the_geom": "the_geom",
+        "land": "land",
+        "modellart": "modellart",
+        "objart": "objart",
+        "objart_txt": "objart_txt",
+        "objid": "objid",
+        "hdu_x": "hdu_x",
+        "beginn": "beginn",
+        "ende": "ende",
+        "agt": "agt",
+        "beb": "beb",
+        "bez": "bez",
+        "fgt": "fgt",
+        "fkt": "fkt",
+        "nam": "nam",
+        "peg": "peg",
+        "znm": "znm",
+        "zus": "zus",
+        "orig_fid": "orig_fid"
+      }
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Stand der Projektgebiete",
+      "abstract": "Diese Karte des DVZ Datenverarbeitungszentrum M-V zeigt die gemeindescharfen Projektgebiete im gef\u00f6rderten Breitbandinfrastrukturausbau. Die Farbgebung funktioniert nach dem Ampelprinzip. Wenn ein Gebiet gr\u00fcn erscheint, ist der gef\u00f6rderte Ausbau abgeschlossen. ",
+      "contactOrganisation": "\u2022 DVZ Datenverarbeitungszentrum Mecklenburg-Vorpommern GmbH (2021) Breitbandausbau | Breitbandkompetenzzentrum M-V (https:\/\/www.breitband-mv.de\/breitbandausbau; Zugriff am 12.10.2021).",
+      "contactPersonName": "Frau Heidinger (DVZ Datenverarbeitungszentrum Mecklenburg-Vorpommern GmbH)",
+      "contactEMail": "bkzmv@dvz-mv.de",
+      "contactPhon": "0385 4800 317",
+      "actuality": "monatsaktuell",
+      "actualityCircle": "monatlich",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/www.geodaten-mv.de\/dienste\/bkz_breitbandausbau_wms",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.0",
+        "layers": "projektgebiete_ausbaustand",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Frau Heidinger (DVZ Datenverarbeitungszentrum Mecklenburg-Vorpommern GmbH)",
+        "opacity": 0.8
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "minScale": 50001
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Gemeinden, Breitband Privat, Festnetz \u2265 10 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "47",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "minScale": 69862,
+      "maxScale": 327431
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 10 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "48",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 16 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "54",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 30 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "60",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 50 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "66",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 100 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "72",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 200 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "78",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 400 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "84",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "Netze und Versorgung|Breitband-Internet",
+      "label": "Raster, Breitband Privat, Festnetz \u2265 1000 Mbit\/s",
+      "abstract": "Kartographische Darstellung der Verf\u00fcgbarkeit von Breitband-Internet nach verschiedenen Bandbreiten von >10 Mbit\/s bis zu 1000 Mbit\/s [in %]. Weitere Informationen zu diesem Kartendienst finden Sie auf der Webseite www.breitbandatlas.de.",
+      "contactOrganisation": "\u00a9 Copyright:\r\n  \u2022 Atene KOM GmbH\r\n  \u2022 Bundesministerium f\u00fcr Verkehr und digitale Infrastruktur (BMVI) (2021) Breitbandatlas des Bundes (www.breitbandatlas.de; Zugriff am 12.10.2021).",
+      "contactPersonName": "Atene KOM GmbH",
+      "contactEMail": "breitbandatlos@atenekom.eu",
+      "contactPhon": "030 8632323-0",
+      "actuality": "2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/wms.eks.production.netzda-mig.org\/WMS\/Breitbandatlas",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "90",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Atene KOM GmbH",
+        "opacity": 0.5
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 69861
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Energieverbrauchsklassen f\u00fcr W\u00e4rme 2020 [kWh]",
+      "abstract": "Kartografische Darstellung des durchschnittlichen j\u00e4hrlichen Energieverbrauchs f\u00fcr Heizung und Warmwasser [in kWh pro qm Wohnfl\u00e4che (in Klassen)] in den Gemeinden, basierend auf den Umfragedaten der INFAS 360 GmbH von 2015 bis 2020.",
+      "contactOrganisation": "Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).\r\nAlta4\/INFAS360 (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "18.12.2020",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Chart",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "ags8",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 130,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": "bis 130",
+          "style": {
+            "symbolname": "circle",
+            "size": "casa_ev_qm_kl1",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(100 100 100)",
+            "fill": true,
+            "fillColor": "rgb(162 203 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "",
+          "name": "\u00fcber 130 bis 150",
+          "style": {
+            "symbolname": "circle",
+            "size": "casa_ev_qm_kl2",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(100 100 100)",
+            "fill": true,
+            "fillColor": "rgb(182 247 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "",
+          "name": "\u00fcber 150 bis 165",
+          "style": {
+            "symbolname": "circle",
+            "size": "casa_ev_qm_kl3",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(100 100 100)",
+            "fill": true,
+            "fillColor": "rgb(168 255 188)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "",
+          "name": "\u00fcber 165 bis 180",
+          "style": {
+            "symbolname": "circle",
+            "size": "casa_ev_qm_kl4",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(100 100 100)",
+            "fill": true,
+            "fillColor": "rgb(240 255 175)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "",
+          "name": "\u00fcber 180",
+          "style": {
+            "symbolname": "circle",
+            "size": "casa_ev_qm_kl5",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(100 100 100)",
+            "fill": true,
+            "fillColor": "rgb(255 215 165)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "",
+          "name": "kein Wohngeb\u00e4ude",
+          "style": {
+            "symbolname": "circle",
+            "size": "casa_ev_qm_kl98",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(100 100 100)",
+            "fill": true,
+            "fillColor": "rgb(255 194 186)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "",
+          "name": "keine Angabe",
+          "style": {
+            "symbolname": "circle",
+            "size": "casa_ev_qm_kl99",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(100 100 100)",
+            "fill": true,
+            "fillColor": "rgb(255 154 230)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "ags8": "Gemeindeschl\u00fcssel",
+        "amtlgemeindename": "Gemeindename",
+        "casa_ev_qm_kl1": "Anzahl bis 130",
+        "casa_ev_qm_kl2": "Anzahl \u00fcber 130 bis 150",
+        "casa_ev_qm_kl3": "Anzahl \u00fcber 150 bis 165",
+        "casa_ev_qm_kl4": "Anzahl \u00fcber 165 bis 180",
+        "casa_ev_qm_kl5": "Anzahl \u00fcber 180",
+        "casa_ev_qm_kl98": "Anzahl kein Wohngeb\u00e4ude",
+        "casa_ev_qm_kl99": "Anzahl keine Angabe",
+        "point": "Point"
+      },
+      "processing": {
+        "chart_type": "PIE",
+        "style": {
+          "radius": "40",
+          "fillOpacity": 0.6,
+          "strokeOpacity": 0.2,
+          "strokeWeight": 3
+        }
+      }
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Energieverbrauch f\u00fcr W\u00e4rme 2020 [MWh]",
+      "abstract": "Kartografische Darstellung des Energieverbrauchs f\u00fcr Heizung und Warmwasser [gesamt in MWh 2020] in den Gemeinden, basierend auf den Umfragedaten der INFAS 360 GmbH von 2015 bis 2020.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).\r\n\u2022 Alta4\/INFAS360 (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "18.12.2020",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "ags",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 107,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([summe_mwh] > 5000 AND [summe_mwh] <= 10000)",
+          "name": "> 5.000 bis 10.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(168 255 188)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] <= 1000)",
+          "name": "bis 1.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(162 203 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 1000 AND [summe_mwh] <= 5000)",
+          "name": "> 1.000 bis 5.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(182 247 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 10000 AND [summe_mwh] <= 50000)",
+          "name": "> 10.000 bis 50.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(240 255 175)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 50000 AND [summe_mwh] <= 100000)",
+          "name": "> 50.000 bis 100.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 215 165)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 100000 AND [summe_mwh] <= 200000)",
+          "name": "> 100.000 bis 200.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 194 186)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 200000)",
+          "name": "> 200.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 154 230)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "ags": "Gemeindeschl\u00fcssel",
+        "gemeindename": "Gemeinde",
+        "summe_mwh": "Verbrauch in MWh",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Energieverbrauch f\u00fcr W\u00e4rme 2020 [kWh\/m\u00b2]",
+      "abstract": "Kartografische Darstellung des durchschnittlichen Energieverbrauchs f\u00fcr Heizung und Warmwasser [in W\u00e4rme in kWh 2020] pro Adresse in den Gemeinden, basierend auf den Umfragedaten der INFAS 360 GmbH von 2015 bis 2020.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).\r\n\u2022 Alta4\/INFAS360 (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "18.12.2020",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "ags",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 108,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([kwh_pro_qm] <= 100)",
+          "name": "bis 100",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(162 203 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 100 AND [kwh_pro_qm] <= 120)",
+          "name": "> 100 bis 120",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(182 247 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 120 AND [kwh_pro_qm] <= 140)",
+          "name": ">120 bis 140",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(168 255 188)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 140 AND [kwh_pro_qm] <= 160)",
+          "name": "> 140 bis 160",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(240 255 175)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 160 AND [kwh_pro_qm] <= 180)",
+          "name": "> 160 bis 180",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 215 165)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 180 AND [kwh_pro_qm] <= 200)",
+          "name": "> 180 bis 200",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 194 186)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 200)",
+          "name": "> 200",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 154 230)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "ags": "Gemeindeschl\u00fcssel",
+        "gemeindename": "Gemeindename",
+        "kwh_pro_qm": "Verbrauch KWh pro qm",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Energieverbrauch f\u00fcr W\u00e4rme 2019 [MWh]",
+      "abstract": "Kartografische Darstellung des Energieverbrauchs f\u00fcr Heizung und Warmwasser [gesamt in MWh 2019] in den Gemeinden, basierend auf den Umfragedaten der INFAS 360 GmbH von 2015 bis 2020.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).\r\n\u2022 Alta4\/INFAS360 (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "18.12.2020",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "ags",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 116,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([summe_mwh] <= 1000)",
+          "name": "bis 1.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(162 203 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 1000 AND [summe_mwh] <= 5000)",
+          "name": "> 1.000 bis 5.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(182 247 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 5000 AND [summe_mwh] <= 10000)",
+          "name": "> 5.000 bis 10.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(168 255 188)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 10000 AND [summe_mwh] <= 50000)",
+          "name": "> 10.000 bis 50.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(240 255 175)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 50000 AND [summe_mwh] <= 100000)",
+          "name": "> 50.000 bis 100.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 215 165)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 100000 AND [summe_mwh] <= 200000)",
+          "name": "> 100.000 bis 200.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 194 186)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([summe_mwh] > 200000)",
+          "name": "> 200.000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 154 230)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "ags": "Gemeindeschl\u00fcssel",
+        "gemeindename": "Gemeindename",
+        "summe_mwh": "Verbrauch in MWh",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Energieverbrauch f\u00fcr W\u00e4rme 2019 [kWh\/m\u00b2]",
+      "abstract": "Kartografische Darstellung des durchschnittlichen Energieverbrauchs f\u00fcr Heizung und Warmwasser [in kWh 2019] pro Adresse in den Gemeinden, basierend auf den Umfragedaten der INFAS 360 GmbH von 2015 bis 2020.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).\r\n\u2022 Alta4\/INFAS360 (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "18.12.2020",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "ags",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 117,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([kwh_pro_qm] <= 100)",
+          "name": "bis 100",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(162 203 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 100 AND [kwh_pro_qm] <= 120)",
+          "name": "> 100 bis 120",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(182 247 255)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 120 AND [kwh_pro_qm] <= 140)",
+          "name": ">120 bis 140",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(168 255 188)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 140 AND [kwh_pro_qm] <= 160)",
+          "name": "> 140 bis 160",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(240 255 175)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 160 AND [kwh_pro_qm] <= 180)",
+          "name": "> 160 bis 180",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 215 165)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 180 AND [kwh_pro_qm] <= 200)",
+          "name": "> 180 bis 200",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 194 186)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([kwh_pro_qm] > 200)",
+          "name": "> 200",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(125 125 125)",
+            "fill": true,
+            "fillColor": "rgb(255 154 230)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "ags": "Gemeindeschl\u00fcssel",
+        "gemeindename": "Gemeindename",
+        "kwh_pro_qm": "kWh pro qm",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "W\u00e4rmebedarfsraster Rostock",
+      "abstract": "Diese Karte umfasst den spezifischen W\u00e4rmebedarf der Geb\u00e4ude in ihrem Ist-Zustand von 2012 in der Hanse- und Universit\u00e4tsstadt Rostock in der Einheit Kilowattstunden je Quadratmeter und Jahr als Raster mit Zellen von jeweils 200 mal 200 Metern (4 Hektar) Fl\u00e4chengr\u00f6\u00dfe.",
+      "contactOrganisation": "\u2022 Kataster-, Vermessungs- und Liegenschaftsamt der Hanse- und Universit\u00e4tsstadt Rostock",
+      "contactPersonName": "Kataster-, Vermessungs- und Liegenschaftsamt der Hanse- und Universit\u00e4tsstadt Rostock; Geodienste",
+      "contactEMail": "geodienste@rostock.de",
+      "contactPhon": "0381 381-6281",
+      "actuality": "2012",
+      "actualityCircle": "nicht bekannt",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/geo.sv.rostock.de\/geodienste\/waermebedarfsraster\/wms",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.0",
+        "layers": "hro.waermebedarfsraster",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Kataster-, Vermessungs- und Liegenschaftsamt der Hanse- und Universit\u00e4tsstadt Rostock; Geodienste",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {}
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Fernw\u00e4rmeleitungen Schwerin",
+      "abstract": "Kartographische Darstellung von Fernw\u00e4rmeleitungen in Schwerin. Die Daten werden mittels eines Web-Map-Services (WMS) als Geowebdienst vom Geodatenmanagement des Landkreises Ludwigslust-Parchim zur Verf\u00fcgung gestellt.",
+      "contactOrganisation": "\u2022 Landkreis Ludwigslust-Parchim (https:\/\/geoportal.kreis-lup.de\/mrhsn\/Waermeversorgung\/index.html).",
+      "contactPersonName": "Geodatenmanagement des Landkreises Ludwigslust-Parchim",
+      "contactEMail": "geodatenmanagement@kreis-lup.de",
+      "contactPhon": "03871 722-6214",
+      "actuality": "20.04.2017",
+      "actualityCircle": "nicht bekannt",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/geoportal.kreis-lup.de\/ows\/masterportal\/fernwaerme-sn",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.0",
+        "layers": "Leitungen",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Geodatenmanagement des Landkreises Ludwigslust-Parchim",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {}
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Fernw\u00e4rme-Versorgungsgebiete Schwerin",
+      "abstract": "Kartografische Darstellung von Fernw\u00e4rmeversorgungsgebieten in Schwerin. Die Daten werden mittels eines Web-Map-Services (WMS) als Geowebdienst vom Geodatenmanagement des Landkreises Ludwigslust-Parchim zur Verf\u00fcgung gestellt.",
+      "contactOrganisation": "\u2022 Landkreis Ludwigslust-Parchim (https:\/\/geoportal.kreis-lup.de\/mrhsn\/Waermeversorgung\/index.html).",
+      "contactPersonName": "Geodatenmanagement des Landkreises Ludwigslust-Parchim",
+      "contactEMail": "geodatenmanagement@kreis-lup.de",
+      "contactPhon": "03871 722-6214",
+      "actuality": "20.04.2017",
+      "actualityCircle": "nicht bekannt",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/geoportal.kreis-lup.de\/ows\/masterportal\/fernwaerme-sn",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.0",
+        "layers": "Gebiete",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Geodatenmanagement des Landkreises Ludwigslust-Parchim",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {}
+    },
+    {
+      "thema": "W\u00e4rme",
+      "label": "Anzahl der Adressen mit Fernw\u00e4rme",
+      "abstract": "Kartografische Darstellung von Gemeinden, eingef\u00e4rbt nach der Anzahl von Adressen mit Fernw\u00e4rme im Jahr 2020 - basierend auf Umfragedaten der INFAS360 GmbH.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).\r\n\u2022 Alta4\/INFAS360 (2020).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "18.12.2020",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "ags8",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 152,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "([casa_fern1] = 0)",
+          "name": "keine",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 210 210)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([casa_fern1] > 0 AND [casa_fern1] <= 5)",
+          "name": "bis 5",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 175 175)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([casa_fern1] > 5 AND [casa_fern1] <= 100)",
+          "name": "\u00fcber 5 bis 100",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 140 140)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([casa_fern1] > 100 AND [casa_fern1] <= 1000)",
+          "name": "\u00fcber 100 bis 1000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 105 105)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([casa_fern1] > 1000 AND [casa_fern1] <= 2000)",
+          "name": "\u00fcber 1000 bis 2000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 70 70)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([casa_fern1] > 2000 AND [casa_fern1] <= 3000)",
+          "name": "\u00fcber 2000 bis 3000",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 35 35)",
+            "fillOpacity": 0.6
+          }
+        },
+        {
+          "def": "([casa_fern1] > 3000)",
+          "name": "> 3000",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(255 0 0)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "ags8": "Gemeindeschl\u00fcssel",
+        "amtlgemeindename": "Gemeindename",
+        "casa_fern1": "Anzahl"
+      }
+    },
+    {
+      "thema": "Geothermie",
+      "label": "Tiefengeothermieprojekte",
+      "abstract": "Kartografische Darstellung von Projekten\/Anlagen der Tiefengeothermie in Mecklenburg-Vorpommern. Die Tiefe Geothermie nutzt Lagerst\u00e4tten, die in gr\u00f6\u00dferen Tiefen als 400 m unter Gel\u00e4ndeoberkante erschlossen werden. Die Reservoirtypen sind hier im Prinzip die gleichen wie bei der Oberfl\u00e4chennahen Geothermie. In der Tiefen Geothermie unterscheidet man dar\u00fcber hinaus zwischen Hochenthalpie- und Niederenthalpielagerst\u00e4tten (Bundesverband Geothermie e.V. 2020).",
+      "contactOrganisation": "\u2022 Bundesverband Geothermie e.V. (2020) Bundesverband Geothermie: Tiefe Geothermie (https:\/\/www.geothermie.de\/geothermie\/geothermische-technologien\/tiefe-geothermie.html).",
+      "contactPersonName": "Bundesverband Geothermie e.V.",
+      "contactEMail": "info@geothermie.de",
+      "contactPhon": "030 200 95 495 0",
+      "actuality": "06\/2020",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 67,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Bundesverband Geothermie e.V."
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Geothermie\/EA-Icons_Geothermie.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "Gid",
+        "the_geom": "The Geom",
+        "standort": "Standort",
+        "betreiber": "Betreiber",
+        "inbetriebj": "Jahr der Inbetriebname",
+        "therml_mw": "Therml Mw",
+        "elekl_mw": "Elekl Mw",
+        "bohrung_m": "Bohrung M",
+        "status": "Status",
+        "bemerkg": "Bemerkung"
+      }
+    },
+    {
+      "thema": "Geothermie",
+      "label": "Geothermiebohrungen",
+      "abstract": null,
+      "contactOrganisation": null,
+      "contactPersonName": null,
+      "contactEMail": null,
+      "contactPhon": null,
+      "actuality": null,
+      "actualityCircle": null,
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "longname",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 216,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": null
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Geothermie\/EA-Icons_Geothermie.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "bo_ident": "Ident. Nr.",
+        "longname": "Name",
+        "yrfromname": "Jahr",
+        "zcoorde": "Z-Coord E",
+        "zcoordb": "Z-Coord B",
+        "hw": "Hochwert",
+        "rw": "Rechtswert",
+        "strat_eh": "Strat Eh",
+        "datsicherh": "Datensicherheit",
+        "tk25": "Blattnr in TK25",
+        "svb": "SVB",
+        "svz_url": "SVZ URL",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Wasserkraft",
+      "label": "Wasserkraftanlagen",
+      "abstract": "Kartografische Darstellung von Wasserkraftanlagen in Mecklenburg-Vorpommern, welche bei der Bundesnetzagentur im Marktstammdatenregister registriert und mit Standortdaten ver\u00f6ffentlicht sind. Bei der Wasserkraft wird die kinetische und potenzielle Energie des Wassers genutzt um diese in Elektrizit\u00e4t  umzuwandeln.",
+      "contactOrganisation": "\u2022 Bundesnetzagentur (2021) Marktstammdatenregister (MaStR), Erweiterte Einheiten\u00fcbersicht (https:\/\/www.marktstammdatenregister.de\/MaStR\/Einheit\/Einheiten\/ErweiterteOeffentlicheEinheitenuebersicht).",
+      "contactPersonName": "Bundesnetzagentur f\u00fcr Elektrizit\u00e4t, Gas, Telekommunikation, Post und Eisenbahnen",
+      "contactEMail": "Kontaktformular auf https:\/\/www.marktstammdatenregister.de\/MaStR\/Startseite\/Kontakt",
+      "contactPhon": "0228 14-3333",
+      "actuality": "02\/2021",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "mastrnummer",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 113,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Bundesnetzagentur f\u00fcr Elektrizit\u00e4t, Gas, Telekommunikation, Post und Eisenbahnen"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Wasserkraft\/EA-Icons_Wasserkraft-Anlagen.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "mastrid": "mastrid",
+        "mastrnummer": "mastrnummer",
+        "systemstatus": "systemstatus",
+        "betriebsstatus": "betriebsstatus",
+        "einheitentyp": "einheitentyp",
+        "name_der_einheit": "name_der_einheit",
+        "datum_beginn_der_voruebergehenden_stilllegung": "datum_beginn_der_voruebergehenden_stilllegung",
+        "datum_wiederaufnahme_des_betriebs_": "datum_wiederaufnahme_des_betriebs_",
+        "geplantes_inbetriebnahmedatum": "geplantes_inbetriebnahmedatum",
+        "inbetriebnahmedatum": "inbetriebnahmedatum",
+        "datum_der_endgueltigen_stilllegung": "datum_der_endgueltigen_stilllegung",
+        "meldedatum": "meldedatum",
+        "datum_der_letzten_aktualisierung": "datum_der_letzten_aktualisierung",
+        "land": "land",
+        "postleitzahl": "postleitzahl",
+        "ort": "ort",
+        "art_der_standortangabe": "art_der_standortangabe",
+        "strasse": "strasse",
+        "hausnummer": "hausnummer",
+        "adresszusatz": "adresszusatz",
+        "gemarkung": "gemarkung",
+        "flur_und_flurstueck": "flur_und_flurstueck",
+        "bundesland": "bundesland",
+        "landkreis": "landkreis",
+        "gemeinde": "gemeinde",
+        "gemeindeschluessel": "gemeindeschluessel",
+        "bruttoleistung": "bruttoleistung",
+        "nettonennleistung": "nettonennleistung",
+        "bestandteil_eines_grenzkraftwerkes": "bestandteil_eines_grenzkraftwerkes",
+        "nettonennleistung_deutschland": "nettonennleistung_deutschland",
+        "art_der_wasserkraftanlage": "art_der_wasserkraftanlage",
+        "art_des_zuflusses": "art_des_zuflusses",
+        "minderung_der_stromerzeugung": "minderung_der_stromerzeugung",
+        "name_des_kraftwerks": "name_des_kraftwerks",
+        "einsatzverantwortlicher": "einsatzverantwortlicher",
+        "art_der_einspeisung": "art_der_einspeisung",
+        "fernsteuerbarkeit_durch_netzbetreiber": "fernsteuerbarkeit_durch_netzbetreiber",
+        "fernsteuerbarkeit_durch_direktvermarkter": "fernsteuerbarkeit_durch_direktvermarkter",
+        "fernsteuerbarkeit_durch_dritte": "fernsteuerbarkeit_durch_dritte",
+        "an_hoch_hoechstspannung_angeschlossen": "an_hoch_hoechstspannung_angeschlossen",
+        "anzeige_einer_stilllegung_nach_paragraph13b_abs1_satz_1": "anzeige_einer_stilllegung_nach_paragraph13b_abs1_satz_1",
+        "art_der_stilllegung_nach_paragraph13b": "art_der_stilllegung_nach_paragraph13b",
+        "beginns_der_vorlaeufigen_oder_endgueltigen_stilllegung_paragrap": "beginns_der_vorlaeufigen_oder_endgueltigen_stilllegung_paragrap",
+        "beendigung_der_vorlaeufigen_stilllegung_paragraph13b": "beendigung_der_vorlaeufigen_stilllegung_paragraph13b",
+        "w_eic": "w_eic",
+        "displayname_w_eic": "displayname_w_eic",
+        "kraftwerksnummer": "kraftwerksnummer",
+        "isnotstromaggregat": "isnotstromaggregat",
+        "nbp_pruefungsdatum": "nbp_pruefungsdatum",
+        "nbp_netzbetreiberpruefungsstatus": "nbp_netzbetreiberpruefungsstatus",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Planungsgrundlagen",
+      "label": "Gewerbegebiete Invest MV WFS",
+      "abstract": "Kartographische Darstellung der Gewerbegebiete aus dem Datenbestand von Invest-in-MV, bereitgestellt im GeoWeb-Dienst durch Fa. GeoDok GmbH.",
+      "contactOrganisation": "Von der Managementplattform f\u00fcr Gewerbestandorte.\r\nGeoDok GmbH\r\nDaniel H\u00f6ggemann\r\nTeam Consulting & Entwicklung\r\nJ\u00fclicher Str. 9\r\nD-33613 Bielefeld\r\nInternet www.geodok.de\r\nFax +49-(0)521.98 68 -85",
+      "contactPersonName": "GeoDok GmbH, Daniel H\u00f6ggemann",
+      "contactEMail": "d.hoeggemann@geodok.de",
+      "contactPhon": "+49-(0)521.98 68 -84",
+      "actuality": "7.7.2021",
+      "actualityCircle": "Aktualisierung durch Dienstanbieter",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 183,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "GeoDok GmbH, Daniel H\u00f6ggemann"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(114 53 57)",
+            "fill": true,
+            "fillColor": "rgb(255 112 121)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "name": "name",
+        "external_identifier": "Externe ID",
+        "lastmodify_date": "letzte \u00c4nderung",
+        "client_id": "client_id",
+        "external_last_update": "letzte externe Aktualisierung"
+      }
+    },
+    {
+      "thema": "Planungsgrundlagen",
+      "label": "Gewerbegebiete Invest MV",
+      "abstract": "Kartographische Darstellung der Gewerbegebiete aus dem Datenbestand von Invest-in-MV, bereitgestellt im GeoWeb-Dienst durch Fa. GeoDok GmbH.",
+      "contactOrganisation": "Von der Managementplattform f\u00fcr Gewerbestandorte.\r\nGeoDok GmbH\r\nDaniel H\u00f6ggemann\r\nTeam Consulting & Entwicklung\r\nJ\u00fclicher Str. 9\r\nD-33613 Bielefeld\r\nInternet www.geodok.de\r\nFax +49-(0)521.98 68 -85",
+      "contactPersonName": "GeoDok GmbH, Daniel H\u00f6ggemann",
+      "contactEMail": "d.hoeggemann@geodok.de",
+      "contactPhon": "+49-(0)521.98 68 -84",
+      "actuality": "7.7.2021",
+      "actualityCircle": "Aktualisierung durch Dienstanbieter",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 202,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "GeoDok GmbH, Daniel H\u00f6ggemann"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "6",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(114 53 57)",
+            "fill": true,
+            "fillColor": "rgb(255 112 121)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "name": "Name",
+        "kontakt_vorname": "Kontakt Vorname",
+        "kontakt_nachname": "Kontakt Nachname",
+        "kontakt_firma_organisation": "Kontakt Firma Organisation"
+      }
+    },
+    {
+      "thema": "Planungsgrundlagen",
+      "label": "L\u00e4ndliche Gestaltungsr\u00e4ume ",
+      "abstract": "Import CEKL\u00e4ndliche Gestaltungsr\u00e4ume LEP MVRaumkategorie_LEPMV2016",
+      "contactOrganisation": null,
+      "contactPersonName": null,
+      "contactEMail": null,
+      "contactPhon": null,
+      "actuality": null,
+      "actualityCircle": null,
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 74,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": null
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "10",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(141 51 0)",
+            "fill": true,
+            "fillColor": "rgb(255 127 0)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "festlegung": "Festlegung",
+        "name": "Name",
+        "gr_ha": "Fl\u00e4che [Ha]",
+        "the_geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Planungsgrundlagen",
+      "label": "Erneuerbare Energien im Raumordnungskataster",
+      "abstract": "Kartografische Darstellung von Fl\u00e4chen, die im Raumordnungskataster (ROK) den erneuerbaren Energien zuzuordnen sind.",
+      "contactOrganisation": "\u2022 Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021).",
+      "contactPersonName": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588 18305",
+      "actuality": "20.01.2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "id",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 38,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau Balck-Taege (Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "25",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(0 0 0)",
+            "fill": true,
+            "fillColor": "rgb(183 255 133)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "id",
+        "objectid": "objectid",
+        "themennr": "themennr",
+        "konkretisi": "konkretisi",
+        "roknr": "roknr",
+        "bemerkung": "bemerkung",
+        "gemeindeke": "gemeindeke",
+        "planstand": "planstand",
+        "hotlink": "hotlink",
+        "kopplung": "kopplung",
+        "fl_lt_plan": "fl_lt_plan",
+        "kapazitaet": "kapazitaet",
+        "symbol": "symbol",
+        "font": "font",
+        "globalid": "globalid",
+        "ruleid": "ruleid",
+        "bezeichnun": "bezeichnun",
+        "sde_state_": "sde_state_",
+        "info": "info",
+        "geom": "geom"
+      }
+    },
+    {
+      "thema": "Planungsgrundlagen",
+      "label": "Stadt-Umland-R\u00e4ume",
+      "abstract": "Stadt-Umland-R\u00e4ume aus dem Landesentwicklungsplan (LEP)",
+      "contactOrganisation": "Stadt-Umland-R\u00e4ume (LEP) EM 11\/2021",
+      "contactPersonName": "Frau J. Balck-Taege",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588-18305",
+      "actuality": "10.12.2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "sur_name",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 195,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau J. Balck-Taege"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "30",
+            "stroke": true,
+            "weight": "1",
+            "color": "rgb(18 106 0)",
+            "fill": true,
+            "fillColor": "rgb(169 255 152)",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "sur_name": "Raumbezeichnung",
+        "sur_id": "Gebiets-ID",
+        "geom": "Geom"
+      }
+    },
+    {
+      "thema": "Sektorenkopplung",
+      "label": "Power-to-Heat-Anlagen",
+      "abstract": "Kartografische Darstellung von Power-to-Heat-Anlagen in Mecklenburg-Vorpommern. Power-to-Heat, auch mit PtH oder P2H abgek\u00fcrzt, bezeichnet die Umwandlung elektrischer Energie in W\u00e4rme. Mit Hilfe eines W\u00e4rmespeichers kann zum Beispiel erneuerbare Energie in gr\u00f6\u00dferen Mengen gespeichert und Haushalte \u00fcber ein Fernw\u00e4rmenetz mit W\u00e4rme versorgt werden.",
+      "contactOrganisation": "\u2022 Bundesnetzagentur (2021) Marktstammdatenregister (MaStR), Erweiterte Einheiten\u00fcbersicht (https:\/\/www.marktstammdatenregister.de\/MaStR\/Einheit\/Einheiten\/ErweiterteOeffentlicheEinheitenuebersicht; Zugriff am 28.05.2021).\r\n\u2022 Landesverband Erneuerbare Energien Mecklenburg-Vorpommern e. V. (LEE MV) \/ Windenergiecluster MV (2020) \u00dcberblick \u00fcber PtH-Aktivit\u00e4ten  in MV (windenergiecluster-mv.de\/export\/sites\/windenergiecluster-mv\/dokumente\/20201208_vortraege-gruene-waerme-und-pth-in-mv\/02_ulrichsoeffker_lee_power-to-heat.pdf; Zugriff am 28.05.2021).\r\n\u2022 Neubrandenburger Stadtwerke GmbH (2021) Gr\u00fcnen Strom nutzen statt abschalten (https:\/\/www.neu-sw.de\/pressemeldungen\/gruenen-strom-nutzen-statt-abschalten; Zugriff am 28.05.2021). \r\n\u2022 Erstellt von ENEKA Energiekartografie im Auftrag des Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021)",
+      "contactPersonName": "ENEKA Energiekartografie (erstellt i. A. des Energieministeriums)",
+      "contactEMail": "info@eneka.de",
+      "contactPhon": "+49(0)381 26053420",
+      "actuality": "28.05.2021",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 174,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "ENEKA Energiekartografie (erstellt i. A. des Energieministeriums)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Sektorenkopplung\/Power_to_Heat\/EA-Icons_Power-to-Heat-Anlagen.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "gid",
+        "id": "ID",
+        "ort": "Ort",
+        "plz": "Plz",
+        "nennleistung": "Nennleistung",
+        "betreiber": "Betreiber",
+        "quelle": "Quelle",
+        "status": "Status",
+        "bezeichnung": "Bezeichnung",
+        "mastr_nr": "Mastr Nr",
+        "the_geom": "The Geom"
+      }
+    },
+    {
+      "thema": "Sektorenkopplung",
+      "label": "Power-to-Gas-Anlagen",
+      "abstract": "Kartografische Darstellung von Power-to-Gas-Anlagen in Mecklenburg-Vorpommern. Power-to-Gas, auch oft mit PtG oder P2G abgek\u00fcrzt, bezeichnet die Herstellung eines (brennbaren) Gases, wie z.B. Wasserstoff, unter Nutzung elektrischer Energie. Damit kann zum Beispiel erneuerbare Energie in gr\u00f6\u00dferen Mengen \u00fcber l\u00e4ngere Zeitr\u00e4ume gespeichert werden.",
+      "contactOrganisation": "\u2022 DVGW (2021) Interaktive Power to Gas Karte (https:\/\/www.dvgw.de\/themen\/energiewende\/power-to-gas\/interaktive-power-to-gas-karte; Zugriff am 28.05.2021).\r\n\u2022 BDEW (2021) Interaktive Karte \u201eGas kann gr\u00fcn\u201c | BDEW (https:\/\/www.bdew.de\/energie\/erdgas\/interaktive-karte-gas-kann-gruen\/; Zugriff am 16.02.2021).\r\n\u2022 Erstellt von ENEKA Energiekartografie im Auftrag des Ministerium f\u00fcr Energie, Infrastruktur und Digitalisierung M-V (2021)",
+      "contactPersonName": "ENEKA Energiekartografie (erstellt i. A. des Energieministeriums)",
+      "contactEMail": "info@eneka.de",
+      "contactPhon": "+49(0)381 26053420",
+      "actuality": "28.05.2021",
+      "actualityCircle": "j\u00e4hrlich",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "gid",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 173,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "ENEKA Energiekartografie (erstellt i. A. des Energieministeriums)"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Sektorenkopplung\/Power_to_Gas\/EA-Icons_Power-to-Gas-Anlagen.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "gid": "gid",
+        "ort": "Ort",
+        "nennleistung": "Nennleistung",
+        "plz": "Plz",
+        "betreiber": "Betreiber",
+        "bezeichnung": "Bezeichnung",
+        "quelle": "Quelle",
+        "methanisierung": "Methanisierung",
+        "status": "Status",
+        "the_geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Klimaschutz \/ Energiewende",
+      "label": "Gr\u00fcne Gewerbegebiete",
+      "abstract": "Import aus Datenlieferung EM - Gr\u00fcne Gewerbegebiete_EM\r\nDoku-Wiki:\r\n\u2022 https:\/\/energieatlas-mv.de\/doku\/doku.php?id=gewerbegebiete_gruen",
+      "contactOrganisation": "Gr\u00fcne Gewerbegebiete EM 11\/2021",
+      "contactPersonName": "Frau J. Balck-Taege",
+      "contactEMail": "jenifer.balck-taege@em.mv-regierung.de",
+      "contactPhon": "0385 588-18305",
+      "actuality": "10.12.2021",
+      "actualityCircle": "bei Bedarf",
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "label",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 66,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": "Frau J. Balck-Taege"
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": "zertifizierter G\u00b3-Standort",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Klimaschutz_Energiewende\/EA-Icons_Gruenes-Gewerbegebiet.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "id": "ID",
+        "name": "Name",
+        "bemerkung": "Bemerkung",
+        "gg": "Zertifizierung",
+        "geom": "Geometrie"
+      }
+    },
+    {
+      "thema": "Klimaschutz \/ Energiewende",
+      "label": "Aktivit\u00e4ten",
+      "abstract": null,
+      "contactOrganisation": null,
+      "contactPersonName": null,
+      "contactEMail": null,
+      "contactPhon": null,
+      "actuality": null,
+      "actualityCircle": null,
+      "type": "GeoJSON",
+      "geomType": "Point",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "bezeichnung",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 137,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": null
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "icon": {
+            "iconUrl": "https:\/\/energieatlas-mv.de\/fis\/custom\/symbols\/Klimaschutz_Energiewende\/EA-Icons_Foederungsprojekte.svg",
+            "iconSize": [
+              "30",
+              "30"
+            ],
+            "iconAnchor": [
+              15,
+              15
+            ],
+            "popupAnchor": [
+              15,
+              15
+            ]
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "aktivitaet_id": "Aktivitaet ID",
+        "aktivitaetsart_id": "Aktivit\u00e4tsart",
+        "bezeichnung": "Bezeichnung",
+        "kurzbezeichnung": "Kurzbezeichnung",
+        "bemerkung": "Bemerkung",
+        "datum": "Datum",
+        "jahr": "Jahr",
+        "ansprechpartner_id": "Ansprechpartner",
+        "ansprechpartner": "Ansprechpartner",
+        "geom_point": "Geom Point"
+      }
+    },
+    {
+      "thema": "Raumbezug",
+      "label": "Verwaltungsgrenzen: Landkreise",
+      "abstract": "",
+      "contactOrganisation": "",
+      "contactPersonName": "",
+      "contactEMail": "",
+      "contactPhon": "",
+      "actuality": "",
+      "actualityCircle": "",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 14,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": ""
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "3",
+            "color": "rgb(143 151 4)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "geometry": "geometry",
+        "kennung": "kennung",
+        "gen": "gen",
+        "schluessel": "schluessel",
+        "zugehoerig": "zugehoerig",
+        "aufnahme": "aufnahme",
+        "verwaltungssitz": "verwaltungssitz"
+      }
+    },
+    {
+      "thema": "Raumbezug",
+      "label": "Verwaltungsgrenzen: \u00c4mter",
+      "abstract": "Beschreibung im Doku-Wiki:\r\n\u2022 https:\/\/energieatlas-mv.de\/doku\/doku.php?id=raumbezug_verwaltungsgrenzen\r\n\u2022 https:\/\/energieatlas-mv.de\/doku\/doku.php?id=raumbezug_verwaltungsgrenzen_dvg",
+      "contactOrganisation": "",
+      "contactPersonName": "",
+      "contactEMail": "",
+      "contactPhon": "",
+      "actuality": "",
+      "actualityCircle": "",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 13,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": ""
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": "2",
+            "color": "rgb(150 94 2)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "geometry": "geometry",
+        "kennung": "kennung",
+        "gen": "gen",
+        "schluessel": "schluessel",
+        "zugehoerig": "zugehoerig",
+        "aufnahme": "aufnahme",
+        "verwaltungssitz": "verwaltungssitz"
+      }
+    },
+    {
+      "thema": "Raumbezug",
+      "label": "Verwaltungsgrenzen: Gemeinden",
+      "abstract": "Beschreibung im Doku-Wiki:\r\n\u2022 https:\/\/energieatlas-mv.de\/doku\/doku.php?id=raumbezug_verwaltungsgrenzen\r\n\u2022 https:\/\/energieatlas-mv.de\/doku\/doku.php?id=raumbezug_verwaltungsgrenzen_dvg",
+      "contactOrganisation": "",
+      "contactPersonName": "",
+      "contactEMail": "",
+      "contactPhon": "",
+      "actuality": "",
+      "actualityCircle": "",
+      "type": "GeoJSON",
+      "geomType": "Polygon",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "",
+      "url": "https:\/\/energieatlas-mv.de\/fis\/index.php",
+      "params": {
+        "gast": 7,
+        "go": "Daten_Export_Exportieren",
+        "Stelle_ID": 7,
+        "selected_layer_id": 12,
+        "export_format": "GeoJSON",
+        "browserwidth": 800,
+        "browserheight": 600,
+        "epsg": 4326,
+        "all": 1
+      },
+      "options": {
+        "transparent": true,
+        "attribution": ""
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " ",
+          "style": {
+            "symbolname": "circle",
+            "size": "12",
+            "stroke": true,
+            "weight": 1,
+            "color": "rgb(166 47 2)",
+            "fill": false,
+            "fillColor": "#0000ff",
+            "fillOpacity": 0.6
+          }
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {
+        "geometry": "geometry",
+        "kennung": "kennung",
+        "gen": "gen",
+        "schluessel": "schluessel",
+        "zugehoerig": "zugehoerig",
+        "aufnahme": "aufnahme",
+        "rs": "rs"
+      }
+    },
+    {
+      "thema": "Liegenschaftskataster",
+      "label": "Flurst\u00fccke",
+      "abstract": "Doku-Wiki:\r\n* https:\/\/energieatlas-mv.de\/doku\/doku.php?id=wms_mv_alkis",
+      "contactOrganisation": "",
+      "contactPersonName": "LAiV, Amt f\u00fcr Geoinformation, Vermessungs- und Katasterwesen",
+      "contactEMail": "",
+      "contactPhon": "",
+      "actuality": "",
+      "actualityCircle": "",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/www.geodaten-mv.de\/dienste\/alkis_wms",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "adv_alkis_flurstuecke",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "LAiV, Amt f\u00fcr Geoinformation, Vermessungs- und Katasterwesen",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 10582
+    },
+    {
+      "thema": "Liegenschaftskataster",
+      "label": "Geb\u00e4ude",
+      "abstract": "Doku-Wiki:\r\n* https:\/\/energieatlas-mv.de\/doku\/doku.php?id=wms_mv_alkis",
+      "contactOrganisation": "",
+      "contactPersonName": "",
+      "contactEMail": "",
+      "contactPhon": "",
+      "actuality": "",
+      "actualityCircle": "",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/www.geodaten-mv.de\/dienste\/alkis_wms",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "adv_alkis_gebaeude",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 5291
+    },
+    {
+      "thema": "Liegenschaftskataster",
+      "label": "tats\u00e4chliche Nutzung",
+      "abstract": "Das amtliche Liegenschaftskataster-Informationssystem (ALKIS\u00ae) stellt den Nachweis des Liegenschaftskatasters f\u00fcr die Lage und die Beschreibung der Liegenschaften in Form von Flur- und Grundst\u00fccken auf der Erdoberfl\u00e4che dar. Es enth\u00e4lt eine Kartendarstellung sowie die beschreibenden Angaben \u00fcber die Flurst\u00fccke (u. a. Kennzeichen, Fl\u00e4che, Nutzungsart). Eigent\u00fcmerinformationen sind in diesem Dienst nicht verf\u00fcgbar.",
+      "contactOrganisation": "Landesamt f\u00fcr innere Verwaltung M-V, Amt f\u00fcr Geoinformation, Vermessung und Katasterwesen",
+      "contactPersonName": "Geodatenservice",
+      "contactEMail": "geodatenservice@laiv-mv.de",
+      "contactPhon": "0385 - 588 56860",
+      "actuality": "aktuell",
+      "actualityCircle": "t\u00e4glich",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/www.geodaten-mv.de\/dienste\/alkis_wms",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "adv_alkis_tatsaechliche_nutzung",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Geodatenservice",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 5291
+    },
+    {
+      "thema": "Liegenschaftskataster",
+      "label": "weiteres",
+      "abstract": "Das amtliche Liegenschaftskataster-Informationssystem (ALKIS\u00ae) stellt den Nachweis des Liegenschaftskatasters f\u00fcr die Lage und die Beschreibung der Liegenschaften in Form von Flur- und Grundst\u00fccken auf der Erdoberfl\u00e4che dar. Es enth\u00e4lt eine Kartendarstellung sowie die beschreibenden Angaben \u00fcber die Flurst\u00fccke (u. a. Kennzeichen, Fl\u00e4che, Nutzungsart). Eigent\u00fcmerinformationen sind in diesem Dienst nicht verf\u00fcgbar.",
+      "contactOrganisation": "Landesamt f\u00fcr innere Verwaltung M-V, Amt f\u00fcr Geoinformation, Vermessung und Katasterwesen",
+      "contactPersonName": "Geodatenservice",
+      "contactEMail": "geodatenservice@laiv-mv.de",
+      "contactPhon": "0385 - 588 56860",
+      "actuality": "aktuell",
+      "actualityCircle": "t\u00e4glich",
+      "type": "WMS",
+      "geomType": "Raster",
+      "backgroundColor": "#c1ffd8",
+      "infoAttribute": "oid",
+      "url": "https:\/\/www.geodaten-mv.de\/dienste\/alkis_wms",
+      "params": "",
+      "options": {
+        "crs": "EPSG4326",
+        "version": "1.1.1",
+        "layers": "adv_alkis_weiteres",
+        "format": "image\/png",
+        "transparent": true,
+        "attribution": "Geodatenservice",
+        "opacity": 0
+      },
+      "classes": [
+        {
+          "def": "",
+          "name": " "
+        }
+      ],
+      "hideEmptyLayerAttributes": true,
+      "layerAttributes": {},
+      "maxScale": 5291
     }
   ]
 }
