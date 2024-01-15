@@ -1,3 +1,4 @@
+/* main_test.scss */
 @import "mixin";
 
 @import "../../node_modules/leaflet/dist/leaflet.css";
@@ -1038,12 +1039,14 @@ body {
         }
     }
     .datenschutz .home-content,
-    .impressum .home-content {
+    .impressum .home-content,
+		.faq .home-content {
         padding-top: 0rem;
         padding-right: 0.5rem;
     }
     .datenschutz .close-button2,
-    .impressum .close-button2 {
+    .impressum .close-button2,
+		.faq .close-button2 {
         right: 0.5rem;
         top: 0.5rem;
     }
@@ -1070,7 +1073,8 @@ body {
 }
 
 #bttn_impressum,
-#bttn_datenschutz {
+#bttn_datenschutz,
+#bttn_faq {
     cursor: pointer;
 }
 
