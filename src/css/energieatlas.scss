@@ -1,3 +1,6 @@
+.test {
+	width: 0px;
+}
 @import "mixin";
 
 @import "../../node_modules/leaflet/dist/leaflet.css";
@@ -1028,7 +1031,8 @@ body {
         }
     }
     .datenschutz .home-content,
-    .impressum .home-content {
+    .impressum .home-content,
+		.fag .home-content {
         padding-top: 0rem;
         padding-right: 0.5rem;
     }

@@ -121,7 +121,11 @@ export class MapApp {
                 const home = document.getElementById("impressum-overlay");
                 home.style.display = "none";
             });
-            document.getElementById("bttn_impressum").addEventListener("click", () => {
+            document.getElementById("close-faq-overlay").addEventListener("click", () => {
+							const home = document.getElementById("faq-overlay");
+							home.style.display = "none";
+					});
+						document.getElementById("bttn_impressum").addEventListener("click", () => {
                 const home = document.getElementById("impressum-overlay");
                 home.style.display = "block";
             });
@@ -129,6 +133,10 @@ export class MapApp {
                 const home = document.getElementById("datenschutz-overlay");
                 home.style.display = "block";
             });
+            document.getElementById("bttn_faq").addEventListener("click", () => {
+							const home = document.getElementById("faq-overlay");
+							home.style.display = "block";
+					  });
 
             document.querySelectorAll(".home-overlay").forEach((item) => {
                 item.addEventListener("click", fCloseOverlayByClick);
