@@ -65,7 +65,7 @@ export const AttributionCtrl = Control.extend({
     // @method addAttribution(text: String): this
     // Adds an attribution text (e.g. `'Vector data &copy; Mapbox'`).
     addAttribution: function (text) {
-        // console.error(`addAttribution ${text}`)
+        // console.error(`addAttribution ${text}`);
         if (!text) {
             return this;
         }
@@ -108,7 +108,7 @@ export const AttributionCtrl = Control.extend({
                 attribs.push(i);
             }
         }
-        console.info("attribs.join(", ")", attribs.join(", "));
+        // console.info("xattribs.join(", ")", attribs.join(", "));
 
         const prefixAndAttribs = [];
 

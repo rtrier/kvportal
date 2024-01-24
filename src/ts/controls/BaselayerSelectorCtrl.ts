@@ -20,6 +20,13 @@ export class BaseLayerSelectorCtrl extends L.Control {
 
     isOpen = false;
     _mutationObserver: MutationObserver;
+    state: string = "closed";
+    inAnimation: boolean = false;
+    lastEvent: string;
+    fOnLeave: (evt: MouseEvent) => void;
+    fOnEnter: (evt: MouseEvent) => void;
+    ignore: boolean = false;
+    animationEventHandler: (evt: AnimationEvent | MouseEvent) => void;
 
     constructor(options: LayerControlOptions) {
         super(options);
@@ -28,6 +35,18 @@ export class BaseLayerSelectorCtrl extends L.Control {
     createIcons() {
         if (!this.iconContainer) {
             const c = (this.iconContainer = createHtmlElement("div", undefined, "baselayerctrl-iconcontainer"));
+
+            const closeBttn = createHtmlElement("div", c, "baselayerctrl-close-bttn");
+            closeBttn.id = "baselayerctrl-close-bttn";
+            closeBttn.addEventListener("click", () => {
+                console.info("close-bttn.clicked");
+                this.ignore = true;
+                this.iconContainer.removeEventListener("mouseenter", (evt: MouseEvent) => this.onEnter(evt));
+                this.dom.removeEventListener("animationstart", this.animationEventHandler);
+                this.dom.removeEventListener("animationend", this.animationEventHandler);
+                this.dom.classList.toggle("open");
+            });
+
             // this.baseLayerDefinitions.forEach((item) => {
             for (let i = this.baseLayerDefinitions.length - 1; i >= 0; i--) {
                 const item = this.baseLayerDefinitions[i];
@@ -37,6 +56,7 @@ export class BaseLayerSelectorCtrl extends L.Control {
                 const label = item["shortLabel"];
                 span.innerHTML = label;
                 d.title = label;
+                d.id = "d-" + label;
                 // console.info('item', item, "url(\""+ item.img +"\")");
                 icon.style.backgroundImage = 'url("' + item.img + '")';
                 d.addEventListener("click", (evt) => {
@@ -55,20 +75,54 @@ export class BaseLayerSelectorCtrl extends L.Control {
                 }
                 this.mapId2IconNode[label] = d;
             }
-            const closeBttn = createHtmlElement("div", c, "baselayerctrl-close-bttn");
-            closeBttn.addEventListener("click", () => {
-                this.dom.classList.toggle("open");
-            });
+
+            this.iconContainer.addEventListener("mouseenter", (evt: MouseEvent) => this.onEnter(evt));
+            this.iconContainer.addEventListener("mouseleave", (evt: MouseEvent) => this.onLeave(evt));
             return c;
         }
+    }
+
+    onEnter(evt: MouseEvent) {
+        console.info(evt.type + " this.ignore:" + this.ignore + " " + this.lastEvent + "=>onEnter", evt);
+        this.lastEvent = "onEnter";
+        if (!this.ignore) {
+            this.dom.classList.add("open");
+        }
+    }
+    onLeave(evt: MouseEvent) {
+        console.info(evt.type + " this.ignore:" + this.ignore + " " + this.lastEvent + "=>onLeave");
+        this.lastEvent = "onLeave";
+        this.dom.classList.remove("open");
     }
 
     onAdd(map: L.Map): HTMLElement {
         if (!this.dom) {
             const div = createHtmlElement("div", undefined, "baselayerctrl");
+            const f = (evt: AnimationEvent | MouseEvent) => {
+                if (evt instanceof AnimationEvent) {
+                    console.info(evt.type + "  " + evt.animationName + " this.ignore:" + this.ignore + " " + this.lastEvent + "  " + (<HTMLElement>evt.target).id);
+                    if (evt.animationName === "delayed_close") {
+                        if (evt.type === "animationstart") {
+                            this.ignore = true;
+                        } else {
+                            this.ignore = false;
+                            if (this.lastEvent === "onEnter") {
+                                this.dom.classList.add("open");
+                            }
+                        }
+                    }
+                }
+            };
+            this.animationEventHandler = f;
+
+            div.addEventListener("animationstart", f);
+            div.addEventListener("animationend", f);
+            div.addEventListener("animationcancel", f);
+
             if (this.baseLayerDefinitions) {
                 this.dom.insertBefore(this.createIcons(), this.dom.firstChild);
             }
+
             this.dom = div;
         }
         return this.dom;
@@ -82,7 +136,9 @@ export class BaseLayerSelectorCtrl extends L.Control {
         if (this.dom) {
             this.dom.insertBefore(this.createIcons(), this.dom.firstChild);
             const openBttn = createHtmlElement("div", this.dom, "baselayerctrl-open-bttn");
+            openBttn.id = "open-bttn";
             openBttn.addEventListener("click", () => {
+                console.info("openbttn.click");
                 this.dom.classList.toggle("open");
             });
         }
@@ -123,11 +179,16 @@ export class BaseLayerSelectorCtrl extends L.Control {
             this.visibleBaseLayerDefinition = this.baseLayerDefinitions[1];
         }
         visibleNode.classList.add("selected");
+
+        for (let i = 0; i < visibleNode.parentElement.children.length; i++) {
+            console.info(i + "  " + visibleNode.parentElement.children.item(i).id);
+        }
+
         visibleNode.parentElement.appendChild(visibleNode);
     }
 
     selectBaseLayer(newBaseLayer: BaseLayerDefinition | number): void {
-        console.info("selectBaseLayer", this.baseLayerDefinitions, newBaseLayer);
+        console.error("selectBaseLayer", this.baseLayerDefinitions, newBaseLayer);
         // const bsl = baseLayer.img === "mapicons/sat.png" ? this.baseLayerDefinitions[0] : this.baseLayerDefinitions[2];
 
         // this._selectItemIcon(this.baseLayerDefinition, false);
@@ -145,6 +206,7 @@ export class BaseLayerSelectorCtrl extends L.Control {
     }
 
     baseLayerIconClicked(evt: MouseEvent, baseLDef: BaseLayerDefinition): void {
+        console.error("baseLayerIconClicked: " + (<any>evt.target).title, evt);
         if (!baseLDef.layer) {
             this.baseLayerDefOptions.createLayer(baseLDef).then((layer) => {
                 baseLDef.layer = layer;
