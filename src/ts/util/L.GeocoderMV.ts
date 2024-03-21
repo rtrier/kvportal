@@ -31,7 +31,7 @@ export class Geocoder {
     }
 
     geocode(query: string): Promise<any> {
-        console.error("jsdhsdjk");
+        // console.error("jsdhsdjk");
         if (this._activeRequest) {
             console.info("cancel last");
             this._activeRequest.abort();

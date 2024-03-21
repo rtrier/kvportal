@@ -45,17 +45,13 @@ module.exports = {
   mode: 'development',
 
 
-  entry: {    
-    // edit:path.resolve('./src/EditApp.ts'),
-    //map:path.resolve('./src/MapApp.ts'),
-    energieAtlas:path.resolve('./src/EnergieAtlas.ts'),
-   // svgtest:path.resolve('./src/SVGTest.ts'),
-    // testunit:path.resolve('./src/__tests__/test.ts'),
+  entry: {
+    energieAtlas: path.resolve('./src/EnergieAtlas.ts')
   },
 
   plugins: [
     new webpack.ProgressPlugin(),
-    new MiniCssExtractPlugin({ 
+    new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"
     }),
@@ -76,14 +72,6 @@ module.exports = {
       include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, '../treecomponent/src/ts')],
       exclude: [/node_modules/, /lib/]
     }, {
-      test: /\.html$/i,
-      use: [{
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-        },
-      }]
-    }, {
       test: /.(scss|css)$/,
       use: [{
         loader: MiniCssExtractPlugin.loader,
@@ -102,38 +90,35 @@ module.exports = {
           sourceMap: true
         }
       }]
-    }, {
-        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-        // loader: 'url-loader',
-        loader: 'file-loader',
-        options: {
-            name: 'images/[name].[ext]'
-        }
     }]
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js', '...']
   },
 
   optimization: {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-            // keep_classnames: true,
-            // keep_fnames: true,
-            compress: {
-              // drop_console: true
-              pure_funcs: [ 'console.info', 'console.debug' ]
-            }
+          // keep_classnames: true,
+          // keep_fnames: true,
+          compress: {
+            // drop_console: true
+            pure_funcs: ['console.info', 'console.debug']
+          }
         }
-      }), 
+      }),
       // new OptimizeCSSAssetsPlugin({}),
       new CssMinimizerPlugin(),
       // new HtmlMinimizerPlugin({minimizerOptions: {
       //   collapseWhitespace: false,
       // }})
     ]
+  },
+
+  output: {
+    assetModuleFilename: '[name][ext]'
   }
 
   // optimization: {

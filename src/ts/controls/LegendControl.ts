@@ -148,7 +148,10 @@ export function appendLegendLayerEntry(lDescr: LayerDescription, div: HTMLDivEle
                         legendItem = createLegendPolygon(layerClass.style);
                     } else if (lDescr.geomType === "Linestring") {
                         legendItem = createLegendLinestring(layerClass.style);
+                    } else if (lDescr.geomType === "Chart") {
+                        legendItem = createLegendPolygon(layerClass.style);
                     }
+
                     if (legendItem) {
                         spanClassIcon.appendChild(legendItem);
                     }

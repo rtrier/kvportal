@@ -121,7 +121,7 @@ export const AttributionCtrl = Control.extend({
         }
 
         // this._DivAttribution.innerHTML = prefixAndAttribs.join(' | ');
-        console.info('prefixAndAttribs.join("<br>")', prefixAndAttribs.join("<br>"));
+        // console.info('prefixAndAttribs.join("<br>")', prefixAndAttribs.join("<br>"));
         this._DivAttribution.innerHTML = prefixAndAttribs.join("<br>");
     },
 });

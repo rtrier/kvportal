@@ -322,7 +322,7 @@ export class MapControl extends L.Control {
     }
 
     onBaseLayerSelection(sender: LayerControl, nBaseLayer: L.Layer): void {
-        console.info("onBaseLayerSelection", sender, nBaseLayer);
+        // console.info("onBaseLayerSelection", sender, nBaseLayer);
         if (this.baseLayer) {
             if (this.baseLayer === nBaseLayer) {
                 return;
@@ -330,14 +330,12 @@ export class MapControl extends L.Control {
             this.baseLayer.remove();
         }
         if (this.map) {
-            console.info("baseLayerChanged new", nBaseLayer);
-            console.info("before addLayer", nBaseLayer);
+            // console.info("baseLayerChanged new", nBaseLayer);
+            // console.info("before addLayer", nBaseLayer);
             (<any>nBaseLayer).setZIndex(0);
             this.map.addLayer(nBaseLayer);
-            console.info("layer added", nBaseLayer);
+            // console.info("layer added", nBaseLayer);
             this.baseLayer = nBaseLayer;
-        } else {
-            console.info("baseLayerChanged map==null");
         }
     }
 
@@ -635,7 +633,7 @@ export class MapControl extends L.Control {
 
     /* TODO */
     private _found(item: any, input: HTMLInputElement): void {
-        // console.error("_found");
+        console.error("_found", item);
 
         this.clearResults();
 

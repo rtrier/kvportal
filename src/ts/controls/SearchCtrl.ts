@@ -40,7 +40,7 @@ export class SearchControl extends Control {
     }
 
     onAdd(map: L.Map): HTMLElement {
-        console.info("SearchControl.onAdd");
+        // console.info("SearchControl.onAdd");
         this._container = createHtmlElement("div", undefined, "control-search");
         const bttn = (this._Bttn = createHtmlElement("button", this._container, "search-button ctrl-icon"));
         bttn.ariaLabel = "Suchfeld öffnen";

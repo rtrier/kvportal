@@ -12,7 +12,7 @@ export function createCancellablePromise(executor: (resolve: (value?: any | Prom
         return t;
     };
     t.cancel = () => {
-        console.info("cancel called");
+        // console.info("createCancellablePromise cancel called");
         if ((<any>t).cancelMethod) {
             (<any>t).cancelMethod();
         }
@@ -21,10 +21,10 @@ export function createCancellablePromise(executor: (resolve: (value?: any | Prom
 }
 
 export function loadJson(url: string, params?: any): CancelablePromise {
-    let promise: CancelablePromise;
+    // let promise: CancelablePromise;
+    const sUrl = url + getParamString(params);
+    const promise = makeRequest(sUrl);
     return createCancellablePromise(function (resolve, reject) {
-        const sUrl = url + getParamString(params);
-        promise = makeRequest(sUrl);
         promise
             .then((value) => {
                 try {
@@ -38,7 +38,7 @@ export function loadJson(url: string, params?: any): CancelablePromise {
                 reject(reason);
             });
     }).onCancel(() => {
-        console.info("cancel");
+        // console.info("onCancel");
         if (promise) {
             promise.cancel();
         }
@@ -71,11 +71,11 @@ export function makeRequest(url: string, auth?: string): CancelablePromise {
         if (auth) {
             xhr.setRequestHeader("Authorization", auth);
         }
-        console.info(`run request "${url}"`);
+        // console.info(`run request "${url}"`);
         xhr.send();
     }).onCancel(() => {
-        console.debug("xhr abort", xhr);
         xhr.abort();
+        // console.debug("xhr aborted " + url, xhr);
     });
 }
 

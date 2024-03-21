@@ -38,6 +38,9 @@ function _createStyleFct(layerDescr: MapDescription.LayerDescription): (feature:
                     if (styles.classifiers[i].icon) {
                         return { icon: styles.classifiers[i].icon };
                     } else {
+                        if (feature.properties.gem_schl == "13072106" || feature.properties.gem_schl == "13076168") {
+                            console.info("styles.classifiers[i].style.fillOpacity=" + styles.classifiers[i].style.fillOpacity, feature.properties);
+                        }
                         return styles.classifiers[i].style;
                     }
                 }
@@ -196,6 +199,7 @@ export class LayerLoader {
             const styleFct = _createStyleFct(layerDescr);
             geoJson.features.forEach((feature: geoJson.Feature<geoJson.Point>, idx) => {
                 // TODO  const markerOpt = {...styleFct(feature), pane:paneId};
+                console.info("stylefc");
                 if (feature?.geometry?.coordinates) {
                     const markerOpt = { ...styleFct(feature) };
                     if (markerOpt.icon) {
@@ -260,6 +264,7 @@ export class LayerLoader {
         } else if (layerDescr.geomType == "Chart") {
             return this._createPiechartLayer(layerDescr, <geoJson.FeatureCollection>json);
         } else {
+            console.info("jhgadjagjgajasdgj");
             const styleFct = _createStyleFct(layerDescr);
             const layer = new L.GeoJSON(json, <any>{
                 style: styleFct,

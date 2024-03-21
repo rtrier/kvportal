@@ -357,7 +357,7 @@ class LayerNode extends TreeNode {
                     }
                 }
                 dom.appendChild(createZoomScale());
-                console.info("zoomScale", layer.layerDescription.label, dom);
+                // console.info("zoomScale", layer.layerDescription.label, dom);
             }
 
             const infoIcon = (this.infoIcon = createHtmlElement("span", treerow, "info-icon"));
@@ -560,8 +560,11 @@ export class LayerControlVar extends L.Control {
             this.parentNode = options.parentNode;
             // layerRenderer.showLegend = false;
         }
-        this._createTree();
-        this._createTree2();
+        // this._createTree();
+        // this._createTree2();
+
+        this.tree = new Tree(null, { selectMode: SelectionMode.MULTI, expandOnlyOneNode: true });
+        this.tree2 = new Tree(null, { selectMode: SelectionMode.MULTI, expandOnlyOneNode: true });
 
         this.fChangeLayerOrder = (ev: ChangeNodeOrderEvent) => this.changeLayerOrder(ev);
         this.fThemeLayerChanged = (node: TreeNode, sel: SelectionStatus) => this.themeLayerChanged(node, sel);
@@ -679,21 +682,14 @@ export class LayerControlVar extends L.Control {
         }
     }
 
-    private _createTree2() {
-        this.tree2 = new Tree(null, { selectMode: SelectionMode.MULTI, expandOnlyOneNode: true });
-    }
+    // private _createTree2() {
+    //     this.tree2 = new Tree(null, { selectMode: SelectionMode.MULTI, expandOnlyOneNode: true });
+    // }
 
-    private _createTree() {
-        console.info("LayerControlVar._createTree");
-        this.tree = new Tree(null, { selectMode: SelectionMode.MULTI, expandOnlyOneNode: true });
-        // for (const title in this.overlays) {
-        //     this._addOverlayToTree(title, this.overlays[title]);
-        // }
-
-        // for (const title in this.categorieLayers) {
-        //     this._addCategorieLayerToTree(title, this.categorieLayers[title]);
-        // }
-    }
+    // private _createTree() {
+    //     // console.info("LayerControlVar._createTree");
+    //     this.tree = new Tree(null, { selectMode: SelectionMode.MULTI, expandOnlyOneNode: true });
+    // }
 
     private _createThemNode(theme: Theme): ThemeTreeNode {
         const themeNode = new ThemeTreeNode(theme, null, { nodeRenderer: themeNodeRender });
@@ -715,7 +711,7 @@ export class LayerControlVar extends L.Control {
     }
 
     private _addThemesToTree() {
-        console.info(`_addThemesToTree ${this.tree}`);
+        // console.info(`_addThemesToTree ${this.tree}`);
         if (this.tree) {
             const themeNodes: TreeNode[] = [];
             if (this.themes) {
@@ -732,7 +728,7 @@ export class LayerControlVar extends L.Control {
     }
 
     _addCategorieLayerToTree(title: string, categorieLayer: CategorieLayer<any, any>) {
-        console.info(`_addCategorieLayerToTree ${this.tree}`);
+        // console.info(`_addCategorieLayerToTree ${this.tree}`);
         if (this.tree) {
             const categories = categorieLayer.getCategories();
             const treeNode = new TreeNode(title);
@@ -772,7 +768,7 @@ export class LayerControlVar extends L.Control {
     }
 
     onAdd(map: L.Map): HTMLElement {
-        console.info("LayerControl.onAdd");
+        // console.info("LayerControl.onAdd");
         this._map = map;
         let dom = this._dom;
         if (!dom) {
@@ -780,12 +776,12 @@ export class LayerControlVar extends L.Control {
             if (this.className) {
                 domTree.classList.add(this.className);
             }
-            const item1 = new AccordionItem("Themen", domTree);
+            // const item1 = new AccordionItem("Themen", domTree);
             const domTree2 = this.tree2._render();
             if (this.className) {
                 domTree2.classList.add(this.className);
             }
-            const accordion = (this.accordion = new Accordion([new AccordionItem("Kartenauswahl", domTree), new AccordionItem("Meine Kartenauswahl", domTree2)]));
+            const accordion = (this.accordion = new Accordion([new AccordionItem("Kartenauswahl", domTree), new AccordionItem("Meine Kartenauswahl", domTree2, { minsize: "20" })]));
             dom = accordion.render();
             // dom.appendChild(domTree);
         }

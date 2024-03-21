@@ -100,7 +100,7 @@ export class BaseLayerSelectorCtrl extends L.Control {
             const div = createHtmlElement("div", undefined, "baselayerctrl");
             const f = (evt: AnimationEvent | MouseEvent) => {
                 if (evt instanceof AnimationEvent) {
-                    console.info(evt.type + "  " + evt.animationName + " this.ignore:" + this.ignore + " " + this.lastEvent + "  " + (<HTMLElement>evt.target).id);
+                    // console.info(evt.type + "  " + evt.animationName + " this.ignore:" + this.ignore + " " + this.lastEvent + "  " + (<HTMLElement>evt.target).id);
                     if (evt.animationName === "delayed_close") {
                         if (evt.type === "animationstart") {
                             this.ignore = true;
@@ -180,15 +180,15 @@ export class BaseLayerSelectorCtrl extends L.Control {
         }
         visibleNode.classList.add("selected");
 
-        for (let i = 0; i < visibleNode.parentElement.children.length; i++) {
-            console.info(i + "  " + visibleNode.parentElement.children.item(i).id);
-        }
+        // for (let i = 0; i < visibleNode.parentElement.children.length; i++) {
+        //     console.info(i + "  " + visibleNode.parentElement.children.item(i).id);
+        // }
 
         visibleNode.parentElement.appendChild(visibleNode);
     }
 
     selectBaseLayer(newBaseLayer: BaseLayerDefinition | number): void {
-        console.error("selectBaseLayer", this.baseLayerDefinitions, newBaseLayer);
+        // console.error("selectBaseLayer", this.baseLayerDefinitions, newBaseLayer);
         // const bsl = baseLayer.img === "mapicons/sat.png" ? this.baseLayerDefinitions[0] : this.baseLayerDefinitions[2];
 
         // this._selectItemIcon(this.baseLayerDefinition, false);

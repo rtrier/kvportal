@@ -89,7 +89,7 @@ export class ViewControl extends L.Control {
     // }
 
     clear() {
-        console.error("clear");
+        // console.error("clear");
         let view: View;
         while ((view = this.contentHistory.pop())) {
             if (view.onRemove) {
@@ -119,7 +119,7 @@ export class ViewControl extends L.Control {
     }
 
     private _replaceContent(view: View): void {
-        console.info("_replaceContent");
+        // console.info("_replaceContent");
         let oldView: View;
         while ((oldView = this.contentHistory.pop())) {
             if (oldView.onRemove) {
@@ -128,10 +128,10 @@ export class ViewControl extends L.Control {
         }
         const dom = view.getDom();
         if (this.contentArea.firstChild) {
-            console.info("_replaceContent01", this.contentArea.firstChild);
+            // console.info("_replaceContent01", this.contentArea.firstChild);
             this.contentArea.replaceChild(dom, this.contentArea.firstChild);
         } else {
-            console.info("_replaceContent02");
+            // console.info("_replaceContent02");
             this.dom.insertBefore(this.navigationArea, this.contentArea);
             this.contentArea.appendChild(dom);
         }

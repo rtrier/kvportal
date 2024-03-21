@@ -1,31 +1,43 @@
 import * as L from "leaflet";
 import { MapDispatcher, MapControl, LayerWrapper } from "./controls/MapControl";
-import { Geocoder } from "./util/L.GeocoderMV";
+// import { Geocoder } from "./util/L.GeocoderMV";
+import { Geocoder } from "./util/L.GeocoderGPSearch.MV";
 import { LayerLoader } from "./LayerLoader";
 import { AttributionCtrl } from "./controls/AttributionCtrl";
 import { LegendControl } from "./controls/LegendControl";
 import { getConf, MapDescription, Theme } from "./conf/MapDescription";
-import Fuse from "fuse.js";
 import { Nominatim } from "./util/L.GeocoderNomatim";
+import Fuse from "../../node_modules/fuse.js/dist/fuse.mjs";
+
+// import { EditLayer } from "./EditLayer";
 // import { mv } from "./MV";
 
 function createGeoCoder(objclass: "parcel" | "address" | "address,parcel", limit: number): Geocoder {
-    return new Geocoder("esDtb7H5Kh8zl5YXJ3iIP6xPnKEIb5Ch", {
-        serviceUrl: "https://geo.sv.rostock.de/geocodr/query",
+    // return new Geocoder("esDtb7H5Kh8zl5YXJ3iIP6xPnKEIb5Ch", {
+    //     serviceUrl: "https://geo.sv.rostock.de/geocodr/query",
+    //     geocodingQueryParams: {
+    //         class: objclass,
+    //         out_epsg: "4326",
+    //         shape: "geometry",
+    //         limit: limit,
+    //     },
+    //     reverseQueryParams: {
+    //         class: objclass,
+    //         in_epsg: "4326",
+    //         limit: limit,
+    //         shape: "centroid",
+    //         out_epsg: "4326",
+    //     },
+    // });
+
+    const geocoder = new Geocoder({
+        serviceUrl: "https://www.geodaten-mv.de/geocoding-api/",
         geocodingQueryParams: {
-            class: objclass,
-            out_epsg: "4326",
-            shape: "geometry",
-            limit: limit,
+            f: "application/geo+json",
         },
-        reverseQueryParams: {
-            class: objclass,
-            in_epsg: "4326",
-            limit: limit,
-            shape: "centroid",
-            out_epsg: "4326",
-        },
+        reverseQueryParams: {},
     });
+    return geocoder;
 }
 
 // function createGeoCoderNomatim(viewbox: L.LatLngBoundsExpression | undefined): Nominatim {
@@ -61,6 +73,7 @@ export class MapApp {
 
     private mapDescriptionUrl: string;
     private mapDescription: MapDescription;
+    geoCodePromise: Promise<any>;
 
     /**
      *
@@ -130,10 +143,10 @@ export class MapApp {
                 home.style.display = "none";
             });
             document.getElementById("close-faq-overlay").addEventListener("click", () => {
-							const home = document.getElementById("faq-overlay");
-							home.style.display = "none";
-					});
-						document.getElementById("bttn_impressum").addEventListener("click", () => {
+                const home = document.getElementById("faq-overlay");
+                home.style.display = "none";
+            });
+            document.getElementById("bttn_impressum").addEventListener("click", () => {
                 const home = document.getElementById("impressum-overlay");
                 home.style.display = "block";
             });
@@ -142,9 +155,9 @@ export class MapApp {
                 home.style.display = "block";
             });
             document.getElementById("bttn_faq").addEventListener("click", () => {
-							const home = document.getElementById("faq-overlay");
-							home.style.display = "block";
-					  });
+                const home = document.getElementById("faq-overlay");
+                home.style.display = "block";
+            });
 
             document.querySelectorAll(".home-overlay").forEach((item) => {
                 item.addEventListener("click", fCloseOverlayByClick);
@@ -164,7 +177,7 @@ export class MapApp {
             resetMap: () => this._resetMap(),
         });
 
-        console.info("mapoptions", mapDescr.mapOptions);
+        // console.info("mapoptions", mapDescr.mapOptions);
         const mapOptions: L.MapOptions = {
             ...mapDescr.mapOptions,
             // preferCanvas: true,
@@ -183,6 +196,9 @@ export class MapApp {
             console.info("zoomLevel=" + map.getZoom());
         });
         this.initLayer(mapDescr);
+
+        // map.addLayer(new EditLayer("http://localhost:8000"));
+        // map.addLayer(new EditLayer("http://192.168.56.1:8000"));
         // window.setTimeout(()=>this.initLayer(mapDescr), 10);
     }
 
@@ -212,12 +228,18 @@ export class MapApp {
             this.fuseSearch = new Fuse(overlays, {
                 isCaseSensitive: false,
                 ignoreLocation: true,
-                useExtendedSearch: true,
+                useExtendedSearch: false,
                 includeScore: true,
-                keys: ["layerDescription.abstract"],
+                keys: ["layerDescription.abstract", "layerDescription.label"],
             });
+            console.info("Fuse: ", this.fuseSearch);
         }
-        const geoCodePromise = this.geocoderAdress.geocode(s);
+
+        if (this.geoCodePromise) {
+            (<any>this.geoCodePromise).cancel();
+        }
+
+        const geoCodePromise = (this.geoCodePromise = this.geocoderAdress.geocode(s));
         // const geoCodePromise = new Promise<any[]>((resolve, reject) => {
         //     this.geocoderAdress.geocode(s).then(
         //         (result: any) => resolve(result)
@@ -228,10 +250,11 @@ export class MapApp {
         const promiseCollector = Promise.all([
             new Promise<any[]>((resolve, reject) => {
                 const fuseResults: any[] = this.fuseSearch.search(s);
-                console.info("fuseResults", fuseResults);
+                // console.info("fuseResults " + s, fuseResults);
                 const results = [];
                 fuseResults.forEach((element) => {
-                    if (element.score < 0.1) {
+                    if (element.score < 0.2) {
+                        // console.info("fuseResult", element, element.item.layerDescription.label, element.score, element.item.layerDescription.abstract);
                         results.push({
                             name: element.item.layerDescription.label,
                             group: "Thema",
@@ -286,9 +309,9 @@ export class MapApp {
             }
         }
 
-        this.map.addEventListener("zoomend", (ev) => {
-            console.info("resize", ev, this.map.getZoom());
-        });
+        // this.map.addEventListener("zoomend", (ev) => {
+        //     console.info("resize", ev, this.map.getZoom());
+        // });
 
         // this.map.addLayer(new L.Polygon(mv));
     }
