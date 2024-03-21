@@ -90,6 +90,9 @@ module.exports = {
           sourceMap: true
         }
       }]
+    }, {
+      test: /\.(png|jpg|gif)$/i,
+      type: 'asset/resource'
     }]
   },
 

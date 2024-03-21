@@ -1,5 +1,5 @@
 require("./css/map.scss");
-//require("../node_modules/leaflet/dist/images/marker-shadow.png");
+require("../node_modules/leaflet/dist/images/marker-shadow.png");
 import { initMap } from "./ts/MapApp";
 declare var LAYERDEFURL;
 function switchSidebar() {
@@ -18,4 +18,3 @@ if (document.readyState === "interactive" || document.readyState === "complete")
 } else {
     document.addEventListener("DOMContentLoaded", init);
 }
-

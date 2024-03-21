@@ -17,7 +17,7 @@
     ],
     "minZoom": "8"
   },
-  "searchfieldplaceholder": "Ort, Adresse",
+  "searchfieldplaceholder": "Ort, Adresse, Themen",
   "geocoder": {
     "type": "was anderes",
     "params": {

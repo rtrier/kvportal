@@ -1,5 +1,6 @@
 node_modules
 dist
+dist--
 jsdoc
 *.7z
 src/css/main_old.scss
