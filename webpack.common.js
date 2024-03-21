@@ -46,7 +46,7 @@ module.exports = {
 
 
   entry: {
-    energieAtlas: path.resolve('./src/EnergieAtlas.ts')
+    map: path.resolve('./src/App.ts')
   },
 
   plugins: [

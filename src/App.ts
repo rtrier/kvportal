@@ -1,4 +1,5 @@
-require("./css/energieatlas.scss");
+require("./css/map.scss");
+//require("../node_modules/leaflet/dist/images/marker-shadow.png");
 import { initMap } from "./ts/MapApp";
 declare var LAYERDEFURL;
 function switchSidebar() {
