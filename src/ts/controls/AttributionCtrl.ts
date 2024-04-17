@@ -1,4 +1,4 @@
-import { Control, Map, Util, DomEvent, DomUtil } from "leaflet";
+import { Control, Map, Util, DomEvent, DomUtil, LayerEvent } from "leaflet";
 // import * as Util from '../core/Util';
 // import * as DomEvent from '../dom/DomEvent';
 // import * as DomUtil from '../dom/DomUtil';
@@ -28,6 +28,7 @@ export const AttributionCtrl = Control.extend({
     },
 
     onAdd: function (map) {
+        console.info("AttributionCtrl.add");
         map.attributionControl = this;
         this._container = DomUtil.create("div", "control-attribution");
         this._DivAttribution = DomUtil.create("div", "div-attribution", this._container);
@@ -50,7 +51,9 @@ export const AttributionCtrl = Control.extend({
         }
 
         this._update();
-
+        // console.error("onAdd", this);
+        map.on("layeradd", this._addAttribution, this);
+        map.on("layerremove", this._removeAttribution, this);
         return this._container;
     },
 
@@ -64,35 +67,40 @@ export const AttributionCtrl = Control.extend({
 
     // @method addAttribution(text: String): this
     // Adds an attribution text (e.g. `'Vector data &copy; Mapbox'`).
-    addAttribution: function (text) {
-        // console.error(`addAttribution ${text}`);
-        if (!text) {
-            return this;
+    _addAttribution: function (ev: LayerEvent) {
+        if (ev.layer.getAttribution()) {
+            const text = ev.layer.getAttribution();
+
+            // console.error(`addAttribution ${text}`);
+            if (!text) {
+                return this;
+            }
+
+            if (!this._attributions[text]) {
+                this._attributions[text] = 0;
+            }
+            this._attributions[text]++;
+
+            this._update();
         }
-
-        if (!this._attributions[text]) {
-            this._attributions[text] = 0;
-        }
-        this._attributions[text]++;
-
-        this._update();
-
         return this;
     },
 
     // @method removeAttribution(text: String): this
     // Removes an attribution text.
-    removeAttribution: function (text) {
-        // console.error(`removeAttribution ${text}`)
-        if (!text) {
-            return this;
-        }
+    _removeAttribution: function (ev: LayerEvent) {
+        if (ev.layer.getAttribution()) {
+            const text = ev.layer.getAttribution();
+            // console.error(`removeAttribution ${text}`);
+            if (!text) {
+                return this;
+            }
 
-        if (this._attributions[text]) {
-            this._attributions[text]--;
-            this._update();
+            if (this._attributions[text]) {
+                this._attributions[text]--;
+                this._update();
+            }
         }
-
         return this;
     },
 
@@ -108,7 +116,7 @@ export const AttributionCtrl = Control.extend({
                 attribs.push(i);
             }
         }
-        // console.info("xattribs.join(", ")", attribs.join(", "));
+        console.info("xattribs.join(", ")", attribs.join(", "));
 
         const prefixAndAttribs = [];
 
@@ -134,8 +142,8 @@ Map.mergeOptions({
     attributionControl: true,
 });
 
-Map.addInitHook(function () {
-    if (this.options.attributionControl) {
-        new AttributionCtrl().addTo(this);
-    }
-});
+// Map.addInitHook(function () {
+//     if (this.options.attributionControl) {
+//         new AttributionCtrl().addTo(this);
+//     }
+// });
