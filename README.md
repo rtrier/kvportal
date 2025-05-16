@@ -1,6 +1,8 @@
 # kvportal
 
-Webapp to display a map of WMS, WFS and GeoJSON layers. The Map is composed by a json file layerdef.json.
+Webapp to display a map of WMS, WFS and GeoJSON layers. The Map is composed by a json file layerdef.json, which can be generated using the plugin [Portal](https://kvwmap.de/wiki/index.php/Plugins#Portal_.28f.C3.BCr_kvportal.29) of the open source WebGIS [kvwmap](https://kvwmap.de). If kvwmap is used as the source for the GeoJSON files, the data managed in the WebGIS is displayed live in kvportal.
+
+ In case of using kvwmap as source for geojson layer, data will be 
 
 * layer tree with legends are created automatically 
 * popup content of a feature can be specified through expression
